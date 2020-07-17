@@ -49,4 +49,24 @@ class AdminRepository extends ServiceEntityRepository
     */
 
 
+   public function findOneByUsername($username): ?Admin
+   {
+       return $this->createQueryBuilder('a')
+           ->andWhere('a.username = :val')
+           ->setParameter('val', $username)
+           ->getQuery()
+           ->getOneOrNullResult()
+       ;
+   }
+
+    public function findOneByEmail($email): ?Admin
+    {
+        return $this->createQueryBuilder('a')
+            ->andWhere('a.email = :val')
+            ->setParameter('val', $email)
+            ->getQuery()
+            ->getOneOrNullResult()
+            ;
+    }
+
 }

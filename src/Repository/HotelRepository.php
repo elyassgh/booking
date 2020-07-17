@@ -47,4 +47,22 @@ class HotelRepository extends ServiceEntityRepository
         ;
     }
     */
+
+
+     /**
+      * @return Hotel[] Returns an array of Hotel objects
+      */
+    public function findRecommendedHotels()
+    {
+        return $this->createQueryBuilder('h')
+            ->andWhere('h.recommended = 1')
+            ->orderBy('h.id', 'ASC')
+            ->setMaxResults(3)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+
+
 }

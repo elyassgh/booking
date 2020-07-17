@@ -18,7 +18,7 @@ class Reservation
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=30)
      */
     private $reference;
 
@@ -38,11 +38,6 @@ class Reservation
      * @ORM\Column(type="date")
      */
     private $dateReservation;
-
-    /**
-     * @ORM\Column(type="integer")
-     */
-    private $nbrDoublons;
 
     /**
      * @ORM\Column(type="date")
@@ -108,18 +103,6 @@ class Reservation
     public function setDateReservation(\DateTimeInterface $dateReservation): self
     {
         $this->dateReservation = $dateReservation;
-
-        return $this;
-    }
-
-    public function getNbrDoublons(): ?int
-    {
-        return $this->nbrDoublons;
-    }
-
-    public function setNbrDoublons(int $nbrDoublons): self
-    {
-        $this->nbrDoublons = $nbrDoublons;
 
         return $this;
     }

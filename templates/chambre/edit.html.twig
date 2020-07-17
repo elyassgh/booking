@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Chambre{% endblock %}
+
+{% block body %}
+    <h1>Edit Chambre</h1>
+
+    {{ include('chambre/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('chambre_index') }}">back to list</a>
+
+    {{ include('chambre/_delete_form.html.twig') }}
+{% endblock %}

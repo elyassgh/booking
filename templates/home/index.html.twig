@@ -1,0 +1,192 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}ALM BOOKING{% endblock %}
+
+{% block body %}
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xs-12 col-md-12 col-lg-12 p-0">
+                <div class="flex-center pageTop">
+                    <div class="container text-center text-wrap text-white">
+                        <h1 class="myFont" style="font-size: 4rem">Agence de Loisirs Marocains</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="info form-holder no-margin p-0">
+        <div class="container">
+            <div class="row">
+                <div class="booking-form shadow-lg">
+                        {{ form_start(form , {'methode':'POST'}) }}
+                        <div class="row no-margin">
+                            <div class="col-md-3 bg-light">
+                                <div class="form-group">
+                                    <span class="form-label">Destination</span>
+                                {{ form_widget(form.destination, {'attr':{'class':'form-control', 'placeholder':"Region, City or Hotel." }}) }}
+                                </div>
+                            </div>
+                            <div class="col-md-6 bg-light">
+                                <div class="row no-margin ">
+                                    <div class="col-md-5">
+                                        <div class="form-group">
+                                            <span class="form-label">Check In</span>
+                                        {{ form_widget(form.checkin, {'attr':{'class':'form-control'}}) }}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-5">
+                                        <div class="form-group">
+                                            <span class="form-label">Check out</span>
+                                            {{ form_widget(form.checkout, {'attr':{'class':'form-control'}}) }}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <span class="form-label">Guests</span>
+                                            {{ form_widget(form.guests, {'attr':{'class':'form-control'}}) }}
+                                            <span class="select-arrow"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3 bg-light">
+                                <div class="form-btn">
+                                    <button class="submit-btn">Check availability</button>
+                                </div>
+                            </div>
+                        </div>
+                    {{ form_end(form) }}
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <section class="py-3 px-0">
+        <div class="container py-3 text-center">
+            <div class="row">
+                <div class="col-lg-8 mx-auto">
+                    <h1 class="color myFont title">
+                        <bold>&ndash; RECOMMENDED HOTELS &ndash;</bold>
+                    </h1>
+                    <hr class="color2" style="width: 50%; height: 0.2rem;">
+                    <hr width="20%">
+                </div>
+            </div>
+        </div>
+        <div class="container mb-5">
+            <div class="row center-block">
+                {% for hotel in RecommendedHotels %}
+                <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 text-center p-auto my-4">
+                    <div class="card cardTop text-center shadow-sm border-0">
+                        <figure><img class="card-img-top" src="{{ asset('uploads/imgs/'~hotel.image) }}" width="385px" height="250px"
+                                     alt="Hotel image">
+                        </figure>
+                        <div class="card-body shadow-sm">
+                            <h5 class="card-title color3">{{ hotel.id }}</h5>
+                            <ul class="list-unstyled list-inline">
+
+                                {% for i in 1..hotel.nbrEtoiles %}
+                                    <li class="list-inline-item"><span class="fa fa-star-o" style="color: goldenrod;"></span></li>
+                                {% endfor %}
+
+                            </ul>
+                            <p class="card-text color">{{ hotel.Description }}</p>
+                            <hr>
+                            <a href="{{ url('hotelrooms', {'hotelid': hotel.id }) }}" class="btn text-light color2">View Rooms <span
+                                        class="fa fa-angle-right"></span></a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+
+            </div>
+        </div>
+    </section>
+
+    <section class="py-3 px-0">
+        <div class="container py-3 text-center">
+            <div class="row">
+                <div class="col-lg-8 mx-auto">
+                    <h1 class="color myFont title">
+                        <bold>&ndash; WHY US &ndash;</bold>
+                    </h1>
+                    <hr width="20%">
+                    <p class="h4 color"> WHAT WE GUARANTEE </p>
+                    <hr class="color2" style="width: 50%; height: 0.2rem;">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="pt-0 pb-5 mb-5">
+        <div class="container text-center">
+            <h2 class="text-uppercase lined lined-center">
+                Moroccan Leisure Agency &ndash;
+                <span style="color: #2bc0a4;">ALM</span>
+            </h2>
+            <p class="text-muted">Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores, aperiam.</p>
+            <div class="row pt-5">
+                <div class="col-lg-4 mb-5 mb-lg-0"><i class="fa fa-star-o fa-3x mb-3" style="color: #2bc0a4;"></i>
+                    <h2 class="h5">Quality</h2>
+                    <p class="text-muted px-lg-3 mb-0">Convenient Prices for the best quality.</p>
+                </div>
+                <div class="col-lg-4 mb-5 mb-lg-0"><i class="fa fa-tripadvisor fa-3x mb-3" style="color: #2bc0a4;"></i>
+                    <h2 class="h5">Certified</h2>
+                    <p class="text-muted px-lg-3 mb-0">We Offer Only Certified Hotels.</p>
+                </div>
+                <div class="col-lg-4"><i class="fa fa-credit-card fa-3x mb-3" style="color: #2bc0a4;"></i>
+                    <h2 class="h5">No Paiement Online</h2>
+                    <p class="text-muted px-lg-3 mb-0">Don't Worry, Pay on Arrival.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-3 px-0">
+        <div class="container py-3 text-center">
+            <div class="row">
+                <div class="col-lg-8 mx-auto">
+                    <h1 class="color myFont title">
+                        <bold>&ndash; OUR PARTNERS &ndash;</bold>
+                    </h1>
+                    <hr class="color2" style="width: 50%; height: 0.2rem;">
+                    <hr width="20%">
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid text-center">
+            <div class="mx-5 p-2 row text-center">
+                <ul class="list-unstyled list-inline">
+                    <div class="m-2 list-inline-item">
+                        <img src="https://picsum.photos/200/150" alt="">
+                    </div>
+                    <div class="m-2 list-inline-item">
+                        <img src="https://picsum.photos/200/150" alt="">
+                    </div>
+                    <div class="m-2 list-inline-item">
+                        <img src="https://picsum.photos/200/150" alt="">
+                    </div>
+                    <div class="m-2 list-inline-item">
+                        <img src="https://picsum.photos/200/150" alt="">
+                    </div>
+                    <div class="m-2 list-inline-item">
+                        <img src="https://picsum.photos/200/150" alt="">
+                    </div>
+                    <div class="m-2 list-inline-item">
+                        <img src="https://picsum.photos/200/150" alt="">
+                    </div>
+                    <div class="m-2 list-inline-item">
+                        <img src="https://picsum.photos/200/150" alt="">
+                    </div>
+                    <div class="m-2 list-inline-item">
+                        <img src="https://picsum.photos/200/150" alt="">
+                    </div>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}

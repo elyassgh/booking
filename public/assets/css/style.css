@@ -1,0 +1,452 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@300;700&display=swap');
+
+body,
+html {
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
+    background-color: white;
+}
+
+.myFont {
+    font-family: 'Lato', sans-serif;
+    font-weight: 700;
+}
+
+.topnav {
+    background-color: rgba(0, 0, 0, 0.75);
+    width: 100%;
+    height: 30px;
+    font-size: 12.5px;
+}
+
+.topheader {
+    text-align: center;
+    margin-top: 5px;
+}
+
+.pageTop {
+    background: url("../imgs/top.jpg") no-repeat center;
+    background-size: cover;
+    border-radius: 0;
+    padding: 10%;
+    min-width: 100%;
+    height: 100%;
+}
+
+.form-holder {
+    margin: 2% auto;
+}
+
+.booking-form {
+    background: #fff;
+    border-radius: 2px;
+}
+
+.booking-form>form .row.no-margin {
+    margin-right: 0px;
+    margin-left: 0px;
+}
+
+.booking-form>form .row.no-margin>[class*="col-"] {
+    padding-right: 0px;
+    padding-left: 0px;
+}
+
+.booking-form .form-group {
+    position: relative;
+    padding: 25px;
+    margin-bottom: 0px;
+}
+
+.booking-form .form-group:after {
+    content: '';
+    background: rgba(129, 131, 144, 0.15);
+    position: absolute;
+    top: 25px;
+    bottom: 0;
+    right: 0px;
+    width: 2px;
+    height: 75px;
+}
+
+.booking-form .form-control {
+    background-color: transparent;
+    border-radius: 0px;
+    border: none;
+    height: 50px;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    font-size: 20px;
+    color: #222;
+    font-weight: 400;
+    padding: 0;
+}
+
+.booking-form .form-control::-webkit-input-placeholder {
+    color: #818390;
+}
+
+.booking-form .form-control:-ms-input-placeholder {
+    color: #818390;
+}
+
+.booking-form .form-control::placeholder {
+    color: #818390;
+}
+
+.booking-form input[type="date"].form-control:invalid {
+    color: #818390;
+}
+
+.booking-form select.form-control {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+}
+
+.booking-form select.form-control+.select-arrow {
+    position: absolute;
+    right: 0px;
+    bottom: 30px;
+    width: 32px;
+    line-height: 32px;
+    height: 32px;
+    text-align: center;
+    pointer-events: none;
+    color: #818390;
+    font-size: 14px;
+}
+
+.booking-form select.form-control+.select-arrow:after {
+    content: '\279C';
+    display: block;
+    -webkit-transform: rotate(90deg);
+    transform: rotate(90deg);
+}
+
+.booking-form .form-label {
+    color: #2bc0a4;
+    display: block;
+    font-weight: 400;
+    height: 25px;
+    line-height: 25px;
+    font-size: 14px;
+}
+
+.booking-form .form-btn {
+    padding: 25px;
+}
+
+.booking-form .submit-btn {
+    background: #2bc0a4;
+    border: none;
+    text-transform: capitalize;
+    display: block;
+    border-radius: 2px;
+    width: 100%;
+    height: 75px;
+    font-size: 16px;
+    font-weight: 400;
+    color: #fff;
+}
+
+.color {
+    color: #818390;
+}
+
+.color2 {
+    background-color: #2bc0a4;
+}
+
+.color3 {
+    color: #555555;
+}
+
+.info .container {
+    -webkit-transform: translateY(-1rem);
+    transform: translateY(-1rem);
+    z-index: 9999;
+    position: relative;
+}
+
+
+.contact-holder .container {
+    -webkit-transform: translateY(-6rem);
+    transform: translateY(-6rem);
+    z-index: 9999;
+    position: relative;
+}
+
+.contact-holder .container .row {
+    border: 5px solid #2bc0a4;
+
+}
+
+.parallax {
+    /*
+        background-image: url("https://picsum.photos/1500/500");
+    */
+    background-image: url("../imgs/marrakesh.jpg");
+    height: 364px;
+    width: 100%;
+    position: relative;
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.parallax2 {
+    background-image: url("../imgs/bottom.jpg");
+}
+
+.parallaxText {
+    font-size: 5rem;
+    padding: 8rem;
+}
+
+.card-img-top {
+    -webkit-transform: scale(1);
+    transform: scale(1);
+    -webkit-transition: .3s ease-in-out;
+    transition: .3s ease-in-out;
+}
+
+figure {
+    padding: 0;
+    margin: 0;
+    overflow: hidden;
+    text-align: center;
+}
+
+.cardTop:hover .card-img-top {
+    -webkit-transform: scale(1.25);
+    transform: scale(1.25);
+}
+
+.footer {
+    background: #131627;
+    padding: 2rem 0 0;
+}
+
+.footer-link {
+    color: #ccc;
+    position: relative;
+    padding-left: 1.5rem;
+    transition: all 0.3s;
+    font-size: 1rem;
+    font-weight: 350;
+}
+
+.footer-link::before {
+    content: "o";
+    font-weight: 500;
+    position: absolute;
+    left: 0;
+    top: 50%;
+    -webkit-transform: translateY(-50%);
+    transform: translateY(-50%);
+    display: block;
+    color: #ccc;
+    transition: all 0.3s;
+}
+
+.footer-link:hover,
+.footer-link:focus {
+    color: #2bc0a4;
+    text-decoration: none;
+}
+
+.footer-link:hover::before,
+.footer-link:focus::before {
+    color: #2bc0a4;
+}
+
+.social-link {
+    color: #ccc;
+}
+
+.social-link:hover {
+    color: #2bc0a4;
+}
+
+.copyrights {
+    margin-top: 6.5rem;
+    background: #04081d;
+}
+
+#map {
+    height: 46%;
+}
+
+#reservation {
+    background-image: url('../imgs/pic2.jpg');
+    background-size: cover;
+    background-position: center;
+    border-radius: 8px;
+}
+
+.reservation-form {
+    background: rgba(0, 0, 0, 0.65);
+    padding: 40px;
+    border-radius: 12px;
+    width: 100%;
+    margin: .5%;
+}
+
+.reservation-form .form-group {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.reservation-form .form-control {
+    background-color: #fff;
+    height: 50px;
+    color: #191a1e;
+    border: none;
+    font-size: 16px;
+    font-weight: 400;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    border-radius: 40px;
+    padding: 0px 25px;
+}
+
+.reservation-form select.form-control+.select-arrow:after {
+	content: '\279C';
+	display: block;
+	-webkit-transform: rotate(90deg);
+	transform: rotate(90deg);
+}
+
+.reservation-form .form-control::-webkit-input-placeholder {
+    color: rgba(82, 82, 84, 0.4);
+}
+
+.reservation-form .form-control:-ms-input-placeholder {
+    color: rgba(82, 82, 84, 0.4);
+}
+
+.reservation-form .form-control::placeholder {
+    color: rgba(82, 82, 84, 0.4);
+}
+
+.reservation-form input[type="date"].form-control:invalid {
+    color: rgba(82, 82, 84, 0.4);
+}
+
+.reservation-form select.form-control {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+}
+
+.reservation-form select.form-control+.select-arrow {
+    position: absolute;
+    right: 10px;
+    bottom: 6px;
+    width: 32px;
+    line-height: 32px;
+    height: 32px;
+    text-align: center;
+    pointer-events: none;
+    color: rgba(0, 0, 0, 0.3);
+    font-size: 14px;
+}
+
+.reservation-form .form-label {
+    display: block;
+    margin-left: 20px;
+    margin-bottom: 5px;
+    font-weight: 400;
+    text-transform: uppercase;
+    line-height: 24px;
+    height: 24px;
+    font-size: 14.5px;
+    color: #fff;
+}
+
+.reservation-form .form-btn {
+    margin-top: 27px;
+}
+
+.reservation-form .submit-btn {
+    color: #fff;
+    background-color: #2bc0a4;
+    font-weight: 500;
+    height: 50px;
+    font-size: 17px;
+    border: none;
+    width: 50%;
+    border-radius: 40px;
+    text-transform: uppercase;
+    -webkit-transition: 0.2s all;
+    transition: 0.2s all;
+}
+
+.reservation-form .submit-btn:hover,
+.reservation-form .submit-btn:focus {
+    opacity: 0.9;
+}
+
+@media (min-width: 992px) {
+    .info .container {
+        -webkit-transform: translateY(-70%);
+        transform: translateY(-70%);
+    }
+}
+
+@media (max-width:1024px) {
+    .bigImg {
+        height: 554px;
+    }
+}
+
+@media (max-width: 972px) {
+    .topnav {
+        height: 48px;
+        font-size: 13.5px;
+    }
+}
+
+@media (max-width: 750px) {
+
+    .contact-holder .container {
+        margin-top: 25%;
+    }
+
+    .topnav {
+        height: 75px;
+        font-size: 15px;
+        background-size: -100%;
+    }
+
+    .imgHolder {
+        height: 100%;
+        width: 290px;
+    }
+
+    .bigImg {
+        position: relative;
+        overflow-y: hidden;
+        height: 100%;
+        width: 100%;
+    }
+
+    .bigCard {
+        background: white;
+        padding: .6rem .3rem .8rem .6rem;
+    }
+
+    .parallaxText {
+        font-size: 3.5rem;
+        padding: 3.5rem;
+    }
+
+    .title {
+        font-size: 1.7rem;
+    }
+
+}

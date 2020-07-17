@@ -6,6 +6,7 @@ use App\Repository\HotelRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=HotelRepository::class)
@@ -22,12 +23,22 @@ class Hotel
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $Nom;
+    private $nom;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
     private $siteweb;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $image;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $region;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -45,11 +56,6 @@ class Hotel
     private $adresse;
 
     /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $region;
-
-    /**
      * @ORM\Column(type="integer")
      */
     private $nbrEtoiles;
@@ -64,6 +70,16 @@ class Hotel
      */
     private $chambres;
 
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $recommended;
+
+    /**
+     * @ORM\Column(type="string", length=140)
+     */
+    private $Description;
+
     public function __construct()
     {
         $this->admins = new ArrayCollection();
@@ -77,12 +93,12 @@ class Hotel
 
     public function getNom(): ?string
     {
-        return $this->Nom;
+        return $this->nom;
     }
 
-    public function setNom(string $Nom): self
+    public function setNom(string $nom): self
     {
-        $this->Nom = $Nom;
+        $this->nom = $nom;
 
         return $this;
     }
@@ -217,6 +233,42 @@ class Hotel
                 $chambre->setHotel(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getRecommended(): ?bool
+    {
+        return $this->recommended;
+    }
+
+    public function setRecommended(?bool $recommended): self
+    {
+        $this->recommended = $recommended;
+
+        return $this;
+    }
+
+    public function getImage()
+    {
+        return $this->image;
+    }
+
+    public function setImage($image)
+    {
+        $this->image = $image;
+
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->Description;
+    }
+
+    public function setDescription(string $Description): self
+    {
+        $this->Description = $Description;
 
         return $this;
     }

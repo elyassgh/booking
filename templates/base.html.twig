@@ -2,11 +2,136 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        {% block stylesheets %}{% endblock %}
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>{% block title %}ALM BOOKING{% endblock %}</title>
+
+        {% block stylesheets %}
+            <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+                  integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+            <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+                  integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+            <link rel="stylesheet" href="/assets/css/style.css">
+        {% endblock %}
+
     </head>
+
     <body>
-        {% block body %}{% endblock %}
-        {% block javascripts %}{% endblock %}
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="topnav col-xs-12 col-md-12 col-lg-12">
+                <div class="container-fluid">
+                    <div class="topheader row text-light">
+                        <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                            ALM BOOKING
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                            Customer Service : +212 (0) 661-123456
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                            Email : contact@alm.com
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <header class="header sticky-top">
+        <nav class="navbar navbar-expand-lg navbar-dark py-3 shadow-lg" style="background-color: #2bc0a4;">
+            <div class="container">
+                <img src="/assets/imgs/alm.png" width="100px">
+                <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
+                        data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                        aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item active"><a class="nav-link" href="{{ path('home') }}">Home <span
+                                        class="sr-only">(current)</span></a></li>
+                        <li class="nav-item"><a class="nav-link" href="{{ path('about') }}">About</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{{ path('contact') }}">Contact</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    {% block body %}{% endblock %}
+
+    <div class=" mt-5 parallax parallax2" style="height:100px;"></div>
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 mb-2 mb-lg-0">
+                    <h2 class="h5 lined mb-4 text-white">Adresse</h2>
+                    <p class="text-muted text-small">Boulevard Cheikh Rabhi
+                        Residence Yasmine 14 Gueliz
+                        Marrakech, Morocco</p>
+                    <br>
+                    <h2 class="h5 text-white text-small">Find Us on Social Media</h2>
+                    <ul class="list-inline mb-4">
+                        <li class="list-inline-item"><a class="social-link" href="#">
+                                <i class="fa fa-facebook-f"></i></a></li>
+                        <li class="list-inline-item"><a class="social-link" href="#">
+                                <i class="fa fa-instagram"></i></a>
+                        </li>
+                        <li class="list-inline-item"><a class="social-link" href="#"><i class="fa fa-twitter"></i></a>
+                        </li>
+                        <li class="list-inline-item"><a class="social-link" href="#"><i
+                                        class="fa fa-tripadvisor"></i></a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-lg-5 mb-2 mb-lg-0">
+                    <h2 class="h5 text-white lined mb-4">Quick Links</h2>
+                    <div class="d-flex">
+                        <ul class="list-unstyled d-inline-block mr-4 mb-0">
+                            <li class="mb-2"><a class="footer-link" href="#">Link 1 </a></li>
+                            <li class="mb-2"><a class="footer-link" href="#">Link 2</a></li>
+                            <li class="mb-2"><a class="footer-link" href="#">Link 3</a></li>
+                        </ul>
+                        <ul class="list-unstyled d-inline-block mb-0">
+                            <li class="mb-2"><a class="footer-link" href="{{ path('home') }}">Home </a></li>
+                            <li class="mb-2"><a class="footer-link" href="{{ path('about') }}">About us</a></li>
+                            <li class="mb-2"><a class="footer-link" href="{{ path('contact') }}">Contact us</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <h2 class="h5 text-white lined mb-4">Newsletter</h2>
+                    <p class="text-muted text-small">
+                        Subscribe to our mailing list to get the updates to your email inbox.</p>
+                    <div class="input-group mb-3">
+                        <input class="form-control text-muted bg-light border-info" type="text"
+                               placeholder="Email address" aria-label="Recipient's username"
+                               aria-describedby="button-addon2">
+                        <div class="input-group-append">
+                            <button class="btn btn-primary color2 border-info" id="button-addon2" type="button">
+                                <i class="fa fa-paper-plane"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="copyrights">
+            <div class="container text-center py-4">
+                <p class="mb-0 text-muted">
+                    &copy; 2020, ALM. Template designed by <strong class="myFont text-light">Elghazi Ilyass</strong>.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    {% block javascripts %}
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.js"
+                    integrity="sha512-WNLxfP/8cVYL9sj8Jnp6et0BkubLP31jhTG9vhL/F5uEZmg5wEzKoXp1kJslzPQWwPT1eyMiSxlKCgzHLOTOTQ=="
+                    crossorigin="anonymous"></script>
+            <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+                    integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous">
+            </script>
+            <script src="/assets/js/app.js"></script>
+    {% endblock %}
+    {% block js %}
+    {% endblock %}
     </body>
 </html>

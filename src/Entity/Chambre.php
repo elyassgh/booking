@@ -6,6 +6,7 @@ use App\Repository\ChambreRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=ChambreRepository::class)
@@ -22,7 +23,7 @@ class Chambre
     /**
      * @ORM\Column(type="integer")
      */
-    private $duplicates;
+    private $numero;
 
     /**
      * @ORM\Column(type="integer")
@@ -30,14 +31,14 @@ class Chambre
     private $etage;
 
     /**
-     * @ORM\Column(type="float")
-     */
-    private $superficie;
-
-    /**
      * @ORM\Column(type="string", length=255)
      */
     private $categorie;
+
+    /**
+     * @ORM\Column(type="float")
+     */
+    private $superficie;
 
     /**
      * @ORM\Column(type="integer")
@@ -56,14 +57,24 @@ class Chambre
     private $services;
 
     /**
-     * @ORM\OneToMany(targetEntity=Disponibility::class, mappedBy="chambre", orphanRemoval=true)
-     */
-    private $disponibilities;
-
-    /**
      * @ORM\OneToMany(targetEntity=Reservation::class, mappedBy="chambre", orphanRemoval=true)
      */
     private $reservations;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $image;
+
+    /**
+     * @ORM\OneToOne(targetEntity=PrixSaison::class, mappedBy="chambre", cascade={"persist", "remove"})
+     */
+    private $prixSaison;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $description;
 
     public function __construct()
     {
@@ -75,18 +86,6 @@ class Chambre
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getDuplicates(): ?int
-    {
-        return $this->duplicates;
-    }
-
-    public function setDuplicates(int $duplicates): self
-    {
-        $this->duplicates = $duplicates;
-
-        return $this;
     }
 
     public function getEtage(): ?int
@@ -176,37 +175,6 @@ class Chambre
     }
 
     /**
-     * @return Collection|Disponibility[]
-     */
-    public function getDisponibilities(): Collection
-    {
-        return $this->disponibilities;
-    }
-
-    public function addDisponibility(Disponibility $disponibility): self
-    {
-        if (!$this->disponibilities->contains($disponibility)) {
-            $this->disponibilities[] = $disponibility;
-            $disponibility->setChambre($this);
-        }
-
-        return $this;
-    }
-
-    public function removeDisponibility(Disponibility $disponibility): self
-    {
-        if ($this->disponibilities->contains($disponibility)) {
-            $this->disponibilities->removeElement($disponibility);
-            // set the owning side to null (unless already changed)
-            if ($disponibility->getChambre() === $this) {
-                $disponibility->setChambre(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
      * @return Collection|Reservation[]
      */
     public function getReservations(): Collection
@@ -233,6 +201,59 @@ class Chambre
                 $reservation->setChambre(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getNumero(): ?int
+    {
+        return $this->numero;
+    }
+
+    public function setNumero(int $numero): self
+    {
+        $this->numero = $numero;
+
+        return $this;
+    }
+
+    public function getImage()
+    {
+        return $this->image;
+    }
+
+    public function setImage($image)
+    {
+        $this->image = $image;
+
+        return $this;
+    }
+
+    public function getPrixSaison(): ?PrixSaison
+    {
+        return $this->prixSaison;
+    }
+
+    public function setPrixSaison(PrixSaison $prixSaison): self
+    {
+        $this->prixSaison = $prixSaison;
+
+        // set the owning side of the relation if necessary
+        if ($prixSaison->getChambre() !== $this) {
+            $prixSaison->setChambre($this);
+        }
+
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(string $description): self
+    {
+        $this->description = $description;
 
         return $this;
     }
