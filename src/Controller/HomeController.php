@@ -11,16 +11,21 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class HomeController extends AbstractController
 {
     /**
      * @Route("/", name="home")
+     * @param Request $request
+     * @param ChambreRepository $chambreRepository
+     * @param HotelRepository $hotelRepository
+     * @return Response
      */
-    public function index(Request $request, ChambreRepository $chambreRepository , HotelRepository $hotelRepository)
+    public function index(Request $request, ChambreRepository $chambreRepository , HotelRepository $hotelRepository): Response
     {
-
+        //duplication du code
         $form = $this->createFormBuilder()
             ->add('destination', TextType::class)
             ->add('checkin', DateType::class, [
@@ -76,9 +81,13 @@ class HomeController extends AbstractController
 
     /**
      * @Route("/rooms", name="rooms")
+     * @param Request $request
+     * @param ChambreRepository $chambreRepository
+     * @return Response
      */
-    public function rooms(Request $request, ChambreRepository $chambreRepository)
+    public function rooms(Request $request, ChambreRepository $chambreRepository): Response
     {
+        //duplication du code
         $form = $this->createFormBuilder()
             ->add('destination', TextType::class)
             ->add('checkin', DateType::class, [
@@ -124,12 +133,45 @@ class HomeController extends AbstractController
 
     /**
      * @Route("/hotel/{hotelid}/rooms", name="hotelrooms")
+     * @param int $hotelid
+     * @param ChambreRepository $chambreRepository
+     * @return Response
      */
-    public function hotel(Hotel $hotel, ChambreRepository $chambreRepository)
+    public function hotel(Request $request, int $hotelid, ChambreRepository $chambreRepository): Response
     {
-        $rooms = $chambreRepository->findChambresDisponibleByHotelForOneDay($hotel->getId());
+        //duplication du code
+        $form = $this->createFormBuilder()
+            ->add('destination', TextType::class)
+            ->add('checkin', DateType::class, [
+                'widget' => 'single_text',
+            ])
+            ->add('checkout', DateType::class, [
+                'widget' => 'single_text',
+            ])
+            ->add('guests', ChoiceType::class, [
+                'choices'  => [
+                    '1' => 1,
+                    '2' => 2,
+                    '3' => 3,
+                    '4+'=> 4,
+                ],
+            ])
+            ->getForm();
 
-        return $this->render('home/rooms.html.twig' , compact($rooms));
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $data = $form->getData();
+            $rooms = $chambreRepository->findByInputs($data['destination'],$data['checkin'],$data['checkout'],$data['guests']);
+            return $this->render('home/rooms.html.twig', ['form' => $form->createView(),
+                'rooms' => $rooms,
+            ]);
+        }
+
+        $rooms = $chambreRepository->findChambresDisponibleByHotelForOneDay($hotelid);
+
+        return $this->render('home/rooms.html.twig' , ['form' => $form->createView(),
+            'rooms' => $rooms]);
     }
 
 }
