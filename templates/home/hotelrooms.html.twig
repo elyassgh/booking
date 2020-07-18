@@ -1,0 +1,90 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Rooms{% endblock %}
+
+{% block body %}
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xs-12 col-md-12 col-lg-12 p-0">
+                <div class="flex-center pageTop">
+                    <div class="container text-center text-wrap text-white">
+                        <h1 class="myFont" style="font-size: 3.8rem">Hotel {{ hotel }} Rooms</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <br>
+    <div class="text-center">
+        <h1>Rooms Gallery</h1>
+    </div>
+    <hr class="color2" style="width: 50%; height: 0.2rem;">
+    <hr width="20%">
+
+    <section>
+        <div class="container">
+            <div class="row">
+                {% if rooms is empty %}
+                    <div class="col-12 my-5">
+                        <div class="alert alert-warning text-center" role="alert">
+                            <h6 class="m-3">No Room Available ! </h6>
+                        </div>
+                    </div>
+                {% else %}
+                    {% for room in rooms %}
+
+                        <div class="col-lg-4 col-sm-6 p-auto my-4">
+                            <div class="card shadow-sm" style="width: 100%;">
+                                <img src="{{ asset('uploads/imgs/' ~ room.image) }}" width="100%" height="230px" class="card-img-top" alt="Room Img">
+                                <div class="card-body">
+                                    <h5 class="card-title">Hotel {{ room.hotel.nom }}</h5>
+                                    <ul class="list-unstyled list-inline">
+                                        {% for i in 1..room.hotel.nbrEtoiles %}
+                                            <li class="list-inline-item"><span class="fa fa-star-o" style="color: goldenrod;"></span></li>
+                                        {% endfor %}
+                                    </ul>
+
+                                    <p class="card-text">
+                                        <button class="btn btn-outline-light shadow-sm text-dark" type="button" data-toggle="collapse" data-target="#description{{ room.id }}" aria-expanded="false" aria-controls="description{{ room.id }}">
+                                            Read Description <span class="fa fa-arrow-down"></span>
+                                        </button>
+                                    </p>
+                                    <div class="collapse pb-2" id="description{{ room.id }}">
+                                        <div class="card card-body">
+                                            {{ room.description }}
+                                        </div>
+                                    </div>
+                                    <p class="card-text py-2">
+                                        <span class="fa fa-map-marker ml-1 mr-3"></span> {{ room.Hotel.DistanceCentre }} Km from
+                                        {{ room.Hotel.ville }}
+                                    </p>
+                                </div>
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item">
+                                        Type : {{ room.categorie }}
+                                    </li>
+                                    <li class="list-group-item">
+                                        Price : {{ room.prixSaison.prix *  room.prixSaison.taux }} <span class="fa fa-dollar"></span> / Night
+                                    </li>
+                                    <li class="list-group-item">
+                                        <ul class="list-unstyled list-inline">
+                                            <li class="list-inline-item">Capacity : </li>
+                                            {% for i in 1..room.Capacity() %}
+                                                <li class="list-inline-item m-0"><span class="fa fa-male"></span></li>
+                                            {% endfor %}
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+
+                    {% endfor %}
+                {% endif %}
+
+            </div>
+        </div>
+    </section>
+
+{% endblock %}

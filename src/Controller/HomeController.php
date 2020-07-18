@@ -3,9 +3,9 @@
 namespace App\Controller;
 
 use App\Entity\Chambre;
-use App\Entity\Hotel;
 use App\Repository\ChambreRepository;
 use App\Repository\HotelRepository;
+use DateInterval;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
@@ -25,17 +25,19 @@ class HomeController extends AbstractController
      */
     public function index(Request $request, ChambreRepository $chambreRepository , HotelRepository $hotelRepository): Response
     {
-        //duplication du code
         $form = $this->createFormBuilder()
             ->add('destination', TextType::class)
             ->add('checkin', DateType::class, [
                 'widget' => 'single_text',
+               // 'data' => new \DateTime(),
             ])
             ->add('checkout', DateType::class, [
                 'widget' => 'single_text',
+               // 'data' => (new \DateTime())->add(new DateInterval('P1D')),
             ])
             ->add('guests', ChoiceType::class, [
                 'choices'  => [
+                    'any' => 0,
                     '1' => 1,
                     '2' => 2,
                     '3' => 3,
@@ -49,14 +51,12 @@ class HomeController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
             $rooms = $chambreRepository->findByInputs($data['destination'],$data['checkin'],$data['checkout'],$data['guests']);
-
             return $this->render('home/rooms.html.twig', ['form' => $form->createView(),
                 'rooms' => $rooms,
             ]);
         }
 
         $RecommendedHotels = $hotelRepository->findRecommendedHotels();
-
         return $this->render('home/index.html.twig', [
             'form' => $form->createView(), 'RecommendedHotels' => $RecommendedHotels ,
         ]);
@@ -75,86 +75,64 @@ class HomeController extends AbstractController
      */
     public function contact()
     {
-
         return $this->render('home/contact.html.twig');
     }
 
     /**
-     * @Route("/rooms", name="rooms")
-     * @param Request $request
-     * @param ChambreRepository $chambreRepository
-     * @return Response
-     */
-    public function rooms(Request $request, ChambreRepository $chambreRepository): Response
-    {
-        //duplication du code
-        $form = $this->createFormBuilder()
-            ->add('destination', TextType::class)
-            ->add('checkin', DateType::class, [
-                'widget' => 'single_text',
-            ])
-            ->add('checkout', DateType::class, [
-                'widget' => 'single_text',
-            ])
-            ->add('guests', ChoiceType::class, [
-                'choices'  => [
-                    '1' => 1,
-                    '2' => 2,
-                    '3' => 3,
-                    '4+'=> 4,
-                ],
-            ])
-            ->getForm();
-
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $data = $form->getData();
-            $rooms = $chambreRepository->findByInputs($data['destination'],$data['checkin'],$data['checkout'],$data['guests']);
-            return $this->render('home/rooms.html.twig', ['form' => $form->createView(),
-                'rooms' => $rooms,
-                ]);
-        }
-
-        $rooms = $chambreRepository->findChambresByHotel('1');
-
-        return $this->render('home/rooms.html.twig', ['form' => $form->createView(),
-            'rooms' => $rooms]
-        );
-    }
-
-    /**
-     * @Route("/rooms/{id}", name="roomDetails")
-     */
-    public function details(Chambre $chambre)
-    {
-        return $this->render('home/room.html.twig' , compact($chambre));
-    }
-
-    /**
-     * @Route("/hotel/{hotelid}/rooms", name="hotelrooms")
+     * @Route("/hotel/{hotelid}/roomsgallery", name="hotelrooms")
      * @param int $hotelid
      * @param ChambreRepository $chambreRepository
      * @return Response
      */
-    public function hotel(Request $request, int $hotelid, ChambreRepository $chambreRepository): Response
+    public function hotelroomsGallery(int $hotelid, ChambreRepository $chambreRepository): Response
     {
-        //duplication du code
+        $rooms = $chambreRepository->findChambresByHotel($hotelid);
+        $hotel = $rooms[0]->getHotel()->getNom();
+
+        return $this->render('home/hotelrooms.html.twig' , ['rooms' => $rooms ,
+            'hotel' => $hotel,
+        ]);
+    }
+
+    /**
+     * @Route("/rooms/{id}/gallery", name="roomDetails")
+     */
+    public function roomgallery(Chambre $chambre)
+    {
+        return $this->render('home/roomgallery.html.twig' , compact($chambre));
+    }
+
+
+    /**
+     * @Route("/hotel/{hotelid}/rooms", name="hotelroomsAvailable")
+     * @param int $hotelid
+     * @param ChambreRepository $chambreRepository
+     * @return Response
+     */
+    public function hotelroomsAvailable(Request $request, int $hotelid, HotelRepository $hotelRepository, ChambreRepository $chambreRepository): Response
+    {
+        $hotelname = $hotelRepository->find($hotelid)->getNom();
+
         $form = $this->createFormBuilder()
-            ->add('destination', TextType::class)
+            ->add('destination', TextType::class, [
+                'data' => $hotelname,
+            ])
             ->add('checkin', DateType::class, [
                 'widget' => 'single_text',
+                'data' => new \DateTime(),
             ])
             ->add('checkout', DateType::class, [
                 'widget' => 'single_text',
+                'data' => (new \DateTime())->add(new DateInterval('P1D')),
             ])
             ->add('guests', ChoiceType::class, [
                 'choices'  => [
+                    'any' => 0,
                     '1' => 1,
                     '2' => 2,
                     '3' => 3,
-                    '4+'=> 4,
-                ],
+                    '4+' => 4,
+                ]
             ])
             ->getForm();
 
@@ -168,10 +146,19 @@ class HomeController extends AbstractController
             ]);
         }
 
-        $rooms = $chambreRepository->findChambresDisponibleByHotelForOneDay($hotelid);
+        $rooms = $chambreRepository->findByInputs($hotelname, new \DateTime(), (new \DateTime())->add(new DateInterval('P1D')) , 0);
+        return $this->render('home/rooms.html.twig', ['form' => $form->createView(),
+            'rooms' => $rooms,
+        ]);
+    }
 
-        return $this->render('home/rooms.html.twig' , ['form' => $form->createView(),
-            'rooms' => $rooms]);
+    /**
+     * @Route("/rooms/{id}/details", name="roomDetails")
+     */
+    public function details(int $id, ChambreRepository $chambreRepository)
+    {
+        $chambre = $chambreRepository->find($id);
+        return $this->render('home/room.html.twig' , ['chambre' => $chambre ,]);
     }
 
 }

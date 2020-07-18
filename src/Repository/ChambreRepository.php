@@ -3,11 +3,10 @@
 namespace App\Repository;
 
 use App\Entity\Chambre;
+use DateInterval;
 use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Persistence\ManagerRegistry;
-use PhpParser\Node\Expr\Array_;
 
 /**
  * @method Chambre|null find($id, $lockMode = null, $lockVersion = null)
@@ -69,6 +68,32 @@ class ChambreRepository extends ServiceEntityRepository
     /**
      * @return Chambre[] Returns an array of Chambre objects
      */
+    public function findChambresInPromotion()
+    {
+        $week = new DateInterval('P6D');
+        $checkin = new DateTime('today');
+        $checkout = $checkin->add($week);
+        $checkin = $checkin->format('Y-m-d H:i:s');
+        $checkout = $checkout->format('Y-m-d H:i:s');
+
+        return $this->createQueryBuilder('c')
+            ->leftJoin('App\Entity\Reservation','r' , 'WITH' , 'c.id = r.chambre')
+            ->join('App\Entity\Hotel','h')
+            ->andWhere('h.id = :hotelId')
+            ->andWhere('c.hotel = h.id')
+            ->andWhere('r.checkIn IS NULL OR :checkin NOT BETWEEN r.checkIn AND r.checkOut')
+            ->andWhere('r.checkOut IS NULL OR :checkout NOT BETWEEN r.checkIn AND r.checkOut')
+            ->andWhere('r.checkOut IS NULL OR :checkout NOT BETWEEN r.checkIn AND r.checkOut')
+            ->setParameter('checkin', $checkin)
+            ->setParameter('checkout', $checkout)
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
+    /**
+     * @return Chambre[] Returns an array of Chambre objects
+     */
     public function findAllChambreByHotel($hotelId)
     {
         return $this->createQueryBuilder('c')
@@ -81,51 +106,37 @@ class ChambreRepository extends ServiceEntityRepository
     ;
     }
 
-    /**
-     * @return Chambre[] Returns an array of Chambre objects
-     */
-    public function findChambresDisponibleByHotelForOneDay($hotelId)
-    {
-        $checkin = new DateTime('today');
-        $checkin = $checkin->format('Y-m-d H:i:s');
-
-        $checkout = new DateTime('tomorrow');
-        $checkout = $checkout->format('Y-m-d H:i:s');
-
-        return $this->createQueryBuilder('c')
-            ->leftJoin('App\Entity\Reservation','r' , 'WITH' , 'c.id = r.chambre')
-            ->join('App\Entity\Hotel','h')
-            ->andWhere('h.id = :hotelId')
-            ->andWhere('c.hotel = h.id')
-            ->andWhere('r.checkIn IS NULL OR :checkin NOT BETWEEN r.checkIn AND r.checkOut')
-            ->andWhere('r.checkOut IS NULL OR :checkout NOT BETWEEN r.checkIn AND r.checkOut')
-            ->setParameter('hotelId', $hotelId)
-            ->setParameter('checkin', $checkin)
-            ->setParameter('checkout', $checkout)
-            ->getQuery()
-            ->getResult()
-            ;
-    }
-
-
      /**
       * @return Chambre[] Returns an array of Chambre objects
       */
     public function findByInputs($destination, $checkin, $checkout ,$guests)
     {
-        if($guests<4) {
+        if ($guests > 3) {
+            return $this->createQueryBuilder('c')
+                ->leftJoin('App\Entity\Reservation', 'r', 'WITH', 'c.id = r.chambre')
+                ->join('App\Entity\Hotel', 'h')
+                ->andWhere('c.hotel = h.id')
+                ->andWhere('c.capacity >= :guests')
+                ->andWhere('(r.checkIn IS NULL) OR (:checkin NOT BETWEEN r.checkIn AND r.checkOut)')
+                ->andWhere('(r.checkOut IS NULL) OR (:checkout NOT BETWEEN r.checkIn AND r.checkOut)')
+                ->andWhere('h.region = :destination OR h.ville = :destination OR h.nom = :destination')
+                ->setParameter('checkin', $checkin)
+                ->setParameter('checkout', $checkout)
+                ->setParameter('destination', $destination)
+                ->setParameter('guests', $guests)
+                ->getQuery()
+                ->getResult();
+        } elseif ($guests == 0) {
             return $this->createQueryBuilder('c')
                 ->leftJoin('App\Entity\Reservation','r' , 'WITH' , 'c.id = r.chambre')
                 ->join('App\Entity\Hotel','h')
                 ->andWhere('c.hotel = h.id')
-                ->andWhere('c.capacity = :guests')
                 ->andWhere('(r.checkIn IS NULL) OR (:checkin NOT BETWEEN r.checkIn AND r.checkOut)')
                 ->andWhere('(r.checkOut IS NULL) OR (:checkout NOT BETWEEN r.checkIn AND r.checkOut) ')
                 ->andWhere('h.region = :destination OR h.ville = :destination OR h.nom = :destination ')
                 ->setParameter('checkin', $checkin)
                 ->setParameter('checkout', $checkout)
                 ->setParameter('destination', $destination)
-                ->setParameter('guests', $guests)
                 ->getQuery()
                 ->getResult()
                 ;
@@ -134,10 +145,10 @@ class ChambreRepository extends ServiceEntityRepository
                 ->leftJoin('App\Entity\Reservation','r' , 'WITH' , 'c.id = r.chambre')
                 ->join('App\Entity\Hotel','h')
                 ->andWhere('c.hotel = h.id')
-                ->andWhere('c.capacity >= :guests')
+                ->andWhere('c.capacity = :guests')
                 ->andWhere('(r.checkIn IS NULL) OR (:checkin NOT BETWEEN r.checkIn AND r.checkOut)')
-                ->andWhere('(r.checkOut IS NULL) OR (:checkout NOT BETWEEN r.checkIn AND r.checkOut)')
-                ->andWhere('h.region = :destination OR h.ville = :destination OR h.nom = :destination')
+                ->andWhere('(r.checkOut IS NULL) OR (:checkout NOT BETWEEN r.checkIn AND r.checkOut) ')
+                ->andWhere('h.region = :destination OR h.ville = :destination OR h.nom = :destination ')
                 ->setParameter('checkin', $checkin)
                 ->setParameter('checkout', $checkout)
                 ->setParameter('destination', $destination)

@@ -79,7 +79,6 @@ class Chambre
     public function __construct()
     {
         $this->services = new ArrayCollection();
-        $this->disponibilities = new ArrayCollection();
         $this->reservations = new ArrayCollection();
     }
 

@@ -63,6 +63,60 @@
         </div>
     </div>
 
+    <div class="container py-3 text-center">
+        <div class="row">
+            <div class="col-lg-8 mx-auto">
+                <h1 class="color myFont title">
+                    <bold>&ndash; SOMTHING &ndash;</bold>
+                </h1>
+                <hr class="color2" style="width: 50%; height: 0.2rem;">
+                <hr width="20%">
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Atque, facilis.</p>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="parallax text-center">
+        <h1 class="h1 text-white parallaxText"> Explore Morocco</h1>
+    </div>
+
+    {# dont forget to edit this section !! #}
+    <section class="py-5 px-0">
+        <div class="container py-5 text-center">
+            <div class="row">
+                <div class="col-lg-8 mx-auto">
+                    <h1 class="color myFont title">
+                        <bold>&ndash; POPULAR DESTINATIONS &ndash;</bold>
+                    </h1>
+                    <hr class="color2" style="width: 50%; height: 0.2rem;">
+                    <hr width="20%">
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid mx-0 px-0 mb-5">
+            <div class="row mx-0 px-0">
+                <div class="col-xs-12 col-sm-12 col-lg-3 p-0 mt-2 text-center">
+                    <img class="img-fluid" width="95%" src="https://picsum.photos/350/350" alt="">
+                    <img class="img-fluid" width="95%" src="https://picsum.photos/350/200" alt="">
+                </div>
+                <div class="col-xs-12 col-sm-12 col-lg-3 p-0 mt-2 text-center">
+                    <img class="img-fluid" width="95%" src="https://picsum.photos/350/200" alt="">
+                    <img class="img-fluid" width="95%" src="https://picsum.photos/350/150" alt="">
+                    <img class="img-fluid" width="95%" src="https://picsum.photos/350/200" alt="">
+                </div>
+                <div class="col-xs-12 col-sm-12 col-lg-3 p-0 mt-2 text-center">
+                    <img class="img-fluid" width="95%" src="https://picsum.photos/350/150" alt="">
+                    <img class="img-fluid" width="95%" src="https://picsum.photos/350/250" alt="">
+                    <img class="img-fluid" width="95%" src="https://picsum.photos/350/150" alt="">
+                </div>
+                <div class="col-xs-12 col-sm-12 col-lg-3 p-0 mt-2 text-center">
+                    <img class="img-fluid" width="95%" src="https://picsum.photos/350/150" alt="">
+                    <img class="img-fluid" width="95%" src="https://picsum.photos/350/400" alt="">
+                </div>
+            </div>
+        </div>
+    </section>
 
     <section class="py-3 px-0">
         <div class="container py-3 text-center">
@@ -79,13 +133,13 @@
         <div class="container mb-5">
             <div class="row center-block">
                 {% for hotel in RecommendedHotels %}
-                <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 text-center p-auto my-4">
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 text-center p-auto my-4">
                     <div class="card cardTop text-center shadow-sm border-0">
                         <figure><img class="card-img-top" src="{{ asset('uploads/imgs/'~hotel.image) }}" width="385px" height="250px"
                                      alt="Hotel image">
                         </figure>
                         <div class="card-body shadow-sm">
-                            <h5 class="card-title color3">{{ hotel.id }}</h5>
+                            <h5 class="card-title color3">Hotel {{ hotel.nom }}</h5>
                             <ul class="list-unstyled list-inline">
 
                                 {% for i in 1..hotel.nbrEtoiles %}
@@ -95,7 +149,9 @@
                             </ul>
                             <p class="card-text color">{{ hotel.Description }}</p>
                             <hr>
-                            <a href="{{ url('hotelrooms', {'hotelid': hotel.id }) }}" class="btn text-light color2">View Rooms <span
+                            <a href="{{ url('hotelrooms', {'hotelid': hotel.id }) }}" class="btn m-2 text-light color2">View Rooms <span
+                                        class="fa fa-angle-right"></span></a>
+                            <a href="{{ url('hotelroomsAvailable', {'hotelid': hotel.id }) }}" class="btn m-2 text-light color2">Available Rooms <span
                                         class="fa fa-angle-right"></span></a>
                         </div>
                     </div>
@@ -145,6 +201,7 @@
         </div>
     </section>
 
+    {# dont forget to edit this section !! #}
     <section class="py-3 px-0">
         <div class="container py-3 text-center">
             <div class="row">
