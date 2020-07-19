@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}About us{% endblock %}
+{% block title %}Room details{% endblock %}
 
 {% block body %}
     <section class="container-fluid">
@@ -81,6 +81,74 @@
                 </div>
             </div>
             {% endfor %}
+        </div>
+    </section>
+
+    <section class="container pt-5">
+        <div class="row mt-5">
+            <div class="col-12">
+                <div class="text-center" style="width: auto;">
+                    <h1 class="myFont m-1 color3">Make Your Resevation</h1>
+                    <hr style="width: 25%;">
+                </div>
+            </div>
+        </div>
+
+        <div id="reservation" class="container">
+            <div class="row">
+                <div class="reservation-form pb-5">
+                    {{ form_start(form , {'methode':'POST'}) }}
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <span class="form-label">Full Name</span>
+                                    {{ form_widget(form.name, {'attr':{'class':'form-control', 'placeholder':"Your Full Name" }}) }}
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <span class="form-label">Passport Number OR CIN</span>
+                                    {{ form_widget(form.cinPass, {'attr':{'class':'form-control', 'placeholder':"Your ID Number" }}) }}
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <span class="form-label">Phone Number</span>
+                                    {{ form_widget(form.tele, {'attr':{'class':'form-control', 'placeholder':"Not Necessary" }}) }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <span class="form-label">Email <sup>*</sup> </span>
+                                    {{ form_widget(form.email, {'attr':{'class':'form-control', 'placeholder':"Must Be a Valid Email" }}) }}
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <span class="form-label">Check-in</span>
+                                    {{ form_widget(form.checkin, {'attr':{'class':'form-control'}}) }}
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <span class="form-label">Check-out</span>
+                                    {{ form_widget(form.checkout, {'attr':{'class':'form-control'}}) }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row text-center">
+                            <div class="col-12">
+                                <div class="form-btn text-center">
+                                    <button class="submit-btn">Reserve</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                    <p class="text-light mt-4">* Notice that you will recive an email confirming your reservation.</p>
+                </div>
+            </div>
         </div>
     </section>
 

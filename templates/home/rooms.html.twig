@@ -182,7 +182,7 @@
                                     </li>
                                 </ul>
                                 <div class="card-body text-center">
-                                    <a href="{{ url('roomDetails', {'id': room.id }) }}" class="btn color2 text-light w-100">Show Room</a>
+                                    <a href="{{ url('roomDetails', {'id': room.id , 'checkin': form.checkin.vars.value , 'checkout': form.checkout.vars.value }) }}" class="btn color2 text-light w-100">Show Room</a>
                                 </div>
                             </div>
                         </div>

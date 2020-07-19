@@ -51,6 +51,29 @@ class ChambreRepository extends ServiceEntityRepository
     */
 
 
+   public function isChambreAvailable($id , $checkin , $checkout): ?bool
+   {
+       $chambre = $this->createQueryBuilder('c')
+           ->leftJoin('App\Entity\Reservation','r' , 'WITH' , 'c.id = r.chambre')
+           ->andWhere('c.id = :id')
+           ->andWhere('r.checkIn IS NULL OR :checkin NOT BETWEEN r.checkIn AND r.checkOut')
+           ->andWhere('r.checkOut IS NULL OR :checkout NOT BETWEEN r.checkIn AND r.checkOut')
+           ->setParameter('id', $id)
+           ->setParameter('checkin', $checkin)
+           ->setParameter('checkout', $checkout)
+           ->getQuery()
+           ->getOneOrNullResult()
+       ;
+
+       if (is_null($chambre)) {
+           return false;
+       } else {
+           return true;
+       }
+   }
+
+
+
      /**
       * @return Chambre[] Returns an array of Chambre objects
       */
@@ -82,7 +105,6 @@ class ChambreRepository extends ServiceEntityRepository
             ->andWhere('h.id = :hotelId')
             ->andWhere('c.hotel = h.id')
             ->andWhere('r.checkIn IS NULL OR :checkin NOT BETWEEN r.checkIn AND r.checkOut')
-            ->andWhere('r.checkOut IS NULL OR :checkout NOT BETWEEN r.checkIn AND r.checkOut')
             ->andWhere('r.checkOut IS NULL OR :checkout NOT BETWEEN r.checkIn AND r.checkOut')
             ->setParameter('checkin', $checkin)
             ->setParameter('checkout', $checkout)
@@ -132,7 +154,7 @@ class ChambreRepository extends ServiceEntityRepository
                 ->join('App\Entity\Hotel','h')
                 ->andWhere('c.hotel = h.id')
                 ->andWhere('(r.checkIn IS NULL) OR (:checkin NOT BETWEEN r.checkIn AND r.checkOut)')
-                ->andWhere('(r.checkOut IS NULL) OR (:checkout NOT BETWEEN r.checkIn AND r.checkOut) ')
+                ->andWhere('(r.checkOut IS NULL) OR (:checkout NOT BETWEEN r.checkIn AND r.checkOut)')
                 ->andWhere('h.region = :destination OR h.ville = :destination OR h.nom = :destination ')
                 ->setParameter('checkin', $checkin)
                 ->setParameter('checkout', $checkout)
@@ -147,7 +169,7 @@ class ChambreRepository extends ServiceEntityRepository
                 ->andWhere('c.hotel = h.id')
                 ->andWhere('c.capacity = :guests')
                 ->andWhere('(r.checkIn IS NULL) OR (:checkin NOT BETWEEN r.checkIn AND r.checkOut)')
-                ->andWhere('(r.checkOut IS NULL) OR (:checkout NOT BETWEEN r.checkIn AND r.checkOut) ')
+                ->andWhere('(r.checkOut IS NULL) OR (:checkout NOT BETWEEN r.checkIn AND r.checkOut)')
                 ->andWhere('h.region = :destination OR h.ville = :destination OR h.nom = :destination ')
                 ->setParameter('checkin', $checkin)
                 ->setParameter('checkout', $checkout)
