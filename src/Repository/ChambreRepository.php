@@ -134,7 +134,7 @@ class ChambreRepository extends ServiceEntityRepository
      /**
       * @return Chambre[] Returns an array of Chambre objects
       */
-    public function findByInputs($destination, $checkin, $checkout ,$guests)
+    public function findByInputsOld($destination, $checkin, $checkout ,$guests)
     {
         if ($guests > 3) {
             return $this->createQueryBuilder('c')
@@ -188,7 +188,7 @@ class ChambreRepository extends ServiceEntityRepository
     /**
      * @return Chambre[] Returns an array of Chambre objects
      */
-    public function findByInputsOptimized($destination, $checkin, $checkout ,$guests)
+    public function findByInputs($destination, $checkin, $checkout ,$guests)
     {
             $querybuilder = $this->createQueryBuilder('c')
                 ->leftJoin('App\Entity\Reservation','r' , 'WITH' , 'c.id = r.chambre')
@@ -204,9 +204,9 @@ class ChambreRepository extends ServiceEntityRepository
 
             if($guests == 0) {
                 $query = $querybuilder->getQuery();
-            } elseif ($guests < 3) {
+            } elseif ($guests <= 3) {
                 $query = $querybuilder
-                    ->andWhere('c.capacity >= :guests')
+                    ->andWhere('c.capacity = :guests')
                     ->setParameter('guests', $guests)
                     ->getQuery();
             }
