@@ -76,10 +76,16 @@ class Chambre
      */
     private $description;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Images::class, mappedBy="chambre", orphanRemoval=true)
+     */
+    private $images;
+
     public function __construct()
     {
         $this->services = new ArrayCollection();
         $this->reservations = new ArrayCollection();
+        $this->images = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -253,6 +259,37 @@ class Chambre
     public function setDescription(string $description): self
     {
         $this->description = $description;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Images[]
+     */
+    public function getImages(): Collection
+    {
+        return $this->images;
+    }
+
+    public function addImage(Images $image): self
+    {
+        if (!$this->images->contains($image)) {
+            $this->images[] = $image;
+            $image->setChambre($this);
+        }
+
+        return $this;
+    }
+
+    public function removeImage(Images $image): self
+    {
+        if ($this->images->contains($image)) {
+            $this->images->removeElement($image);
+            // set the owning side to null (unless already changed)
+            if ($image->getChambre() === $this) {
+                $image->setChambre(null);
+            }
+        }
 
         return $this;
     }

@@ -74,23 +74,29 @@
             {{ form_start(filter, {'attr':{'id':'filter'}}) }}
             <div class="row pt-3">
                 <div class="col-sm-12 col-md-6 col-lg-3 text-center">
-                    <h4 class="my-2">Star Rating <span class="fa fa-star-o"></span></h4>
-                    {{ form_widget(filter.stars, {'attr':{'class':'form-control','style':'width:93%'}}) }}
+                    <h4 class="my-3">Star Rating <span class="fa fa-star-o"></span></h4>
+                    {{ form_widget(filter.stars, {'attr':{'class':'form-control','style':'width:100%'}}) }}
                 </div>
                 <div class="col-sm-12 col-md-6 col-lg-3 text-center">
-                    <h4 class="my-2">Room Type <span class="fa fa-home"></span></h4>
-                    {{ form_widget(filter.type, {'attr':{'class':'form-control','style':'width:93%'}}) }}
+                    <h4 class="my-3">Room Type <span class="fa fa-home"></span></h4>
+                    {{ form_widget(filter.type, {'attr':{'class':'form-control','style':'width:100%'}}) }}
                 </div>
                 <div class="col-sm-12 col-md-6 col-lg-3 text-center">
-                    <h4 class="my-2">Distance <span class="fa fa-map-marker"></span></h4>
-                    {{ form_widget(filter.distance, {'attr':{'class':'form-control','style':'width:93%'}}) }}
+                    <h4 class="my-3">Distance <span class="fa fa-map-marker"></span></h4>
+                    {{ form_widget(filter.distance, {'attr':{'class':'form-control','style':'width:100%'}}) }}
                 </div>
                 <div class="col-sm-12 col-md-6 col-lg-3 text-center">
-                    <h4 class="my-2">Max Price <span class="fa fa-tags"></span>  </h4>
-                    {{ form_widget(filter.maxprice, {'attr':{'class':'form-control','style':'width:93%'}}) }}
+                    <h4 class="my-3">Max Price <span class="fa fa-tags"></span>  </h4>
+                    {{ form_widget(filter.maxprice, {'attr':{'class':'form-control','style':'100%'}}) }}
                 </div>
             </div>
             {{ form_end(filter) }}
+            <div class="row p-4 text-center">
+                <div class="col-12 pt-4 text-center">
+                    <button id="filtring" class="m-3 btn btn-group btn-sm color2 text-light">Apply filters</button>
+                    <button id="cancelfiltring" class="m-3 btn btn-group btn-sm color2 text-light">Cancel filters</button>
+                </div>
+            </div>
         </div>
         <br>
         <hr width="60%">
@@ -121,13 +127,13 @@
             function filterCallback() {
                     var params = $("#filter").serialize();
                     $.ajax({
-                        url: '{{ path('home') }}',
-                        method: 'post',
+                        url: '{{ path('ajaxfilter') }}',
+                        type: 'post',
                         async: true,
                         data: params,
                         datatype: 'json',
                         beforeSend : function() {
-                            $("#roomsContainer").html('<div class="col-12 my-5"><div class="text-center" role="alert"><img src="/assets/imgs/loader.gif"/></div></div>')
+                            $("#roomsContainer").html('<div class="col-12 my-5"><div class="text-center" role="alert"><img width="35px" src="/assets/imgs/loader.gif"/></div></div>')
                         },
                         success: function(response) {
                             $("#roomsContainer").html(response);
@@ -138,9 +144,30 @@
                     });
             }
 
-            document.getElementById('filter_stars').addEventListener('change' , filterCallback);
-            document.getElementById('filter_type').addEventListener('change' , filterCallback);
-            document.getElementById('filter_distance').addEventListener('change' , filterCallback);
+            document.getElementById('filtring').addEventListener('click', filterCallback )
+
+
+            function filtercancel() {
+                var params = $("#filter").serialize();
+                $.ajax({
+                    url: '{{ path('ajaxfiltercancel') }}',
+                    type: 'post',
+                    async: true,
+                    beforeSend : function() {
+                        $("#roomsContainer").html('<div class="col-12 my-5"><div class="text-center" role="alert"><img width="35px" src="/assets/imgs/loader.gif"/></div></div>')
+                    },
+                    success: function(response) {
+                        $("#roomsContainer").html(response);
+                    },
+                    error: function (response) {
+                        $("#roomsContainer").html('<div class="col-12 my-5"><div class="alert alert-danger text-center" role="alert"><h6 class="m-3">An Error Occurred !</h6></div></div>')
+                    }
+                });
+            }
+
+            document.getElementById('cancelfiltring').addEventListener('click', filtercancel )
+
+
         });
     </script>
 {% endblock %}

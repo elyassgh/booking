@@ -6,12 +6,16 @@ html {
     margin: 0;
     padding: 0;
     font-family: 'Poppins', sans-serif;
-    background-color: white;
+    background-color: #FBFAFA;
 }
 
 .myFont {
     font-family: 'Lato', sans-serif;
     font-weight: 700;
+}
+
+.navbar {
+    background: #04081d;
 }
 
 .topnav {
@@ -115,7 +119,7 @@ html {
     height: 32px;
     text-align: center;
     pointer-events: none;
-    color: #818390;
+    color: #9E90A2;
     font-size: 14px;
 }
 
@@ -127,7 +131,7 @@ html {
 }
 
 .booking-form .form-label {
-    color: #2bc0a4;
+    color: #9E90A2;
     display: block;
     font-weight: 400;
     height: 25px;
@@ -140,7 +144,7 @@ html {
 }
 
 .booking-form .submit-btn {
-    background: #2bc0a4;
+    background: #8A7D92;
     border: none;
     text-transform: capitalize;
     display: block;
@@ -153,11 +157,11 @@ html {
 }
 
 .color {
-    color: #818390;
+    color: #A0A5AD;
 }
 
 .color2 {
-    background-color: #2bc0a4;
+    background-color: #8A7D92;
 }
 
 .color3 {
@@ -180,7 +184,7 @@ html {
 }
 
 .contact-holder .container .row {
-    border: 5px solid #2bc0a4;
+    border: 5px solid #8A7D92;
 
 }
 
@@ -237,7 +241,6 @@ figure {
     padding-left: 1.5rem;
     transition: all 0.3s;
     font-size: 1rem;
-    font-weight: 350;
 }
 
 .footer-link::before {
@@ -255,13 +258,13 @@ figure {
 
 .footer-link:hover,
 .footer-link:focus {
-    color: #2bc0a4;
+    color: #FBFAFA;
     text-decoration: none;
 }
 
 .footer-link:hover::before,
 .footer-link:focus::before {
-    color: #2bc0a4;
+    color: #A494A1;
 }
 
 .social-link {
@@ -269,16 +272,12 @@ figure {
 }
 
 .social-link:hover {
-    color: #2bc0a4;
+    color: #A494A1;
 }
 
 .copyrights {
     margin-top: 6.5rem;
     background: #04081d;
-}
-
-#map {
-    height: 46%;
 }
 
 #reservation {
@@ -374,7 +373,7 @@ figure {
 
 .reservation-form .submit-btn {
     color: #fff;
-    background-color: #2bc0a4;
+    background-color: #8A7D92;
     font-weight: 500;
     height: 50px;
     font-size: 17px;
@@ -389,6 +388,156 @@ figure {
 .reservation-form .submit-btn:hover,
 .reservation-form .submit-btn:focus {
     opacity: 0.9;
+}
+
+/*jssor slider loading skin spin css*/
+.jssorl-009-spin img {
+    animation-name: jssorl-009-spin;
+    animation-duration: 1.6s;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+}
+@keyframes jssorl-009-spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+/*jssor slider css */
+.jssora093 {display:block;position:absolute;cursor:pointer;}
+.jssora093 .c {fill:none;stroke:#fff;stroke-width:400;stroke-miterlimit:10;}
+.jssora093 .a {fill:none;stroke:#fff;stroke-width:400;stroke-miterlimit:10;}
+.jssora093:hover {opacity:.8;}
+.jssora093.jssora093dn {opacity:.6;}
+.jssora093.jssora093ds {opacity:.3;pointer-events:none;}
+.jssort101 .p {position: absolute;top:0;left:0;box-sizing:border-box;background:#000;}
+.jssort101 .p .cv {position:relative;top:0;left:0;width:100%;height:100%;border:2px solid #000;box-sizing:border-box;z-index:1;}
+.jssort101 .a {fill:none;stroke:#fff;stroke-width:400;stroke-miterlimit:10;visibility:hidden;}
+.jssort101 .p:hover .cv, .jssort101 .p.pdn .cv {border:none;border-color:transparent;}
+.jssort101 .p:hover{padding:2px;}
+.jssort101 .p:hover .cv {background-color:rgba(0,0,0,6);opacity:.35;}
+.jssort101 .p:hover.pdn{padding:0;}
+.jssort101 .p:hover.pdn .cv {border:2px solid #fff;background:none;opacity:.35;}
+.jssort101 .pav .cv {border-color:#fff;opacity:.35;}
+.jssort101 .pav .a, .jssort101 .p:hover .a {visibility:visible;}
+.jssort101 .t {position:absolute;top:0;left:0;width:100%;height:100%;border:none;opacity:.6;}
+.jssort101 .pav .t, .jssort101 .p:hover .t{opacity:1;}
+
+/* Slick css --------------------------*/
+/* Slider */
+.slick-slide {
+    margin: 0px 20px;
+}
+.slick-slide img {
+    width: 100%;
+}
+.slick-slider
+{
+    position: relative;
+    display: block;
+    box-sizing: border-box;
+
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+
+    -webkit-touch-callout: none;
+    -khtml-user-select: none;
+    -ms-touch-action: pan-y;
+    touch-action: pan-y;
+    -webkit-tap-highlight-color: transparent;
+}
+.slick-list
+{
+    position: relative;
+    display: block;
+    overflow: hidden;
+
+    margin: 0;
+    padding: 0;
+}
+.slick-list:focus
+{
+    outline: none;
+}
+.slick-list.dragging
+{
+    cursor: pointer;
+    cursor: hand;
+}
+.slick-slider .slick-track,
+.slick-slider .slick-list
+{
+    -webkit-transform: translate3d(0, 0, 0);
+    -moz-transform: translate3d(0, 0, 0);
+    -ms-transform: translate3d(0, 0, 0);
+    -o-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+}
+.slick-track
+{
+    position: relative;
+    top: 0;
+    left: 0;
+
+    display: block;
+}
+.slick-track:before,
+.slick-track:after
+{
+    display: table;
+
+    content: '';
+}
+.slick-track:after
+{
+    clear: both;
+}
+.slick-loading .slick-track
+{
+    visibility: hidden;
+}
+.slick-slide
+{
+    display: none;
+    float: left;
+
+    height: 100%;
+    min-height: 1px;
+}
+[dir='rtl'] .slick-slide
+{
+    float: right;
+}
+.slick-slide img
+{
+    display: block;
+}
+.slick-slide.slick-loading img
+{
+    display: none;
+}
+.slick-slide.dragging img
+{
+    pointer-events: none;
+}
+.slick-initialized .slick-slide
+{
+    display: block;
+}
+.slick-loading .slick-slide
+{
+    visibility: hidden;
+}
+.slick-vertical .slick-slide
+{
+    display: block;
+
+    height: auto;
+
+    border: 1px solid transparent;
+}
+.slick-arrow.slick-hidden {
+    display: none;
 }
 
 @media (min-width: 992px) {
@@ -410,6 +559,102 @@ figure {
         font-size: 13.5px;
     }
 }
+
+.group 	 {
+    position:relative;
+    margin-bottom:45px;
+}
+#contactform input, #contactform textarea	{
+    font-size:18px;
+    padding:10px 10px 10px 5px;
+    display:block;
+    width:100%;
+    border:none;
+    border-bottom:1px solid #9396A7;
+}
+#contactform input:focus, #contactform textarea:focus 		{ outline:none; }
+
+/* LABEL ======================================= */
+#contactform label  {
+    color:#9396A7;
+    font-size:18px;
+    font-weight:normal;
+    position:absolute;
+    pointer-events:none;
+    left:5px;
+    top:10px;
+    transition:0.2s ease all;
+    -moz-transition:0.2s ease all;
+    -webkit-transition:0.2s ease all;
+}
+
+/* active state */
+#contactform input:focus ~ label, #contactform input:valid ~ label {
+    top:-20px;
+    font-size:14px;
+    color:#04081D;
+}
+
+/* BOTTOM BARS ================================= */
+.bar 	{ position:relative; display:block; width:100%; }
+.bar:before, .bar:after 	{
+    content:'';
+    height:2px;
+    width:0;
+    bottom:1px;
+    position:absolute;
+    background:#8A7D92;
+    transition:0.2s ease all;
+    -moz-transition:0.2s ease all;
+    -webkit-transition:0.2s ease all;
+}
+.bar:before {
+    left:50%;
+}
+.bar:after {
+    right:50%;
+}
+
+/* active state */
+#contactform input:focus ~ .bar:before, #contactform input:focus ~ .bar:after ,
+#contactform textarea:focus ~ .bar:before, #contactform textarea:focus ~ .bar:after {
+    width:50%;
+}
+
+/* HIGHLIGHTER ================================== */
+.highlight {
+    position:absolute;
+    height:60%;
+    width:250px;
+    top:25%;
+    left:0;
+    pointer-events:none;
+    opacity:0.5;
+}
+
+/* active state */
+#contactform input:focus ~ .highlight
+ {
+    -webkit-animation:inputHighlighter 0.3s ease;
+    -moz-animation:inputHighlighter 0.3s ease;
+    animation:inputHighlighter 0.3s ease;
+}
+
+
+/* ANIMATIONS ================ */
+@-webkit-keyframes inputHighlighter {
+    from { background:#8A7D92; }
+    to 	{ width:0; background:transparent; }
+}
+@-moz-keyframes inputHighlighter {
+    from { background:#8A7D92; }
+    to 	{ width:0; background:transparent; }
+}
+@keyframes inputHighlighter {
+    from { background:#8A7D92; }
+    to 	{ width:0; background:transparent; }
+}
+
 
 @media (max-width: 750px) {
 

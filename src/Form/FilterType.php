@@ -5,6 +5,7 @@ namespace App\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\RangeType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -42,11 +43,10 @@ class FilterType extends AbstractType
             ->add('maxprice' , IntegerType::class , [
                 'attr' => [
                     "data-provide" => "slider",
-                    "data-slider-ticks" => "[50, 250, 750, 1000]",
-                    "data-slider-ticks-labels" => '["50€", "250€", "750€", "1000€"]',
+                    "data-slider-ticks" => "[150, 500, 750, 1000]",
+                    "data-slider-ticks-labels" => '["150€", "500€", "750€", "1000€"]',
                     "data-slider-step" => "10",
-                    "data-slider-value" => "250",
-                    "style" => "width = 100%"
+                    "data-slider-value" => "500",
                 ]
             ])
         ;

@@ -149,8 +149,6 @@
                             </ul>
                             <p class="card-text color">{{ hotel.Description }}</p>
                             <hr>
-                            <a href="{{ url('hotelrooms', {'hotelid': hotel.id }) }}" class="btn m-2 text-light color2">View Rooms <span
-                                        class="fa fa-angle-right"></span></a>
                             <a href="{{ url('hotelroomsAvailable', {'hotelid': hotel.id }) }}" class="btn m-2 text-light color2">Available Rooms <span
                                         class="fa fa-angle-right"></span></a>
                         </div>
@@ -181,19 +179,19 @@
         <div class="container text-center">
             <h2 class="text-uppercase lined lined-center">
                 Moroccan Leisure Agency &ndash;
-                <span style="color: #2bc0a4;">ALM</span>
+                <span style="color: #A494A1;">ALM</span>
             </h2>
             <p class="text-muted">Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores, aperiam.</p>
             <div class="row pt-5">
-                <div class="col-lg-4 mb-5 mb-lg-0"><i class="fa fa-star-o fa-3x mb-3" style="color: #2bc0a4;"></i>
+                <div class="col-lg-4 mb-5 mb-lg-0"><i class="fa fa-star-o fa-3x mb-3" style="color: #A494A1;"></i>
                     <h2 class="h5">Quality</h2>
                     <p class="text-muted px-lg-3 mb-0">Convenient Prices for the best quality.</p>
                 </div>
-                <div class="col-lg-4 mb-5 mb-lg-0"><i class="fa fa-tripadvisor fa-3x mb-3" style="color: #2bc0a4;"></i>
+                <div class="col-lg-4 mb-5 mb-lg-0"><i class="fa fa-tripadvisor fa-3x mb-3" style="color: #A494A1;"></i>
                     <h2 class="h5">Certified</h2>
                     <p class="text-muted px-lg-3 mb-0">We Offer Only Certified Hotels.</p>
                 </div>
-                <div class="col-lg-4"><i class="fa fa-credit-card fa-3x mb-3" style="color: #2bc0a4;"></i>
+                <div class="col-lg-4"><i class="fa fa-credit-card fa-3x mb-3" style="color: #A494A1;"></i>
                     <h2 class="h5">No Paiement Online</h2>
                     <p class="text-muted px-lg-3 mb-0">Don't Worry, Pay on Arrival.</p>
                 </div>
@@ -214,36 +212,18 @@
                 </div>
             </div>
         </div>
-        <div class="container-fluid text-center">
-            <div class="mx-5 p-2 row text-center">
-                <ul class="list-unstyled list-inline">
-                    <div class="m-2 list-inline-item">
-                        <img src="https://picsum.photos/200/150" alt="">
-                    </div>
-                    <div class="m-2 list-inline-item">
-                        <img src="https://picsum.photos/200/150" alt="">
-                    </div>
-                    <div class="m-2 list-inline-item">
-                        <img src="https://picsum.photos/200/150" alt="">
-                    </div>
-                    <div class="m-2 list-inline-item">
-                        <img src="https://picsum.photos/200/150" alt="">
-                    </div>
-                    <div class="m-2 list-inline-item">
-                        <img src="https://picsum.photos/200/150" alt="">
-                    </div>
-                    <div class="m-2 list-inline-item">
-                        <img src="https://picsum.photos/200/150" alt="">
-                    </div>
-                    <div class="m-2 list-inline-item">
-                        <img src="https://picsum.photos/200/150" alt="">
-                    </div>
-                    <div class="m-2 list-inline-item">
-                        <img src="https://picsum.photos/200/150" alt="">
-                    </div>
-                </ul>
-            </div>
+
+        <div class="customer-logos">
+            <div class="slide"><img src="https://picsum.photos/150/80" alt=""></div>
+            <div class="slide"><img src="https://picsum.photos/150/80" alt=""></div>
+            <div class="slide"><img src="https://picsum.photos/150/80" alt=""></div>
+            <div class="slide"><img src="https://picsum.photos/150/80" alt=""></div>
+            <div class="slide"><img src="https://picsum.photos/150/80" alt=""></div>
+            <div class="slide"><img src="https://picsum.photos/150/80" alt=""></div>
+            <div class="slide"><img src="https://picsum.photos/150/80" alt=""></div>
+
         </div>
+
     </section>
 
 {% endblock %}

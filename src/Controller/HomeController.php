@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use App\Entity\Chambre;
 use App\Form\FilterType;
 use App\Repository\ChambreRepository;
 use App\Repository\HotelRepository;
@@ -62,20 +61,6 @@ class HomeController extends AbstractController
         //filter form
         $filter = $this->createForm(FilterType::class);
         $filter->handleRequest($request);
-        //ajax call with page rendering
-        if($request->isXmlHttpRequest() || $filter->isSubmitted()) {
-
-            $rooms = $this->session->get('rooms');
-            $checkin = $this->session->get('checkin')->format('Y-m-d');
-            $checkout= $this->session->get('checkout')->format('Y-m-d');
-            $params = $filter->getData();
-            $filtredrooms = $chambreRepository->filter($rooms ,$params['stars'],$params['type'],$params['distance'],$params['maxprice']);
-            return $this->render('home/roomsloader.html.twig', [
-                'rooms' => $filtredrooms,
-                'checkin' => $checkin,
-                'checkout' => $checkout,
-            ]);
-        }
 
         if ($form->isSubmitted() && $form->isValid()) {
 
@@ -84,7 +69,6 @@ class HomeController extends AbstractController
             $this->session->set('rooms', $rooms);
             $this->session->set('checkin', $data['checkin']);
             $this->session->set('checkout', $data['checkout']);
-
 
             return $this->render('home/rooms.html.twig', ['form' => $form->createView(),
                 'filter' => $filter->createView(),
@@ -149,10 +133,21 @@ class HomeController extends AbstractController
 
         $form->handleRequest($request);
 
+        //filter form
+        $filter = $this->createForm(FilterType::class);
+        $filter->handleRequest($request);
+
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
             $rooms = $chambreRepository->findByInputs($data['destination'], $data['checkin'], $data['checkout'], $data['guests']);
+
+            //Modifying session variables
+            $this->session->set('rooms', $rooms);
+            $this->session->set('checkin', $data['checkin']);
+            $this->session->set('checkout', $data['checkout']);
+
             return $this->render('home/rooms.html.twig', ['form' => $form->createView(),
+                'filter' =>$filter->createView(),
                 'rooms' => $rooms,
             ]);
         }
@@ -164,9 +159,68 @@ class HomeController extends AbstractController
 
         $rooms = $chambreRepository->findByInputs($hotelname, $checkin, $checkout, 0);
 
+        //Modifying session variables
+        $this->session->set('rooms', $rooms);
+        $this->session->set('checkin', $today);
+        $this->session->set('checkout', $tomorrow);
+
         return $this->render('home/rooms.html.twig', ['form' => $form->createView(),
+            'filter' =>$filter->createView(),
             'rooms' => $rooms,
         ]);
+    }
+
+    /**
+     * @Route("/roomsfilter" , name="ajaxfilter")
+     * @param Request $request
+     * @param ChambreRepository $chambreRepository
+     * @return Response
+     */
+    public function ajaxfilter(Request $request, ChambreRepository $chambreRepository) {
+
+        //ajax call with page rendering
+        if($request->isXmlHttpRequest()) {
+
+            $data = $request->request->all();
+            $params = $data['filter'];
+            $rooms = $this->session->get('rooms');
+            $checkin = $this->session->get('checkin')->format('Y-m-d');
+            $checkout= $this->session->get('checkout')->format('Y-m-d');
+
+            $filtredrooms = $chambreRepository->filter($rooms ,$params['stars'],$params['type'],$params['distance'],$params['maxprice']);
+            return $this->render('home/roomsloader.html.twig', [
+                'rooms' => $filtredrooms,
+                'checkin' => $checkin,
+                'checkout' => $checkout,
+            ]);
+        }
+
+        return null;
+    }
+
+    /**
+     * @Route("/roomsfiltercancel" , name="ajaxfiltercancel")
+     * @param Request $request
+     * @param ChambreRepository $chambreRepository
+     * @return Response
+     */
+    public function filtercancel(Request $request, ChambreRepository $chambreRepository) {
+
+        //ajax call with page rendering
+        if($request->isXmlHttpRequest()) {
+
+            $rooms = $this->session->get('rooms');
+            $checkin = $this->session->get('checkin')->format('Y-m-d');
+            $checkout= $this->session->get('checkout')->format('Y-m-d');
+
+            return $this->render('home/roomsloader.html.twig', [
+                'rooms' => $rooms,
+                'checkin' => $checkin,
+                'checkout' => $checkout,
+            ]);
+        }
+
+        return null;
     }
 
     /**
@@ -220,27 +274,4 @@ class HomeController extends AbstractController
         return $this->redirectToRoute('home');
     }
 
-    /**
-     * @Route("/hotel/{hotelid}/roomsgallery", name="hotelrooms")
-     * @param int $hotelid
-     * @param ChambreRepository $chambreRepository
-     * @return Response
-     */
-    public function hotelroomsGallery(int $hotelid, ChambreRepository $chambreRepository): Response
-    {
-        $rooms = $chambreRepository->findChambresByHotel($hotelid);
-        $hotel = $rooms[0]->getHotel()->getNom();
-
-        return $this->render('home/hotelrooms.html.twig', ['rooms' => $rooms,
-            'hotel' => $hotel,
-        ]);
-    }
-
-    /**
-     * @Route("/rooms/{id}/gallery", name="roomgallery")
-     */
-    public function roomgallery(Chambre $chambre)
-    {
-        return $this->render('home/roomgallery.html.twig', compact($chambre));
-    }
 }
