@@ -129,6 +129,8 @@ class ChambreRepository extends ServiceEntityRepository
     ;
     }
 
+
+    //old query not good need optimisation
      /**
       * @return Chambre[] Returns an array of Chambre objects
       */
@@ -182,4 +184,38 @@ class ChambreRepository extends ServiceEntityRepository
         }
     }
 
+    //new query well organized
+    /**
+     * @return Chambre[] Returns an array of Chambre objects
+     */
+    public function findByInputsOptimized($destination, $checkin, $checkout ,$guests)
+    {
+            $querybuilder = $this->createQueryBuilder('c')
+                ->leftJoin('App\Entity\Reservation','r' , 'WITH' , 'c.id = r.chambre')
+                ->join('App\Entity\Hotel','h')
+                ->andWhere('c.hotel = h.id')
+                ->andWhere('(r.checkIn IS NULL) OR (:checkin NOT BETWEEN r.checkIn AND r.checkOut)')
+                ->andWhere('(r.checkOut IS NULL) OR (:checkout NOT BETWEEN r.checkIn AND r.checkOut)')
+                ->andWhere('h.region = :destination OR h.ville = :destination OR h.nom = :destination ')
+                ->setParameter('checkin', $checkin)
+                ->setParameter('checkout', $checkout)
+                ->setParameter('destination', $destination)
+            ;
+
+            if($guests == 0) {
+                $query = $querybuilder->getQuery();
+            } elseif ($guests < 3) {
+                $query = $querybuilder
+                    ->andWhere('c.capacity >= :guests')
+                    ->setParameter('guests', $guests)
+                    ->getQuery();
+            }
+            else {
+                $query = $querybuilder
+                    ->andWhere('c.capacity >= :guests')
+                    ->setParameter('guests', $guests)
+                    ->getQuery();
+            }
+            return $query->getResult();
+    }
 }
