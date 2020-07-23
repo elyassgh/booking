@@ -3,10 +3,9 @@
 namespace App\Repository;
 
 use App\Entity\Chambre;
-use DateInterval;
-use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use PhpParser\Node\Expr\Array_;
 
 /**
  * @method Chambre|null find($id, $lockMode = null, $lockVersion = null)
@@ -72,8 +71,6 @@ class ChambreRepository extends ServiceEntityRepository
        }
    }
 
-
-
      /**
       * @return Chambre[] Returns an array of Chambre objects
       */
@@ -89,28 +86,32 @@ class ChambreRepository extends ServiceEntityRepository
     }
 
     /**
+     * @param $rooms
+     * @param $stars
+     * @param $type
+     * @param $distance
+     * @param $maxprice
      * @return Chambre[] Returns an array of Chambre objects
      */
-    public function findChambresInPromotion()
+    public function filter($rooms, $stars, $type ,$distance, $maxprice)
     {
-        $week = new DateInterval('P6D');
-        $checkin = new DateTime('today');
-        $checkout = $checkin->add($week);
-        $checkin = $checkin->format('Y-m-d H:i:s');
-        $checkout = $checkout->format('Y-m-d H:i:s');
-
-        return $this->createQueryBuilder('c')
-            ->leftJoin('App\Entity\Reservation','r' , 'WITH' , 'c.id = r.chambre')
-            ->join('App\Entity\Hotel','h')
-            ->andWhere('h.id = :hotelId')
-            ->andWhere('c.hotel = h.id')
-            ->andWhere('r.checkIn IS NULL OR :checkin NOT BETWEEN r.checkIn AND r.checkOut')
-            ->andWhere('r.checkOut IS NULL OR :checkout NOT BETWEEN r.checkIn AND r.checkOut')
-            ->setParameter('checkin', $checkin)
-            ->setParameter('checkout', $checkout)
-            ->getQuery()
-            ->getResult()
-            ;
+        $result = array();
+        foreach ($rooms as $room) {
+            if ($distance==0) {
+                if($room->getHotel()->getDistanceCentre() < 1 && $room->getHotel()->getNbrEtoiles()==$stars && $room->getCategorie()==$type) {
+                    if($room->getPrixSaison()->getPrix()*$room->getPrixSaison()->getTaux() < $maxprice) {
+                        array_push($result, $room);
+                    }
+                }
+            } else {
+                if($room->getHotel()->getDistanceCentre() < $distance && $room->getHotel()->getNbrEtoiles()==$stars && $room->getCategorie()==$type) {
+                    if($room->getPrixSaison()->getPrix()*$room->getPrixSaison()->getTaux() < $maxprice) {
+                        array_push($result, $room);
+                    }
+                }
+            }
+        }
+        return $result;
     }
 
     /**

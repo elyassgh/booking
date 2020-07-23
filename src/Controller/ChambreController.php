@@ -32,6 +32,9 @@ class ChambreController extends AbstractController
 
     /**
      * @Route("/new", name="chambre_new", methods={"GET","POST"})
+     * @param Request $request
+     * @param FileUploader $fileUploader
+     * @return Response
      */
     public function new(Request $request, FileUploader $fileUploader): Response
     {
@@ -46,7 +49,6 @@ class ChambreController extends AbstractController
             ->add('hotel' , EntityType::class , [
                 'class' => Hotel::class,
                 'choice_label' => 'nom',
-
             ])
             ->add('img', FileType::class)
             ->getForm()
