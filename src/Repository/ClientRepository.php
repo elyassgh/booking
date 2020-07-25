@@ -47,4 +47,29 @@ class ClientRepository extends ServiceEntityRepository
         ;
     }
     */
+
+
+    /*
+     * @return Client|null
+    */
+    public function findLastInsertedClient(): ?Client
+    {
+        return $this->createQueryBuilder('c')
+            ->orderBy('c.id', 'DESC')
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
+    /*
+    * @return Client|null
+   */
+    public function findClientByCin($cinPass): ?Client
+    {
+        return $this->createQueryBuilder('c')
+            ->andWhere('c.cinOrPassport = :cinPass')
+            ->setParameter('cinPass' , $cinPass)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
 }

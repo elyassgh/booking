@@ -99,27 +99,27 @@
                     <h6> <span class="fa fa-map-marker" style="width: 18px;"></span> {{ chambre.hotel.DistanceCentre }} Km far from {{ chambre.Hotel.ville }} center</h6>
                 </div>
                 <div class="card">
-                    <div class="card-body">
+                    <div class="card-body ">
                         <ul class="list-unstyled" style="font-size: large;">
-                            <li class="myFont ">
+                            <li>
                                 Type : {{ chambre.categorie }}
                             </li>
-                            <li class="myFont pt-2">
+                            <li class="pt-2">
                                 <ul class="list-unstyled list-inline mb-0">
                                     <li class="list-inline-item">Surface : {{ chambre.superficie }} m<sup>2</sup></li>
                                     <li class="list-inline-item">Floor : {{ chambre.etage }}</li>
                                 </ul>
                             </li>
-                            <li class="myFont pt-2">Capacity :
+                            <li class="pt-2">Capacity :
                                 {% for i in 1..chambre.Capacity() %}
                                     <span class="fa fa-male mx-1"></span>
                                 {% endfor %}
                             </li>
-                            <li class="myFont pt-2">
+                            <li class="pt-2">
                                     Price : <span class="fa fa-dollar"></span>{{ chambre.prixSaison.prix *  chambre.prixSaison.taux}} / Night
                             </li>
                         </ul>
-                        <p class="card-text">{{ chambre.description }}
+                        <p class="myFont2 card-text">{{ chambre.description }}
                         </p>
                     </div>
                 </div>
@@ -219,7 +219,7 @@
         <div id="reservation" class="container">
             <div class="row">
                 <div class="reservation-form pb-5">
-                    {{ form_start(form , {'methode':'POST'}) }}
+                    {{ form_start(form , {'methode':'GET'}) }}
                         <div class="row">
                             <div class="col-md-4">
                                 <div class="form-group">
@@ -267,7 +267,7 @@
                                 </div>
                             </div>
                         </div>
-                    </form>
+                    {{ form_end(form) }}
                     <p class="text-light mt-4">* Notice that you will recive an email confirming your reservation.</p>
                 </div>
             </div>

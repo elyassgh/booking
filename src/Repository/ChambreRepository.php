@@ -49,14 +49,13 @@ class ChambreRepository extends ServiceEntityRepository
     }
     */
 
-
-   public function isChambreAvailable($id , $checkin , $checkout): ?bool
-   {
+    public function isChambreAvailable($id , $checkin , $checkout): ?bool
+    {
        $chambre = $this->createQueryBuilder('c')
            ->leftJoin('App\Entity\Reservation','r' , 'WITH' , 'c.id = r.chambre')
            ->andWhere('c.id = :id')
-           ->andWhere('r.checkIn IS NULL OR :checkin NOT BETWEEN r.checkIn AND r.checkOut')
-           ->andWhere('r.checkOut IS NULL OR :checkout NOT BETWEEN r.checkIn AND r.checkOut')
+           ->andWhere('(r.checkIn IS NULL) OR (:checkin NOT BETWEEN r.checkIn AND r.checkOut)')
+           ->andWhere('(r.checkOut IS NULL) OR (:checkout NOT BETWEEN r.checkIn AND r.checkOut)')
            ->setParameter('id', $id)
            ->setParameter('checkin', $checkin)
            ->setParameter('checkout', $checkout)
@@ -69,7 +68,7 @@ class ChambreRepository extends ServiceEntityRepository
        } else {
            return true;
        }
-   }
+    }
 
      /**
       * @return Chambre[] Returns an array of Chambre objects

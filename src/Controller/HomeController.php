@@ -2,9 +2,13 @@
 
 namespace App\Controller;
 
+use App\Entity\Client;
+use App\Entity\Reservation;
 use App\Form\FilterType;
 use App\Repository\ChambreRepository;
+use App\Repository\ClientRepository;
 use App\Repository\HotelRepository;
+use App\Repository\ReservationRepository;
 use DateInterval;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -230,9 +234,19 @@ class HomeController extends AbstractController
      * @param \DateTime $checkin
      * @param \DateTime $checkout
      * @param ChambreRepository $chambreRepository
+     * @return Response
      */
-    public function details(Request $request, int $id, \DateTime $checkin, \DateTime $checkout, ChambreRepository $chambreRepository)
+    public function details(Request $request, int $id, \DateTime $checkin, \DateTime $checkout, ChambreRepository $chambreRepository, ReservationRepository $reservationRepository, ClientRepository $clientRepository): Response
     {
+
+        $chambreValid = $chambreRepository->isChambreAvailable($id, $checkin, $checkout);
+
+        if ($chambreValid == false || ($checkin < (new \DateTime('today'))) || ($checkin > $checkout) || ($checkin == $checkout)  ) {
+            //in case there is some link injections or some troubleshooting happened or the chambre is not available!
+            return $this->redirectToRoute('home');
+        }
+
+        $chambre = $chambreRepository->find($id);
 
         $form = $this->createFormBuilder()
             ->add('name', TextType::class)
@@ -250,28 +264,92 @@ class HomeController extends AbstractController
                 'data' => $checkout,
                 'disabled' => true,
                 'widget' => 'single_text',
-            ])
+                ])
             ->getForm();
 
-        $form->handleRequest($request);
+            $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            //Reservation confirmation form + need mailing service.
-        }
+            if ($form->isSubmitted() && $form->isValid()) {
 
-        $chambreValid = $chambreRepository->isChambreAvailable($id, $checkin, $checkout);
+                $data = $form->getData();
 
-        if ($chambreValid == false || ($checkin > $checkout) || ($checkin == $checkout)) {
-            return $this->redirectToRoute('home');
-        } elseif ($chambreValid == true) {
-            $chambre = $chambreRepository->find($id);
-            return $this->render('home/room.html.twig', ['chambre' => $chambre,
-                'form' => $form->createView(),
-            ]);
-        }
+                //handling phon number
+                if (is_null($data['tele'])) $data['tele']="";
 
-        //in case some troubleshooting happened
-        return $this->redirectToRoute('home');
+                $entityManager = $this->getDoctrine()->getManager();
+                $now = new \DateTime('now');
+
+                //client check
+                $client = $clientRepository->findClientByCin($data['cinPass']);
+
+                if (is_null($client)) {
+                    //create new client
+                    $client = new Client();
+                    $client->setNom($data['name'])
+                        ->setEmail($data['email'])
+                        ->setTele($data['tele'])
+                        ->setCinOrPassport($data['cinPass']);
+
+                    //persist the reservation into the database
+                    $entityManager->persist($client);
+                    //executing database query
+                    $entityManager->flush();
+
+                    //getClientID for reference making purposes !
+                    $clientID = $clientRepository->findLastInsertedClient()->getId();
+
+                } else {
+                    //update existing client (most importantly the email !)
+                    $client->setNom($data['name'])
+                        ->setEmail($data['email'])
+                        ->setTele($data['tele']);
+
+                    //executing database query
+                    $entityManager->flush();
+
+                    //getClientID for reference making purposes !
+                    $clientID = $client->getId();
+
+                }
+
+
+                //Reference Generation Strategy : (incremented sequence) + "A" + (reservation date) + "L" + (reservation time) + "M" + (client id)
+                $sequence  = $reservationRepository->generateSequence();
+                $date = $now->format('Ymd');
+                $time = $now->format('His');
+
+                //total of the reservation
+                $total = $chambre->getPrixSaison()->getPrix()*$chambre->getPrixSaison()->getTaux()*($checkout->diff($checkin)->d);
+
+                //reference generation
+                $reference = $sequence . "A" . $date . "L" . $time .  "M" . $clientID;
+
+                //persist reservation
+                $reservation = new Reservation();
+                $reservation->setClient($client)
+                    ->setChambre($chambre)
+                    ->setReference($reference)
+                    ->setDateReservation($now)
+                    ->setCheckIn($checkin)
+                    ->setCheckOut($checkout)
+                    ->setTotal($total)
+                ;
+                //persist the reservation into the database
+                $entityManager->persist($reservation);
+                //executing database query
+                $entityManager->flush();
+
+                //email service
+
+                return $this->render('email/confirmation.html.twig', [
+                    'reservation' => $reservation,
+                    'periode' => $checkout->diff($checkin)->d,
+                ]);
+            }
+
+        return $this->render('home/room.html.twig', ['chambre' => $chambre,
+            'form' => $form->createView(),
+        ]);
     }
 
 }

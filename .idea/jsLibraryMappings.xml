@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="JavaScriptLibraryMappings">
-    <file url="PROJECT" libraries="{bootstrap, bootstrap-slider, font-awesome, jquery, slick-carousel}" />
+    <file url="PROJECT" libraries="{SplitText, bootstrap, bootstrap-slider, font-awesome, gsap, jquery, modernizr, slick-carousel, vms5sey}" />
   </component>
 </project>

@@ -47,4 +47,31 @@ class ReservationRepository extends ServiceEntityRepository
         ;
     }
     */
+
+
+    /*
+    * @return Chambre|null
+    */
+    public function findLastInsertedChambre()
+    {
+        return $this->createQueryBuilder('r')
+            ->orderBy('r.id', 'DESC')
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
+    public function generateSequence (): ?string
+    {
+        if (is_null($this->findLastInsertedChambre())) {
+            return "0";
+        } else {
+            $lastRef = $this->findLastInsertedChambre()->getReference();
+            $referencePieces = explode("A", $lastRef);
+            $lastSequence = intval($referencePieces[0]);
+            $newSequence = $lastSequence + mt_rand(1,10);
+            return strval($newSequence);
+        }
+    }
+
 }

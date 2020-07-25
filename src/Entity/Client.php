@@ -35,7 +35,7 @@ class Client
     private $tele;
 
     /**
-     * @ORM\Column(type="string", length=255, unique=true)
+     * @ORM\Column(type="string", length=255)
      */
     private $email;
 
