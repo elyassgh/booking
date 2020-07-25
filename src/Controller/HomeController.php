@@ -234,9 +234,12 @@ class HomeController extends AbstractController
      * @param \DateTime $checkin
      * @param \DateTime $checkout
      * @param ChambreRepository $chambreRepository
+     * @param ReservationRepository $reservationRepository
+     * @param ClientRepository $clientRepository
+     * @param \Swift_Mailer $mailer
      * @return Response
      */
-    public function details(Request $request, int $id, \DateTime $checkin, \DateTime $checkout, ChambreRepository $chambreRepository, ReservationRepository $reservationRepository, ClientRepository $clientRepository): Response
+    public function details(Request $request, int $id, \DateTime $checkin, \DateTime $checkout, ChambreRepository $chambreRepository, ReservationRepository $reservationRepository, ClientRepository $clientRepository , \Swift_Mailer $mailer): Response
     {
 
         $chambreValid = $chambreRepository->isChambreAvailable($id, $checkin, $checkout);
@@ -272,12 +275,12 @@ class HomeController extends AbstractController
             if ($form->isSubmitted() && $form->isValid()) {
 
                 $data = $form->getData();
+                $now = new \DateTime('now');
 
-                //handling phon number
+                //handling phone number
                 if (is_null($data['tele'])) $data['tele']="";
 
                 $entityManager = $this->getDoctrine()->getManager();
-                $now = new \DateTime('now');
 
                 //client check
                 $client = $clientRepository->findClientByCin($data['cinPass']);
@@ -319,7 +322,7 @@ class HomeController extends AbstractController
                 $time = $now->format('His');
 
                 //total of the reservation
-                $total = $chambre->getPrixSaison()->getPrix()*$chambre->getPrixSaison()->getTaux()*($checkout->diff($checkin)->d);
+                $total = round( $chambre->getPrixSaison()->getPrix()*$chambre->getPrixSaison()->getTaux(), 2, PHP_ROUND_HALF_UP) *($checkout->diff($checkin)->d);
 
                 //reference generation
                 $reference = $sequence . "A" . $date . "L" . $time .  "M" . $clientID;
@@ -341,10 +344,31 @@ class HomeController extends AbstractController
 
                 //email service
 
-                return $this->render('email/confirmation.html.twig', [
-                    'reservation' => $reservation,
-                    'periode' => $checkout->diff($checkin)->d,
+                $message = (new \Swift_Message('ALM BOOKING'))
+                    ->setFrom('contact@alm.com')
+                    ->setTo('elghazi.elyass@gmail.com')
+                    ->setBody(
+                        $this->renderView('email/confirmation.html.twig', [
+                            'reservation' => $reservation,
+                            'periode' => $checkout->diff($checkin)->d,
+                        ]),
+                        'text/html'
+                    )
+                ;
+
+                //sending confirmation email
+                $mailer->send($message);
+
+
+                //rendering confirmation page
+                return $this->render('home/confirmation.html.twig' , [
+                    'email' => $data['email'] ,
+                    'now' => $now ,
+                    'checkin' =>$checkin ,
+                    'checkout' =>$checkout,
+                    'ref' => $reference,
                 ]);
+
             }
 
         return $this->render('home/room.html.twig', ['chambre' => $chambre,

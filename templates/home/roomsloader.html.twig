@@ -38,7 +38,7 @@
                             Type : {{ room.categorie }}
                         </li>
                         <li class="list-group-item">
-                            Price : {{ room.prixSaison.prix *  room.prixSaison.taux }} <span class="fa fa-dollar"></span> / Night
+                            Price : {{ (room.prixSaison.prix *  room.prixSaison.taux)|round(2, 'ceil') }} <span class="fa fa-dollar"></span> / Night
                         </li>
                         <li class="list-group-item">
                             <ul class="list-unstyled list-inline">

@@ -19,7 +19,7 @@
         <div class="container">
             <div class="row">
                 <div class="booking-form shadow-lg">
-                    {{ form_start(form , {'methode':'GET'}) }}
+                    {{ form_start(form) }}
                     <div class="row no-margin">
                         <div class="col-md-3 bg-light">
                             <div class="form-group">
@@ -121,6 +121,7 @@
 {% endblock %}
 {% block js %}
     <script>
+
         $(document).ready(function(){
 
             //Ajax filter
@@ -166,7 +167,6 @@
             }
 
             document.getElementById('cancelfiltring').addEventListener('click', filtercancel )
-
 
         });
     </script>

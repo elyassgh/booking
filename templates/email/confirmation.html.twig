@@ -698,7 +698,7 @@
                                                 style="line-height: 1.2; font-size: 12px; font-family: Verdana, Geneva, sans-serif; color: #555555; mso-line-height-alt: 14px;">
                                             <p
                                                     style="font-size: 14px; line-height: 1.2; word-break: break-word; font-family: Verdana, Geneva, sans-serif; mso-line-height-alt: 17px; margin: 0;">
-                                                <span style="font-size: 14px;">{{ reservation.chambre.prixSaison.prix *  reservation.chambre.prixSaison.taux }}€ x {{ periode}} day(s) </span></p>
+                                                <span style="font-size: 14px;">{{ (reservation.chambre.prixSaison.prix *  reservation.chambre.prixSaison.taux)|round(2, 'ceil') }}€ x {{ periode}} day(s) </span></p>
                                             <p
                                                     style="font-size: 14px; line-height: 1.2; word-break: break-word; font-family: Verdana, Geneva, sans-serif; mso-line-height-alt: 17px; margin: 0;">
 														<span style="font-size: 14px;">= <strong> <span
