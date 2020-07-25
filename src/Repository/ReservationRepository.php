@@ -50,9 +50,23 @@ class ReservationRepository extends ServiceEntityRepository
 
 
     /*
-    * @return Chambre|null
+   * @return Reservation|null
+   */
+   public function findOneByReference($reference): ?Reservation
+   {
+       return $this->createQueryBuilder('r')
+           ->andWhere('r.reference = :ref')
+           ->setParameter('ref', $reference)
+           ->getQuery()
+           ->getOneOrNullResult()
+       ;
+   }
+
+
+    /*
+    * @return Reservation|null
     */
-    public function findLastInsertedChambre()
+    public function findLastReservation() :?Reservation
     {
         return $this->createQueryBuilder('r')
             ->orderBy('r.id', 'DESC')
@@ -63,10 +77,10 @@ class ReservationRepository extends ServiceEntityRepository
 
     public function generateSequence (): ?string
     {
-        if (is_null($this->findLastInsertedChambre())) {
+        if (is_null($this->findLastReservation())) {
             return "0";
         } else {
-            $lastRef = $this->findLastInsertedChambre()->getReference();
+            $lastRef = $this->findLastReservation()->getReference();
             $referencePieces = explode("A", $lastRef);
             $lastSequence = intval($referencePieces[0]);
             $newSequence = $lastSequence + mt_rand(1,10);

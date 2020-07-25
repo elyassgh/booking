@@ -343,10 +343,9 @@ class HomeController extends AbstractController
                 $entityManager->flush();
 
                 //email service
-
                 $message = (new \Swift_Message('ALM BOOKING'))
-                    ->setFrom('contact@alm.com')
-                    ->setTo('elghazi.elyass@gmail.com')
+                    ->setFrom(['legandary.writer@gmail.com' => "ALM"])
+                    ->setTo(['elghazi.elyass@gmail.com'])
                     ->setBody(
                         $this->renderView('email/confirmation.html.twig', [
                             'reservation' => $reservation,
@@ -359,15 +358,15 @@ class HomeController extends AbstractController
                 //sending confirmation email
                 $mailer->send($message);
 
-
                 //rendering confirmation page
                 return $this->render('home/confirmation.html.twig' , [
-                    'email' => $data['email'] ,
+                    'email' => $data['email'],
                     'now' => $now ,
                     'checkin' =>$checkin ,
                     'checkout' =>$checkout,
                     'ref' => $reference,
                 ]);
+
 
             }
 
@@ -376,4 +375,6 @@ class HomeController extends AbstractController
         ]);
     }
 
+
 }
+

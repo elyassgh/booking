@@ -25,6 +25,7 @@ services:
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+    # Setting up a variable in FileUploader class that holds the value of the env variable of the path of the imgs directory
     App\Service\FileUploader:
         arguments:
             $targetDirectory: '%imgs_dir%'
