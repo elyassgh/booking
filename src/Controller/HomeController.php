@@ -70,6 +70,7 @@ class HomeController extends AbstractController
 
             $data = $form->getData();
             $rooms = $chambreRepository->findByInputs($data['destination'], $data['checkin'], $data['checkout'], $data['guests']);
+            dd($data , $rooms);
             $this->session->set('rooms', $rooms);
             $this->session->set('checkin', $data['checkin']);
             $this->session->set('checkout', $data['checkout']);
