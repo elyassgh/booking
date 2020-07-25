@@ -2,6 +2,12 @@
 
 {% block title %}Room details{% endblock %}
 
+{% block metatags %}
+     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+     <meta http-equiv="Pragma" content="no-cache">
+     <meta http-equiv="Expires" content="0">
+{% endblock %}
+
 {% block headJS %}
     <script>
         if( window.performance.navigation.type === 2)
@@ -310,6 +316,7 @@
                     e.preventDefault();
                     $("#myModal").modal('show');
                     $('#SubForm').click(function () {
+                        $('#modal').modal('toggle');
                         form.submit();
                     });
             });

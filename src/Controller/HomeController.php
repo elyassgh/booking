@@ -358,21 +358,29 @@ class HomeController extends AbstractController
                 //sending confirmation email
                 $mailer->send($message);
 
-                //rendering confirmation page
-                return $this->render('home/confirmation.html.twig' , [
+                //dispite render method, renderView method hides response headers from showing ;)
+                $response = new Response($this->renderView('home/confirmation.html.twig' , [
                     'email' => $data['email'],
                     'now' => $now ,
                     'checkin' =>$checkin ,
                     'checkout' =>$checkout,
                     'ref' => $reference,
-                ]);
+                ]), 200 );
 
-
+                return $response;
             }
 
-        return $this->render('home/room.html.twig', ['chambre' => $chambre,
-            'form' => $form->createView(),
-        ]);
+            $response = new Response($this->renderView('home/room.html.twig', ['chambre' => $chambre,
+                'form' => $form->createView(),
+            ]),200);
+
+             //IMPORTANT !!!!!!! --> For security purposes
+             // Setting http response header so the response cannot be ever stored in the browser's cash
+             $response->headers->set("Cache-Control", "no-cache, no-store, must-revalidate");
+             $response->headers->set("Pragma", "no-cache");
+             $response->headers->set("Expires", "0");
+
+        return $response;
     }
 
 
