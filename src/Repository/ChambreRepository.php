@@ -141,7 +141,6 @@ class ChambreRepository extends ServiceEntityRepository
     public function findByInputs($destination, $checkin, $checkout ,$guests)
     {
             $querybuilder = $this->createQueryBuilder('c')
-                ->leftJoin('App\Entity\Reservation','r' , 'WITH' , 'c.id = r.chambre')
                 ->join('App\Entity\Hotel','h')
                 ->andWhere('c.hotel = h.id')
                 ->andWhere('h.region = :destination OR h.ville = :destination OR h.nom = :destination ')
@@ -162,26 +161,32 @@ class ChambreRepository extends ServiceEntityRepository
                     ->setParameter('guests', $guests)
                     ->getQuery();
             }
+
             $chambres =  $query->getResult();
+
             $disponibleChambres = Array();
 
             foreach ($chambres as $chambre) {
+
+                $isAvailable = true;
+
                 $reservations = $chambre->getReservations();
-                if (is_null($reservations)) {
-                    array_push($disponibleChambres, $chambre);
-                } else {
-                   
+                if (!is_null($reservations)) {
                     foreach ($reservations as $reservation) {
-                        if ((($reservation->getCheckIn() <= $checkin) && ( $checkin <= $reservation->getCheckOut())) ||
+                        if ( (($reservation->getCheckIn() <= $checkin) && ( $checkin <= $reservation->getCheckOut())) ||
                             (($reservation->getCheckIn() <= $checkout) && ( $checkout <= $reservation->getCheckOut())))
                         {
-                            continue;
+                            $isAvailable = false;
+                            break;
                         }
-                        array_push($disponibleChambres, $chambre);
                     }
 
                 }
+
+                if($isAvailable) array_push($disponibleChambres,$chambre);
+
             }
+
             return $disponibleChambres;
     }
 }
