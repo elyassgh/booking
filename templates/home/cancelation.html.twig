@@ -1,0 +1,136 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Room details{% endblock %}
+
+{% block body %}
+
+    <div class="jumbotron bg-white text-center">
+        <h1 style="font-size: 3.5rem"> Hi, {{ reservation.client.nom }}</h1>
+        <hr class="color2" style="width: 50%; height: 0.2rem;">
+        <hr width="20%">
+        <h3>You are about to cancel your reservation !</h3>
+    </div>
+
+    <div class="container py-3">
+        <div class="row mx-lg-5">
+            <div class="col-12 text-center">
+                <ul class="list-group text-center">
+                    <li class="list-group-item color2 text-light ">
+                        Reservation Details
+                    </li>
+                    <li class="list-group-item">
+                        <ul class="list-inline list-unstyled">
+                            <li class="list-inline-item">Reference :</li>
+                            <li class="list-inline-item">{{ reservation.reference }}</li>
+                        </ul>
+                    </li>
+                    <li class="list-group-item">
+                        <ul class="list-inline list-unstyled">
+                            <li class="list-inline-item">Reservation Date :</li>
+                            <li class="list-inline-item">{{ reservation.dateReservation|date('Y-m-d') }}</li>
+                        </ul>
+                    </li>
+                    <li class="list-group-item">
+                        <ul class="list-inline list-unstyled">
+                            <li class="list-inline-item">Hotel :</li>
+                            <li class="list-inline-item">{{ reservation.chambre.hotel.nom }}</li>
+                        </ul>
+                    </li>
+                    <li class="list-group-item">
+                        <ul class="list-inline list-unstyled">
+                            <li class="list-inline-item">From :</li>
+                            <li class="list-inline-item">{{ reservation.checkin|date('Y-m-d') }}</li>
+                        </ul>
+                    </li>
+                    <li class="list-group-item">
+                        <ul class="list-inline list-unstyled">
+                            <li class="list-inline-item">To :</li>
+                            <li class="list-inline-item">{{ reservation.checkout|date('Y-m-d') }}</li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="jumbotron bg-white text-center">
+        <h1 style="font-size: 3.5rem">Are you sure you want to do this ?</h1>
+        <hr class="color2" style="width: 50%; height: 0.2rem;">
+        <hr width="20%">
+
+        <div id="cancel" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLongTitle"> Reservation Cancel </h5>
+                    </div>
+                    <div class="modal-body">
+                        <p>Your query is in processes ...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="done" class="modal fade" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLongTitle">  Canceled </h5>
+                    </div>
+                    <div class="modal-body">
+                        <p>Your reservation is been canceled.</p>
+                    </div>
+                    <div class="modal-footer">
+                        <a class="color2 text-light btn" href="{{ path('home') }}" >Go to Home Page</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container" id="loading">
+            <div class="row">
+                <div class="col-12">
+                    <button class="btn btn-lg w-25 btn-danger" id="confirm">Yes !</button>
+                    <h5 class=py-3>*By clicking at this button your reservation will be canceled and will not be available any more <span class="text-danger fa fa-exclamation-triangle"></span></h5>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="my-5" ></div>
+
+{% endblock %}
+
+{% block js %}
+    <script type="text/javascript">jssor_1_slider_init();</script>
+    <script>
+
+
+        function cancel() {
+            console.log('clicked')
+            $.ajax({
+                url: '{{ path('cancelReservation',{'ref': reservation.reference} ) }}',
+                type: 'post',
+                async: true,
+                beforeSend : function() {
+                    $("#cancel").modal('show');
+                },
+                success: function() {
+                    $("#cancel").modal('toggle');
+                    $("#done").modal('show');
+
+                },
+                error: function () {
+                    $("#loading").html('<div class="col-12 my-5"><div class="alert alert-danger text-center" role="alert"><h6 class="m-3">An Error Occurred !</h6></div></div>')
+                }
+            });
+
+        }
+
+        document.getElementById('confirm').addEventListener("click", cancel)
+
+
+
+    </script>
+{% endblock %}

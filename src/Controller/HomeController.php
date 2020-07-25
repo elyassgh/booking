@@ -10,6 +10,7 @@ use App\Repository\ClientRepository;
 use App\Repository\HotelRepository;
 use App\Repository\ReservationRepository;
 use DateInterval;
+use phpDocumentor\Reflection\Types\This;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
@@ -39,6 +40,7 @@ class HomeController extends AbstractController
      */
     public function index(Request $request, ChambreRepository $chambreRepository, HotelRepository $hotelRepository): Response
     {
+
         $form = $this->createFormBuilder()
             ->add('destination', TextType::class)
             ->add('checkin', DateType::class, [
@@ -82,7 +84,8 @@ class HomeController extends AbstractController
 
         $RecommendedHotels = $hotelRepository->findRecommendedHotels();
         return $this->render('home/index.html.twig', [
-            'form' => $form->createView(), 'RecommendedHotels' => $RecommendedHotels,
+            'form' => $form->createView(),
+            'RecommendedHotels' => $RecommendedHotels,
         ]);
     }
 
@@ -110,7 +113,8 @@ class HomeController extends AbstractController
      */
     public function hotelroomsAvailable(Request $request, int $hotelid, HotelRepository $hotelRepository, ChambreRepository $chambreRepository): Response
     {
-        $hotelname = $hotelRepository->find($hotelid)->getNom();
+
+        $hotelname = ($hotelRepository->find($hotelid))->getNom();
 
         $form = $this->createFormBuilder()
             ->add('destination', TextType::class, [
@@ -158,10 +162,7 @@ class HomeController extends AbstractController
 
         $today = new \DateTime('today');
         $tomorrow = new \DateTime('tomorrow');
-        $checkin = $today->format('Y-m-d H:i:s');
-        $checkout = $tomorrow->format('Y-m-d H:i:s');
-
-        $rooms = $chambreRepository->findByInputs($hotelname, $checkin, $checkout, 0);
+        $rooms = $chambreRepository->findByInputs($hotelname, $today, $tomorrow, 0);
 
         //Modifying session variables
         $this->session->set('rooms', $rooms);
@@ -344,8 +345,8 @@ class HomeController extends AbstractController
 
                 //email service
                 $message = (new \Swift_Message('ALM BOOKING'))
-                    ->setFrom(['legandary.writer@gmail.com' => "ALM"])
-                    ->setTo(['elghazi.elyass@gmail.com'])
+                    ->setFrom(['alm@contact.com' => "ALM"])
+                    ->setTo([$data['email']])
                     ->setBody(
                         $this->renderView('email/confirmation.html.twig', [
                             'reservation' => $reservation,
@@ -375,7 +376,7 @@ class HomeController extends AbstractController
             ]),200);
 
              //IMPORTANT !!!!!!! --> For security purposes
-             // Setting http response header so the response cannot be ever stored in the browser's cash
+             // Setting http response headers so the response cannot be ever stored in the browser's cash
              $response->headers->set("Cache-Control", "no-cache, no-store, must-revalidate");
              $response->headers->set("Pragma", "no-cache");
              $response->headers->set("Expires", "0");
@@ -383,6 +384,43 @@ class HomeController extends AbstractController
         return $response;
     }
 
+
+    /**
+     * @Route("/ReservationCancel/{ref}" , name="cancelReservation")
+     * @param Request $request
+     * @param ReservationRepository $repository
+     * @param string $ref
+     * @return Response
+     */
+    public function cancel(Request $request, ReservationRepository $repository, string $ref) :Response {
+
+        $reservation = $repository->findOneByReference($ref);
+
+        //handling link injections || (ERROR 404 PAGE TO BE ADDED LATER !)
+        if (is_null($reservation)) return $this->redirectToRoute('home');
+
+
+        //ajax call to confirm deleting
+        if($request->isXmlHttpRequest()) {
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->remove($reservation);
+            $entityManager->flush();
+        }
+
+
+        $response = new Response($this->renderView('home/cancelation.html.twig' , [
+            'reservation' => $reservation
+        ]),200);
+
+        //IMPORTANT !!!!!!! --> For security purposes
+        // Setting http response headers so the response cannot be ever stored in the browser's cash
+        $response->headers->set("Cache-Control", "no-cache, no-store, must-revalidate");
+        $response->headers->set("Pragma", "no-cache");
+        $response->headers->set("Expires", "0");
+
+        return $response;
+
+    }
 
 }
 

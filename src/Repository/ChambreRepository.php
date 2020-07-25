@@ -162,7 +162,7 @@ class ChambreRepository extends ServiceEntityRepository
                     ->getQuery();
             }
 
-            $chambres =  $query->getResult();
+            $chambres = $query->getResult();
 
             $disponibleChambres = Array();
 
@@ -171,16 +171,14 @@ class ChambreRepository extends ServiceEntityRepository
                 $isAvailable = true;
 
                 $reservations = $chambre->getReservations();
-                if (!is_null($reservations)) {
-                    foreach ($reservations as $reservation) {
-                        if ( (($reservation->getCheckIn() <= $checkin) && ( $checkin <= $reservation->getCheckOut())) ||
-                            (($reservation->getCheckIn() <= $checkout) && ( $checkout <= $reservation->getCheckOut())))
-                        {
-                            $isAvailable = false;
-                            break;
-                        }
-                    }
 
+                foreach ($reservations as $reservation) {
+                    if ( (($reservation->getCheckIn() <= $checkin) && ( $checkin <= $reservation->getCheckOut())) ||
+                        (($reservation->getCheckIn() <= $checkout) && ( $checkout <= $reservation->getCheckOut())))
+                    {
+                        $isAvailable = false;
+                        break;
+                    }
                 }
 
                 if($isAvailable) array_push($disponibleChambres,$chambre);
