@@ -6,10 +6,12 @@ use App\Repository\ChambreRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=ChambreRepository::class)
+ * @UniqueEntity(fields={"numero"}, message="It seems that you are already added this room.")
  */
 class Chambre
 {
@@ -21,7 +23,8 @@ class Chambre
     private $id;
 
     /**
-     * @ORM\Column(type="integer")
+     * @Assert\NotBlank()
+     * @ORM\Column(name="numero", type="integer", unique=true)
      */
     private $numero;
 
@@ -52,11 +55,6 @@ class Chambre
     private $hotel;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Service::class, inversedBy="chambres")
-     */
-    private $services;
-
-    /**
      * @ORM\OneToMany(targetEntity=Reservation::class, mappedBy="chambre", orphanRemoval=true)
      */
     private $reservations;
@@ -80,6 +78,11 @@ class Chambre
      * @ORM\OneToMany(targetEntity=Images::class, mappedBy="chambre", orphanRemoval=true)
      */
     private $images;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Service::class, mappedBy="chambre", orphanRemoval=true)
+     */
+    private $services;
 
     public function __construct()
     {
@@ -149,32 +152,6 @@ class Chambre
     public function setHotel(?Hotel $hotel): self
     {
         $this->hotel = $hotel;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Service[]
-     */
-    public function getServices(): Collection
-    {
-        return $this->services;
-    }
-
-    public function addService(Service $service): self
-    {
-        if (!$this->services->contains($service)) {
-            $this->services[] = $service;
-        }
-
-        return $this;
-    }
-
-    public function removeService(Service $service): self
-    {
-        if ($this->services->contains($service)) {
-            $this->services->removeElement($service);
-        }
 
         return $this;
     }
@@ -293,4 +270,36 @@ class Chambre
 
         return $this;
     }
+
+    /**
+     * @return Collection|Service[]
+     */
+    public function getServices(): Collection
+    {
+        return $this->services;
+    }
+
+    public function addService(Service $service): self
+    {
+        if (!$this->services->contains($service)) {
+            $this->services[] = $service;
+            $service->setChambre($this);
+        }
+
+        return $this;
+    }
+
+    public function removeService(Service $service): self
+    {
+        if ($this->services->contains($service)) {
+            $this->services->removeElement($service);
+            // set the owning side to null (unless already changed)
+            if ($service->getChambre() === $this) {
+                $service->setChambre(null);
+            }
+        }
+
+        return $this;
+    }
+
 }

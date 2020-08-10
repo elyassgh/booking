@@ -30,7 +30,7 @@ class Reservation
 
     /**
      * @ORM\ManyToOne(targetEntity=Chambre::class, inversedBy="reservations")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
     private $chambre;
 

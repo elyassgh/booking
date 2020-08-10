@@ -3,8 +3,10 @@
 namespace App\Repository;
 
 use App\Entity\Chambre;
+use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use phpDocumentor\Reflection\DocBlock\Tags\Return_;
 use PhpParser\Node\Expr\Array_;
 
 /**
@@ -187,4 +189,53 @@ class ChambreRepository extends ServiceEntityRepository
 
             return $disponibleChambres;
     }
+
+
+    //Services list (tags input)
+    public function getServicesList($services): string {
+
+        $result = '' ;
+        foreach ($services as $service) {
+            $result .= $service->getLibelle() . ',';
+        }
+        return $result = substr($result,0,strlen($result)-1);
+
+    }
+
+    //Most Reserved Room in a month REMEMBER !!! --> input format :  YYYY-MM
+    public function mostReservedRoomOfMonth($month, $hotelid)
+    {
+        return $this->createQueryBuilder('c')
+            ->join('App\Entity\Reservation','r')
+            ->andWhere('c.hotel = :id')
+            ->setParameter('id', $hotelid)
+            ->select('c As chambre , COUNT(r.chambre) As reservations ')
+            ->andWhere('c.id = r.chambre AND r.dateReservation LIKE :date')
+            ->setParameter('date', $month.'-%')
+            ->groupBy('r.chambre')
+            ->orderBy('reservations','DESC')
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getOneOrNullResult()
+            ;
+    }
+
+    //Most Reserved Room for each month in the current year
+    public function mostReservedRooms($hotelid)
+    {
+        $result = Array();
+        $year = (new DateTime('today'))->format('Y');
+
+        for ($i=1; $i<13; $i++) {
+            if (strlen($i) === 1 ) $i ='0'.$i;
+            $mostReservedRoom = $this->mostReservedRoomOfMonth($year.'-'.$i, $hotelid);
+            if (is_null($mostReservedRoom)) {
+                $result += [ (new DateTime($year.'-'.$i))->format('M') => 'N/A'];
+                continue;
+            }
+            $result += [ (new DateTime($year.'-'.$i))->format('M') => $mostReservedRoom['chambre']->getNumero()];
+        }
+        return $result;
+    }
+
 }

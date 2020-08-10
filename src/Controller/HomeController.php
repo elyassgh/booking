@@ -10,7 +10,6 @@ use App\Repository\ClientRepository;
 use App\Repository\HotelRepository;
 use App\Repository\ReservationRepository;
 use DateInterval;
-use phpDocumentor\Reflection\Types\This;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
@@ -186,6 +185,7 @@ class HomeController extends AbstractController
         //ajax call with page rendering
         if($request->isXmlHttpRequest()) {
 
+            //getting the body of the http request
             $data = $request->request->all();
             $params = $data['filter'];
             $rooms = $this->session->get('rooms');
@@ -359,7 +359,7 @@ class HomeController extends AbstractController
                 //sending confirmation email
                 $mailer->send($message);
 
-                //dispite render method, renderView method hides response headers from showing ;)
+                //despite render method, renderView method hides response headers from showing ;)
                 $response = new Response($this->renderView('home/confirmation.html.twig' , [
                     'email' => $data['email'],
                     'now' => $now ,

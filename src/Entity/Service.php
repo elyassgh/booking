@@ -4,7 +4,6 @@ namespace App\Entity;
 
 use App\Repository\ServiceRepository;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -20,14 +19,15 @@ class Service
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255, unique=true)
+     * @ORM\Column(type="string", length=255)
      */
     private $libelle;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Chambre::class, mappedBy="services")
+     * @ORM\ManyToOne(targetEntity=Chambre::class, inversedBy="services")
+     * @ORM\JoinColumn(nullable=false)
      */
-    private $chambres;
+    private $chambre;
 
     public function __construct()
     {
@@ -51,30 +51,14 @@ class Service
         return $this;
     }
 
-    /**
-     * @return Collection|Chambre[]
-     */
-    public function getChambres(): Collection
+    public function getChambre(): ?Chambre
     {
-        return $this->chambres;
+        return $this->chambre;
     }
 
-    public function addChambre(Chambre $chambre): self
+    public function setChambre(?Chambre $chambre): self
     {
-        if (!$this->chambres->contains($chambre)) {
-            $this->chambres[] = $chambre;
-            $chambre->addService($this);
-        }
-
-        return $this;
-    }
-
-    public function removeChambre(Chambre $chambre): self
-    {
-        if ($this->chambres->contains($chambre)) {
-            $this->chambres->removeElement($chambre);
-            $chambre->removeService($this);
-        }
+        $this->chambre = $chambre;
 
         return $this;
     }

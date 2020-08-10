@@ -1,0 +1,124 @@
+{% extends 'BackOffice/base2.html.twig' %}
+
+{% block title %}Rooms Management{% endblock %}
+
+{% set page = 'ROOMS GALLERY' %}
+
+{% block header %}
+    <div class="panel-header panel-header-sm">
+    </div>
+{% endblock %}
+
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header m-0">
+                    <div class="h5 title">Select Room</div>
+                </div>
+                <div class="card-body">
+                    {{ form_start(selectform) }}
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Room Number</label>
+                                {{ form_widget(selectform.num , {'attr': {'class':'form-control'}}) }}
+                            </div>
+                        </div>
+                        <div class="col-md-2 py-2 mt-1">
+                            <div class="form-group">
+                                <button class="btn submit-btn btn-danger btn-round btn-block">Select</button>
+                            </div>
+                        </div>
+                    </div>
+                    {{ form_end(selectform) }}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% if chambre is defined %}
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header m-0">
+                        <div class="h5 title">Room N°{{ chambre.numero}} Pictures</div>
+                    </div>
+                    <div class="card-body">
+
+                        {% if chambre.images is empty %}
+                            <h3>This room has no images yet !!</h3>
+                        {% else %}
+                            <!-- Carousel -->
+                            <div id="gallery" class="carousel slide" data-ride="carousel">
+                                <div class="carousel-inner">
+
+                                    {% for img in chambre.images %}
+                                        <div class="carousel-item text-center {% if loop.first %} active {% endif %}">
+                                            <div class="d-block">
+                                                <img data-u="image"  src="{{ asset('uploads/imgs/'~ img.image) }}" alt=""/>
+                                            </div>
+                                            <div class="text-center">
+                                                <a href="{{ url('imagedelete', {'id': img.id }) }}" class="m-a btn bg-danger btn-round">Delete this image
+                                                    &nbsp; <i class="fa fa-trash-alt"></i>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+
+                                </div>
+                                <a class="carousel-control-prev" href="#gallery" role="button" data-slide="prev">
+                                        <span class="carousel-control-prev-icon bg-danger rounded-circle"
+                                              aria-hidden="true"></span>
+                                    <span class="sr-only">Previous</span>
+                                </a>
+                                <a class="carousel-control-next" href="#gallery" role="button" data-slide="next">
+                                        <span class="carousel-control-next-icon bg-danger rounded-circle"
+                                              aria-hidden="true"></span>
+                                    <span class="sr-only">Next</span>
+                                </a>
+                            </div>
+                            <!-- end Carousel-->
+                        {% endif %}
+                        <hr>
+                        <div class="card">
+                            <div class="card-header m-0">
+                                <div class="h6 title">Add New Pictures to This Room</div>
+                            </div>
+                            <div class="card-body">
+                                {{ form_start(form) }}
+                                <div class="row">
+                                    <div class="col-md-8">
+                                        <div class="form-group">
+                                            <label>New Pictures</label>
+                                            <button class="btn btn-primary btn-outline-danger form-control m-0">
+                                                Add Pictures
+                                                {{ form_widget(form.Imgs,{'attr': {'class':'m-0'}}) }}
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 py-2 mt-1">
+                                        <div class="form-group">
+                                            <button class="m-a btn submit-btn bg-danger btn-round">Add
+                                                &nbsp; <i class="now-ui-icons ui-1_simple-add"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                {{ form_end(form) }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+
+{% endblock %}
+
+{% block js %}
+    <script>
+        activate(4);
+    </script>
+{% endblock %}

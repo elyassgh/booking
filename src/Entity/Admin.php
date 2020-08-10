@@ -4,11 +4,12 @@ namespace App\Entity;
 
 use App\Repository\AdminRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass=AdminRepository::class)
  */
-class Admin
+class Admin implements UserInterface
 {
     /**
      * @ORM\Id()
@@ -18,9 +19,9 @@ class Admin
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255, unique=true)
+     * @ORM\Column(type="json")
      */
-    private $username;
+    private $roles = [];
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -53,16 +54,31 @@ class Admin
         return $this->id;
     }
 
-    public function getUsername(): ?string
+    public function getRoles(): array
     {
-        return $this->username;
+        $roles = $this->roles;
+        // guarantee every admin got at least one role
+        $roles[] = 'ROLE_ADMIN';
+
+        return array_unique($roles);
     }
 
-    public function setUsername(string $username): self
+    /**
+     * @param array $roles
+     */
+    public function setRoles(array $roles): void
     {
-        $this->username = $username;
+        $this->roles = $roles;
+    }
 
-        return $this;
+    /**
+     * A visual identifier that represents this user.
+     *
+     * @see UserInterface
+     */
+    public function getUsername(): string
+    {
+        return (string) $this->email;
     }
 
     public function getPassword(): ?string
@@ -123,5 +139,16 @@ class Admin
         $this->hotel = $hotel;
 
         return $this;
+    }
+
+    public function getSalt()
+    {
+        // not needed when using the "bcrypt" algorithm in security.yaml
+    }
+
+    public function eraseCredentials()
+    {
+        // If you store any temporary, sensitive data on the user, clear it here
+        // $this->plainPassword = null;
     }
 }
