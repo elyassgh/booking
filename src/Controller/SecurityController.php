@@ -15,9 +15,16 @@ class SecurityController extends AbstractController
      */
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
-         if ($this->getUser()) {
-             return $this->redirectToRoute('dashboard');
-         }
+
+        // IS Authenticated
+        if ($this->getUser()) {
+
+            //If it was a Backend Administrator
+            if (in_array('ROLE_SUPER_ADMIN', $this->getUser()->getRoles(), true)) {
+                return $this->redirect('/backend');
+            }
+            return $this->redirectToRoute('dashboard');
+        }
 
         // get the login error if there is one
         $error = $authenticationUtils->getLastAuthenticationError();

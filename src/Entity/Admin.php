@@ -45,7 +45,7 @@ class Admin implements UserInterface
 
     /**
      * @ORM\ManyToOne(targetEntity=Hotel::class, inversedBy="admins")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
     private $hotel;
 
@@ -150,5 +150,9 @@ class Admin implements UserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
+    }
+
+    public function __toString() {
+        return strval(($this->email));
     }
 }

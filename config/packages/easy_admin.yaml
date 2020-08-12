@@ -1,6 +1,140 @@
-#easy_admin:
-#    entities:
-#        # List the entity class name you want to manage
-#        - App\Entity\Product
-#        - App\Entity\Category
-#        - App\Entity\User
+easy_admin:
+  design:
+    brand_color: '#9900ff'
+    menu:
+      - {label: "Entities"}
+      - label: "Hotels"
+        icon: 'home'
+        children:
+          - {entity: Hotel, label: "Hotels list", icon: "th-list"}
+          - {entity: Hotel, label: "Add Hotel", icon: "plus", params: {action: 'new'}}
+
+      - label: "Admins"
+        icon: 'user'
+        children:
+          - {entity: Admin, label: "Admins list", icon: "th-list"}
+          - {entity: Admin, label: "Add Admin", icon: "plus", params: {action: 'new'}}
+
+      - label: "Clients"
+        icon: 'id-card-o'
+        children:
+          - {entity: Client, label: "Clients list", icon: "th-list"}
+
+      - label: "Reservations"
+        icon: 'th-list'
+        children:
+          - {entity: Reservation, label: "Reservations list", icon: "th-list"}
+
+      - label: "Chambres"
+        icon: 'hotel'
+        children:
+          - {entity: Chambre, label: "Chambres list", icon: "th-list"}
+
+  site_name: '<b> ALM </b> BACKOFFICE'
+  user:
+    display_name: true
+    display_avatar: true
+    name_property_path: 'email'
+
+  entities:
+
+    Admin:
+      class: App\Entity\Admin
+      form:
+        fields:
+          - password
+          - CinOrPassport
+          - email
+          - tele
+          - hotel
+          - {property: 'roles' ,type: 'choice', type_options: { mapped: true, expanded: true, multiple: true, choices: { 'Normal Hotel Admin':'ROLE_ADMIN', 'BackOffice Administrator':'ROLE_SUPER_ADMIN' }}}
+
+      list:
+        collapse_actions: false
+        actions:
+          - {name: 'edit', icon: 'pencil', label: Editer}
+          - {name: 'delete', icon: 'trash', label: Supprimer}
+          - {name: 'show', icon: 'eye', label: Afficher}
+        batch_actions: ['delete']
+        fields: ['id', 'CinOrPassport', 'email', 'tele', 'hotel', 'roles']
+
+    Client:
+      class: App\Entity\Client
+      list:
+        collapse_actions: false
+        actions:
+          - {name: 'delete', icon: 'trash', label: Supprimer}
+          - {name: 'show', icon: 'eye', label: Afficher}
+        batch_actions: ['delete']
+      show:
+        fields:
+          - nom
+          - cinOrPassport
+          - tele
+          - email
+
+    Reservation:
+      class: App\Entity\Reservation
+      list:
+        collapse_actions: false
+        actions:
+          - {name: 'delete', icon: 'trash', label: Supprimer}
+          - {name: 'show', icon: 'eye', label: Afficher}
+        batch_actions: ['delete']
+        fields: ['reference','dateReservation','checkIn','checkOut','total','client','chambre']
+
+    Chambre:
+      class: App\Entity\Chambre
+      list:
+        collapse_actions: false
+        actions:
+          - {name: 'delete', icon: 'trash', label: Supprimer}
+          - {name: 'show', icon: 'eye', label: Afficher}
+        batch_actions: ['delete']
+        fields: ['id','numero','etage','categorie','superficie','hotel']
+      show:
+        fields:
+          - numero
+          - etage
+          - categorie
+          - superficie
+          - capacity
+          - description
+          - hotel
+
+    Hotel:
+      class: App\Entity\Hotel
+      form:
+        fields:
+          - {type: 'group', icon: 'pencil', label: 'Basic Information', css_class: 'col-lg-7'}
+          - nom
+          - siteweb
+          - region
+          - ville
+          - distanceCentre
+          - adresse
+          - nbrEtoiles
+          - Description
+          - recommended
+
+      list:
+        collapse_actions: false
+        actions:
+          - {name: 'edit', icon: 'pencil', label: Editer}
+          - {name: 'delete', icon: 'trash', label: Supprimer}
+          - {name: 'show', icon: 'eye', label: Afficher}
+        batch_actions: ['delete']
+        fields: ['id', 'nom', 'siteweb', 'ville' , 'recommended' , 'admins' , 'chambres' ]
+      show:
+        fields:
+          - nom
+          - siteweb
+          - region
+          - ville
+          - distanceCentre
+          - adresse
+          - nbrEtoiles
+          - Description
+          - recommended
+          - admins
+          - chambres
