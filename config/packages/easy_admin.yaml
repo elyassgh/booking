@@ -30,7 +30,7 @@ easy_admin:
         children:
           - {entity: Chambre, label: "Chambres list", icon: "th-list"}
 
-  site_name: '<b> ALM </b> BACKOFFICE'
+  site_name: '<b> ALM </b> BACK OFFICE'
   user:
     display_name: true
     display_avatar: true
@@ -78,20 +78,22 @@ easy_admin:
       list:
         collapse_actions: false
         actions:
+          - {name: 'edit', icon: 'pencil', label: Editer}
           - {name: 'delete', icon: 'trash', label: Supprimer}
           - {name: 'show', icon: 'eye', label: Afficher}
         batch_actions: ['delete']
-        fields: ['reference','dateReservation','checkIn','checkOut','total','client','chambre']
+        fields: ['reference','dateReservation','checkIn','checkOut','total','client','chambre' ,'chambre.Hotel']
 
     Chambre:
       class: App\Entity\Chambre
       list:
         collapse_actions: false
         actions:
+          - {name: 'edit', icon: 'pencil', label: Editer}
           - {name: 'delete', icon: 'trash', label: Supprimer}
           - {name: 'show', icon: 'eye', label: Afficher}
         batch_actions: ['delete']
-        fields: ['id','numero','etage','categorie','superficie','hotel']
+        fields: ['id','numero','etage','categorie','superficie','hotel', 'reservations' ,'images']
       show:
         fields:
           - numero
@@ -100,7 +102,9 @@ easy_admin:
           - superficie
           - capacity
           - description
+          - reservations
           - hotel
+          - images
 
     Hotel:
       class: App\Entity\Hotel
@@ -124,7 +128,7 @@ easy_admin:
           - {name: 'delete', icon: 'trash', label: Supprimer}
           - {name: 'show', icon: 'eye', label: Afficher}
         batch_actions: ['delete']
-        fields: ['id', 'nom', 'siteweb', 'ville' , 'recommended' , 'admins' , 'chambres' ]
+        fields: ['id', 'nom', 'siteweb', 'ville' , 'recommended' , 'nbrEtoiles' ,'admins' , 'chambres' ]
       show:
         fields:
           - nom

@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use App\Repository\AdminRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -19,7 +18,7 @@ class SecurityController extends AbstractController
         // IS Authenticated
         if ($this->getUser()) {
 
-            //If it was a Backend Administrator
+            //If it was a Back Office Administrator
             if (in_array('ROLE_SUPER_ADMIN', $this->getUser()->getRoles(), true)) {
                 return $this->redirect('/backend');
             }

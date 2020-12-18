@@ -31,7 +31,7 @@
                                 <div class="card-header m-0">
                                     <div class="h5 title">New Room</div>
                                 </div>
-                                  {{ form_start(form) }}
+                                {{ form_start(form) }}
                                     <div class="card-body">
                                         <div class="row">
                                             <div class="col-md-12">
@@ -109,8 +109,8 @@
                                         <div class="row">
                                             <div class="col-12">
                                                 <div class="form-group">
-                                                    <label>Description</label>
-                                                    {{ form_widget(form.description , {'attr':{'class':'form-control', 'placeholder':'Ex :  2 personnal baths, 3 bed one king size and two normal size, suitable for family.' , 'rows':'4', 'cols':'80'}}) }}
+                                                    <label>Description (maximum 255 characters)</label>
+                                                    {{ form_widget(form.description , {'attr':{'class':'form-control', 'placeholder':'Ex :  2 personnal baths, 3 bed one king size and two normal size, suitable for family.' , 'rows':'4', 'cols':'80', 'maxlength':'255'}}) }}
                                                 </div>
                                             </div>
                                         </div>
@@ -175,25 +175,24 @@
                         </div>
                         <div class="card-body">
                             {{ form_start(selectform) }}
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label>Room Number</label>
-                                            {{ form_widget(selectform.num , {'attr': {'class':'form-control'}}) }}
-                                        </div>
-                                    </div>
-                                    <div class="col-md-2 py-2 mt-1">
-                                        <div class="form-group">
-                                            <button class="btn submit-btn btn-danger btn-round btn-block">Select</button>
-                                        </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Room Number</label>
+                                        {{ form_widget(selectform.num , {'attr': {'required':'required', 'class':'form-control'}}) }}
                                     </div>
                                 </div>
+                                <div class="col-md-2 py-2 mt-1">
+                                    <div class="form-group">
+                                        <button class="btn submit-btn btn-danger btn-round btn-block">SELECT</button>
+                                    </div>
+                                </div>
+                            </div>
                             {{ form_end(selectform) }}
                         </div>
                     </div>
                     <!-- Room card start -->
                     {% if form2 is defined %}
-
                     {{ form_start(form2) }}
                     <div class="card">
                         <div class="card-header">
@@ -266,8 +265,8 @@
                             <div class="row">
                                 <div class="col-12">
                                     <div class="form-group">
-                                        <label>Description</label>
-                                        {{ form_widget(form2.description , {'attr':{'class':'form-control', 'rows':'4', 'cols':'80'}}) }}
+                                        <label>Description (maximum 255 characters)</label>
+                                        {{ form_widget(form2.description , {'attr':{'class':'form-control', 'rows':'4', 'cols':'80','maxlength':'255'}}) }}
                                     </div>
                                 </div>
                             </div>

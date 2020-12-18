@@ -38,6 +38,7 @@ class AdminController extends AbstractController
 {
 
     private $session;
+
     public function __construct(SessionInterface $session)
     {
         date_default_timezone_set("Africa/Casablanca");
@@ -45,12 +46,21 @@ class AdminController extends AbstractController
     }
 
     /**
+     * @Route("/")
+     */
+    public function index()
+    {
+        return $this->redirectToRoute('app_login');
+    }
+
+    /**
      * @Route("/dashboard", name="dashboard")
      */
-    public function dashboard() {
+    public function dashboard()
+    {
 
         $admin = $this->getUser();
-        return $this->render('BackOffice/Dashboard/index.html.twig' , [
+        return $this->render('BackOffice/Dashboard/index.html.twig', [
             'admin' => $admin,
         ]);
     }
@@ -58,7 +68,8 @@ class AdminController extends AbstractController
     /**
      * @Route("/credentials", name="credentials")
      */
-    public function credentials(Request $request, HotelRepository $repository ,AdminRepository $repo , FileUploader $fileUploader) {
+    public function credentials(Request $request, HotelRepository $repository, FileUploader $fileUploader)
+    {
 
         $admin = $this->getUser();
 
@@ -68,20 +79,19 @@ class AdminController extends AbstractController
         $dir = $fileUploader->getTargetDirectory();
 
         $imgForm = $this->createFormBuilder()
-            ->add('img' , FileType::class)
-            ->getForm()
-        ;
+            ->add('img', FileType::class)
+            ->getForm();
 
         $hotel = $repository->find($admin->getHotel()->getId());
         $form = $this->createFormBuilder()
-            ->add('nom' , TextType::class , [
+            ->add('nom', TextType::class, [
                 'disabled' => true,
                 'data' => $hotel->getNom(),
-                ])
-            ->add('region' , ChoiceType::class , [
+            ])
+            ->add('region', ChoiceType::class, [
                 'choices' => [
                     $hotel->getRegion() => $hotel->getRegion(),
-                    'Tanger-Tetouan-Al Hoceima'=> 'Tanger-Tetouan-Al Hoceima',
+                    'Tanger-Tetouan-Al Hoceima' => 'Tanger-Tetouan-Al Hoceima',
                     'Oriental' => 'Oriental',
                     'Fès-Meknès' => 'Fès-Meknès',
                     'Rabat-Salé-Kénitra' => 'Rabat-Salé-Kénitra',
@@ -95,31 +105,30 @@ class AdminController extends AbstractController
                     'Dakhla-Oued Ed-Dahab' => 'Dakhla-Oued Ed-Dahab',
                 ]
             ])
-            ->add('ville' , TextType::class , [
+            ->add('ville', TextType::class, [
                 'data' => $hotel->getVille(),
             ])
-            ->add('distance' , TextType::class , [
+            ->add('distance', TextType::class, [
                 'data' => $hotel->getDistanceCentre(),
             ])
-            ->add('adresse' , TextType::class , [
+            ->add('adresse', TextType::class, [
                 'data' => $hotel->getAdresse(),
             ])
-            ->add('siteweb' , TextType::class , [
+            ->add('siteweb', TextType::class, [
                 'data' => $hotel->getSiteweb(),
             ])
-            ->add('stars' , NumberType::class , [
+            ->add('stars', NumberType::class, [
                 'data' => $hotel->getNbrEtoiles(),
-                'attr'=> [
+                'attr' => [
                     'min' => 1,
                     'max' => 6,
                     'step' => 1
                 ]
             ])
-            ->add('description' , TextareaType::class , [
+            ->add('description', TextareaType::class, [
                 'data' => $hotel->getDescription(),
             ])
-            ->getForm()
-        ;
+            ->getForm();
 
         $form->handleRequest($request);
 
@@ -131,19 +140,18 @@ class AdminController extends AbstractController
                 ->setAdresse($data['adresse'])
                 ->setSiteweb($data['siteweb'])
                 ->setNbrEtoiles($data['stars'])
-                ->setDescription($data['description'])
-            ;
+                ->setDescription($data['description']);
             $entityManager->flush();
 
             $form = $this->createFormBuilder()
-                ->add('nom' , TextType::class , [
+                ->add('nom', TextType::class, [
                     'disabled' => true,
                     'data' => $hotel->getNom(),
                 ])
-                ->add('region' , ChoiceType::class , [
+                ->add('region', ChoiceType::class, [
                     'choices' => [
                         $hotel->getRegion() => $hotel->getRegion(),
-                        'Tanger-Tetouan-Al Hoceima'=> 'Tanger-Tetouan-Al Hoceima',
+                        'Tanger-Tetouan-Al Hoceima' => 'Tanger-Tetouan-Al Hoceima',
                         'Oriental' => 'Oriental',
                         'Fès-Meknès' => 'Fès-Meknès',
                         'Rabat-Salé-Kénitra' => 'Rabat-Salé-Kénitra',
@@ -157,31 +165,30 @@ class AdminController extends AbstractController
                         'Dakhla-Oued Ed-Dahab' => 'Dakhla-Oued Ed-Dahab',
                     ]
                 ])
-                ->add('ville' , TextType::class , [
+                ->add('ville', TextType::class, [
                     'data' => $hotel->getVille(),
                 ])
-                ->add('distance' , TextType::class , [
+                ->add('distance', TextType::class, [
                     'data' => $hotel->getDistanceCentre(),
                 ])
-                ->add('adresse' , TextType::class , [
+                ->add('adresse', TextType::class, [
                     'data' => $hotel->getAdresse(),
                 ])
-                ->add('siteweb' , TextType::class , [
+                ->add('siteweb', TextType::class, [
                     'data' => $hotel->getSiteweb(),
                 ])
-                ->add('stars' , NumberType::class , [
+                ->add('stars', NumberType::class, [
                     'data' => $hotel->getNbrEtoiles(),
-                    'attr'=> [
+                    'attr' => [
                         'min' => 1,
                         'max' => 6,
                         'step' => 1
                     ]
                 ])
-                ->add('description' , TextareaType::class , [
+                ->add('description', TextareaType::class, [
                     'data' => $hotel->getDescription(),
                 ])
-                ->getForm()
-            ;
+                ->getForm();
 
             return $this->render('BackOffice/Credentials/index.html.twig', [
                 'admin' => $admin,
@@ -193,20 +200,20 @@ class AdminController extends AbstractController
         $imgForm->handleRequest($request);
         if ($imgForm->isSubmitted() && $imgForm->isValid()) {
             $data = $imgForm->getData();
-            $filesystem->remove(($dir.'/'.$hotel->getImage()));
+            $filesystem->remove(($dir . '/' . $hotel->getImage()));
             $imgname = $fileUploader->upload($data['img']);
             $hotel->setImage($imgname);
             $entityManager->flush();
 
             $form = $this->createFormBuilder()
-                ->add('nom' , TextType::class , [
+                ->add('nom', TextType::class, [
                     'disabled' => true,
                     'data' => $hotel->getNom(),
                 ])
-                ->add('region' , ChoiceType::class , [
+                ->add('region', ChoiceType::class, [
                     'choices' => [
                         $hotel->getRegion() => $hotel->getRegion(),
-                        'Tanger-Tetouan-Al Hoceima'=> 'Tanger-Tetouan-Al Hoceima',
+                        'Tanger-Tetouan-Al Hoceima' => 'Tanger-Tetouan-Al Hoceima',
                         'Oriental' => 'Oriental',
                         'Fès-Meknès' => 'Fès-Meknès',
                         'Rabat-Salé-Kénitra' => 'Rabat-Salé-Kénitra',
@@ -220,31 +227,30 @@ class AdminController extends AbstractController
                         'Dakhla-Oued Ed-Dahab' => 'Dakhla-Oued Ed-Dahab',
                     ]
                 ])
-                ->add('ville' , TextType::class , [
+                ->add('ville', TextType::class, [
                     'data' => $hotel->getVille(),
                 ])
-                ->add('distance' , TextType::class , [
+                ->add('distance', TextType::class, [
                     'data' => $hotel->getDistanceCentre(),
                 ])
-                ->add('adresse' , TextType::class , [
+                ->add('adresse', TextType::class, [
                     'data' => $hotel->getAdresse(),
                 ])
-                ->add('siteweb' , TextType::class , [
+                ->add('siteweb', TextType::class, [
                     'data' => $hotel->getSiteweb(),
                 ])
-                ->add('stars' , NumberType::class , [
+                ->add('stars', NumberType::class, [
                     'data' => $hotel->getNbrEtoiles(),
-                    'attr'=> [
+                    'attr' => [
                         'min' => 1,
                         'max' => 6,
                         'step' => 1
                     ]
                 ])
-                ->add('description' , TextareaType::class , [
+                ->add('description', TextareaType::class, [
                     'data' => $hotel->getDescription(),
                 ])
-                ->getForm()
-            ;
+                ->getForm();
 
             return $this->render('BackOffice/Credentials/index.html.twig', [
                 'admin' => $admin,
@@ -265,22 +271,23 @@ class AdminController extends AbstractController
     /**
      * @Route("/reservations", name="reservations")
      */
-    public function reservations(Request $request, ReservationRepository $repository, AdminRepository $repo) {
+    public function reservations(Request $request, ReservationRepository $repository, AdminRepository $repo)
+    {
 
         $admin = $this->getUser();
 
         $reservations = $repository->findAllReservationToday($admin->getHotel()->getId());
 
         $form = $this->createFormBuilder()
-            ->add('date' , DateType::class ,[
+            ->add('date', DateType::class, [
                 'required' => false,
                 'widget' => 'single_text',
             ])
-            ->add('checkin' , DateType::class , [
+            ->add('checkin', DateType::class, [
                 'required' => false,
                 'widget' => 'single_text',
             ])
-            ->add('id' , TextType::class , [
+            ->add('id', TextType::class, [
                 'required' => false,
                 'attr' => [
                     'pattern' => '[A-Za-z0-9]{3,10}$',
@@ -290,14 +297,14 @@ class AdminController extends AbstractController
             ->getForm();
 
         $form2 = $this->createFormBuilder()
-            ->add('ref' , TextType::class)
+            ->add('ref', TextType::class)
             ->getForm();
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
-            $reservations = $repository->findByInputs($admin->getHotel()->getId(),$data['date'],$data['checkin'],$data['id']);
-            return $this->render('BackOffice/Reservations/index.html.twig' , [
+            $reservations = $repository->findByInputs($admin->getHotel()->getId(), $data['date'], $data['checkin'], $data['id']);
+            return $this->render('BackOffice/Reservations/index.html.twig', [
                 'admin' => $admin,
                 'form' => $form->createView(),
                 'form2' => $form2->createView(),
@@ -309,9 +316,9 @@ class AdminController extends AbstractController
         $form2->handleRequest($request);
         if ($form2->isSubmitted() && $form2->isValid()) {
             $data = $form2->getData();
-            $reservation = $repository->findOneByReference($data['ref'] , $admin->getHotel()->getId());
+            $reservation = $repository->findOneByReference($data['ref']);
 
-            return $this->render('BackOffice/Reservations/index.html.twig' , [
+            return $this->render('BackOffice/Reservations/index.html.twig', [
                 'admin' => $admin,
                 'form' => $form->createView(),
                 'form2' => $form2->createView(),
@@ -320,7 +327,7 @@ class AdminController extends AbstractController
             ]);
         }
 
-        return $this->render('BackOffice/Reservations/index.html.twig' , [
+        return $this->render('BackOffice/Reservations/index.html.twig', [
             'admin' => $admin,
             'form' => $form->createView(),
             'form2' => $form2->createView(),
@@ -364,7 +371,11 @@ class AdminController extends AbstractController
                     'Studio' => 'Studio'
                 ]
             ])
-            ->add('description' , TextareaType::class)
+            ->add('description' , TextareaType::class, [
+                'attr' => [
+                    'max_length' => 256
+                ]
+            ])
             ->add('superficie', NumberType::class, [
                 'attr' => [
                     'min' => 1,
@@ -404,10 +415,10 @@ class AdminController extends AbstractController
         $selectform = $this->createFormBuilder()
             ->add('num' , EntityType::class , [
                 'class' => Chambre::class,
-                'query_builder' => function (ChambreRepository $repo) use ($hotelid) {
+                'query_builder' => function (ChambreRepository $repo) use ($admin) {
                     return $repo->createQueryBuilder('c')
-                        ->andWhere('c.hotel = :hotelid')
-                        ->setParameter('hotelid',$hotelid)
+                        ->andWhere('c.hotel = :hotel')
+                        ->setParameter('hotel',$admin->getHotel())
                         ->orderBy('c.numero', 'ASC');
                 },
                 'choice_label' => 'numero',
@@ -432,7 +443,11 @@ class AdminController extends AbstractController
                     'Studio' => 'Studio'
                 ]
             ])
-            ->add('description', TextareaType::class)
+            ->add('description', TextareaType::class, [
+                'attr' => [
+                    'max_length' => 256
+                ]
+            ])
             ->add('superficie', NumberType::class)
             ->add('capacity', IntegerType::class, [
                 'attr' => [
@@ -495,6 +510,9 @@ class AdminController extends AbstractController
                     ]
                 ])
                 ->add('description', TextareaType::class ,[
+                    'attr' => [
+                            'max_length' => 256
+                    ],
                     'data' => $tmp->getDescription()
                 ])
                 ->add('superficie', NumberType::class, [
@@ -616,11 +634,8 @@ class AdminController extends AbstractController
         //new room form handling
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-
             $data = $form->getData();
-
-            $existed = $chambreRepository->findOneBy(['numero' => $data['num']] );
-
+            $existed = $chambreRepository->findOneBy(['numero' => $data['num'] , 'hotel' => $admin->getHotel()]);
             if (is_null($existed)) {
                 $chambre->setNumero($data['num']);
                 $chambre->setEtage($data['etage']);
@@ -695,10 +710,10 @@ class AdminController extends AbstractController
         $selectform = $this->createFormBuilder()
             ->add('num' , EntityType::class , [
                 'class' => Chambre::class,
-                'query_builder' => function (ChambreRepository $repo) use ($hotelid) {
+                'query_builder' => function (ChambreRepository $repo) use ($admin) {
                     return $repo->createQueryBuilder('c')
-                        ->andWhere('c.hotel = :hotelid')
-                        ->setParameter('hotelid',$hotelid)
+                        ->andWhere('c.hotel = :hotel')
+                        ->setParameter('hotel',$admin->getHotel())
                         ->orderBy('c.numero', 'ASC');
                 },
                 'choice_label' => 'numero',

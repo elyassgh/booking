@@ -129,7 +129,7 @@
                                 {% endfor %}
                             </li>
                             <li class="pt-2">
-                                    Price : <span class="fa fa-dollar"></span>{{ (chambre.prixSaison.prix *  chambre.prixSaison.taux)|round(2, 'ceil') }} / Night
+                                    Price : {{ (chambre.prixSaison.prix *  chambre.prixSaison.taux)|round(2, 'ceil') }} <span class="fa fa-euro"></span> / Night
                             </li>
                         </ul>
                         <p class="myFont2 card-text">{{ chambre.description }}

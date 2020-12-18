@@ -23,7 +23,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>Room Number</label>
-                                {{ form_widget(selectform.num , {'attr': {'class':'form-control'}}) }}
+                                {{ form_widget(selectform.num , {'attr': {'required':'required', 'class':'form-control'}}) }}
                             </div>
                         </div>
                         <div class="col-md-2 py-2 mt-1">
@@ -38,7 +38,7 @@
         </div>
     </div>
 
-    {% if chambre is defined %}
+    {% if chambre is defined and chambre is not null %}
         <div class="row">
             <div class="col-md-12">
                 <div class="card">

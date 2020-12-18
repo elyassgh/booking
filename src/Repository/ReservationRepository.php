@@ -82,13 +82,11 @@ class ReservationRepository extends ServiceEntityRepository
     /*
     * @return Reservation|null
     */
-    public function findOneByReference($reference, $hotelid): ?Reservation
+    public function findOneByReference($reference): ?Reservation
     {
         return $this->createQueryBuilder('r')
             ->andWhere('r.reference = :ref')
-            ->andWhere('r.hotel = :id')
             ->setParameter('ref', $reference)
-            ->setParameter('id' , $hotelid)
             ->getQuery()
             ->getOneOrNullResult()
             ;

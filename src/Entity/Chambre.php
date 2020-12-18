@@ -11,7 +11,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=ChambreRepository::class)
- * @UniqueEntity(fields={"numero"}, message="It seems that you are already added this room.")
  */
 class Chambre
 {
@@ -24,7 +23,7 @@ class Chambre
 
     /**
      * @Assert\NotBlank()
-     * @ORM\Column(name="numero", type="integer", unique=true)
+     * @ORM\Column(name="numero", type="integer")
      */
     private $numero;
 
@@ -300,6 +299,10 @@ class Chambre
         }
 
         return $this;
+    }
+
+    public function __toString() {
+        return strval(($this->numero));
     }
 
 }
