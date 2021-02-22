@@ -1,0 +1,356 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Rooms Management{% endblock %}
+
+{% set page = 'ROOMS MANAGEMENT' %}
+
+{% block header %}
+    <div class="panel-header panel-header-sm">
+    </div>
+{% endblock %}
+
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="title">Manage your rooms</h5>
+                </div>
+                <div class="card-body">
+                    <div class="typography-line">
+                        <label>
+                            <i class="fa fa-list"></i>
+                            Add new Room
+                        </label>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="card">
+                                <div class="card-header m-0">
+                                    <div class="h5 title">New Room</div>
+                                </div>
+                                {{ form_start(form) }}
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                {% if error is defined %}
+                                                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                                    <strong> Ops!</strong> {{ error }}
+                                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                {% endif %}
+                                                {% if message is defined %}
+                                                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                                    <strong> Done.</strong> {{ message }}
+                                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label>Number</label>
+                                                    {{ form_widget(form.num , {'attr': {'class':'form-control', 'placeholder':'Ex :  12'}}) }}
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label>Capacity</label>
+                                                    {{ form_widget(form.capacity , {'attr': {'class':'form-control', 'placeholder':'Ex :  12'}}) }}
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label>Surface m&sup2;</label>
+                                                    {{ form_widget(form.superficie , { 'type':'number' , 'attr': {'class':'form-control' , 'placeholder':'Ex :  12.55' }}) }}
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label>Floor</label>
+                                                    {{ form_widget(form.etage , {'attr': {'class':'form-control' , 'placeholder':'Ex :  12' }}) }}
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label>Room Type</label>
+                                                    {{ form_widget(form.categorie , {'attr': {'accept':'image/*', 'class':'m-0 form-control' }}) }}
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label>Main Image</label>
+                                                    <button
+                                                            class="btn btn-primary btn-outline-danger form-control m-0">
+                                                        Add image
+                                                        {{ form_widget(form.img , {'attr': {'accept':'image/*', 'class':'m-0', 'style':'cursor: pointer' }}) }}
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <div class="form-group">
+                                                    <label>Services</label>
+                                                    {{ form_widget(form.services , {'attr': {'class':'form-control', 'value':'WIFI,SMART TV,BALCONY'}}) }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <div class="form-group">
+                                                    <label>Description (maximum 255 characters)</label>
+                                                    {{ form_widget(form.description , {'attr':{'class':'form-control', 'placeholder':'Ex :  2 personnal baths, 3 bed one king size and two normal size, suitable for family.' , 'rows':'4', 'cols':'80', 'maxlength':'255'}}) }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <h6 class="m-2">Price Management</h6>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <div class="form-group">
+                                                    <label>Base Price in &euro;</label>
+                                                    {{ form_widget(form.prix , { 'type':'number', 'attr': {'class':'form-control', 'placeholder':'Ex :  35.50'}}) }}
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <div class="form-group">
+                                                    <label>Reduction Rate in %
+                                                        ( <i class="text-warning fa fa-exclamation-triangle"></i>
+                                                        Price = base * rate )
+                                                    </label>
+                                                    {{ form_widget(form.taux , { 'type':'number' ,'attr': {'class':'form-control', 'placeholder':'Ex :  0.8'}}) }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <hr>
+                                        <div class="text-center">
+                                            <div class="py-2 m-a">
+                                                <div class="text-center">
+                                                    <button class="m-a submit-btn btn bg-danger btn-round">Add
+                                                        Room
+                                                        &nbsp; <i class="now-ui-icons ui-1_simple-add"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {{ form_end(form) }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="typography-line">
+                        <label>
+                            <i class="fa fa-list"></i>
+                            Modify A Room
+                        </label>
+                    </div>
+                    <br>
+                    <!-- Room card end -->
+                    <div class="card">
+                        <div class="card-header m-0">
+                            <div class="h5 title">Select Room</div>
+                        </div>
+                        <div class="card-body">
+                            {{ form_start(selectform) }}
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Room Number</label>
+                                        {{ form_widget(selectform.num , {'attr': {'required':'required', 'class':'form-control'}}) }}
+                                    </div>
+                                </div>
+                                <div class="col-md-2 py-2 mt-1">
+                                    <div class="form-group">
+                                        <button class="btn submit-btn btn-danger btn-round btn-block">SELECT</button>
+                                    </div>
+                                </div>
+                            </div>
+                            {{ form_end(selectform) }}
+                        </div>
+                    </div>
+                    <!-- Room card start -->
+                    {% if form2 is defined %}
+                    {{ form_start(form2) }}
+                    <div class="card">
+                        <div class="card-header">
+                               <h4 class="card-title title">Room N° {{ nbr }}</h4>
+                        </div>
+                        <div class="card card-user">
+                           <div class="image" style="height: 80%;">
+                                <img src="{{ asset('uploads/imgs/' ~ img) }}" alt="Room image">
+                           </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    {% if updated is defined %}
+                                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                            <strong> Done.</strong> {{ updated }}
+                                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Capacity</label>
+                                        {{ form_widget(form2.capacity , {'attr': {'class':'form-control'}}) }}
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Surface m&sup2;</label>
+                                        {{ form_widget(form2.superficie , { 'type':'number' , 'attr': {'class':'form-control'}}) }}
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Floor</label>
+                                        {{ form_widget(form2.etage , {'attr': {'class':'form-control' , 'placeholder':'Ex :  12' }}) }}
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Room Type</label>
+                                        {{ form_widget(form2.categorie , {'attr': {'accept':'image/*', 'class':'m-0 form-control' }}) }}
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Main Image</label>
+                                        <div class="text-center btn-outline-danger form-control m-0">
+                                            Update image
+                                            {{ form_widget(form2.img , {'attr': {'accept':'image/*', 'class':'m-0', 'style':'cursor: pointer' }}) }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <label>Services</label>
+                                        {{ form_widget(form2.services , {'attr': {'class':'form-control'}}) }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <label>Description (maximum 255 characters)</label>
+                                        {{ form_widget(form2.description , {'attr':{'class':'form-control', 'rows':'4', 'cols':'80','maxlength':'255'}}) }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12">
+                                    <h6 class="m-2">Price Management</h6>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label>Base Price in &euro;</label>
+                                        {{ form_widget(form2.prix , { 'type':'number', 'attr': {'class':'form-control'}}) }}
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label>Reduction Rate in %
+                                            ( <i class="text-warning fa fa-exclamation-triangle"></i>
+                                            Price = base * rate )
+                                        </label>
+                                        {{ form_widget(form2.taux , { 'type':'number' ,'attr': {'class':'form-control'}}) }}
+                                    </div>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="text-center">
+                                <div class="py-2 m-a">
+                                    <div class="text-center">
+                                        <button class="m-a submit-btn btn btn-danger btn-round">Update
+                                            Room
+                                            &nbsp; <i class="now-ui-icons loader_refresh"></i>
+                                        </button>
+                                        <a id="deleteRoom" href="{{ url('chambre_delete', {'id': id }) }}"
+                                           class="m-a btn bg-warning btn-round">Delete Room
+                                            <i class="now-ui-icons ui-1_simple-remove"></i>
+                                        </a>
+                                        <p>
+                                            <small>Notice : deleting a room will cause the deletion of all its past and future reservations !</small>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {{ form_end(form2) }}
+                    {% endif %}
+                    <br>
+                    <div id="confirm" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLongTitle"> Confirmation </h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <p>Are You Sure You want To Delete This Room ?!</p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button class="btn btn-danger" data-dismiss="modal" aria-hidden="true">No.</button>
+                                    <button class="btn-warning text-light btn" id="delete">Yes, Proceed.</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Room card end -->
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block js %}
+    <script src="/assets/js/tags-input.js"></script>
+    <script>
+        activate(3);
+        $("#deleteRoom").click(function (e) {
+            e.preventDefault();
+            $("#confirm").modal('show');
+            $('#delete').click(function () {
+                window.location.href = $("#deleteRoom").attr('href');
+            });
+        });
+    </script>
+{% endblock %}
