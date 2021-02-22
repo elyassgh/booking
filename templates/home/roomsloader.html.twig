@@ -1,59 +1,57 @@
 {% block rooms %}
-{% if rooms is empty %}
-        <div class="col-12 my-5">
-            <div class="alert alert-warning text-center" role="alert">
-                <h6 class="m-3">No Room Available ! </h6>
-            </div>
-        </div>
-{% else %}
-    {% for room in rooms %}
-            <div class="col-lg-4 col-sm-6 p-auto my-4">
-                <div class="card shadow-sm" style="width: 100%;">
-                    <img src="{{ asset('uploads/imgs/' ~ room.image) }}" width="100%" height="230px" class="card-img-top" alt="Room Img">
-                    <div class="card-body">
-                        <h5 class="card-title">Hotel {{ room.hotel.nom }}</h5>
-                        <ul class="list-unstyled list-inline">
-                            {% for i in 1..room.hotel.nbrEtoiles %}
-                                <li class="list-inline-item"><span class="fa fa-star-o" style="color: goldenrod;"></span></li>
-                            {% endfor %}
-                        </ul>
-
-                        <p class="card-text">
-                            <button class="btn btn-outline-light shadow-sm text-dark" type="button" data-toggle="collapse" data-target="#description{{ room.id }}" aria-expanded="false" aria-controls="description{{ room.id }}">
-                                Read Description <span class="fa fa-arrow-down"></span>
-                            </button>
-                        </p>
-                        <div class="collapse pb-2" id="description{{ room.id }}">
-                            <div class="card card-body">
-                                {{ room.description }}
-                            </div>
-                        </div>
-                        <p class="card-text py-2">
-                            <span class="fa fa-map-marker ml-1 mr-3"></span> {{ room.Hotel.DistanceCentre }} Km from
-                            {{ room.Hotel.ville }}
-                        </p>
-                    </div>
-                    <ul class="list-group list-group-flush">
-                        <li class="list-group-item">
-                            Type : {{ room.categorie }}
-                        </li>
-                        <li class="list-group-item">
-                            Price : {{ (room.prixSaison.prix *  room.prixSaison.taux)|round(2, 'ceil') }} <span class="fa fa-euro"></span> / Night
-                        </li>
-                        <li class="list-group-item">
-                            <ul class="list-unstyled list-inline">
-                                <li class="list-inline-item">Capacity : </li>
-                                {% for i in 1..room.Capacity() %}
-                                    <li class="list-inline-item m-0"><span class="fa fa-male"></span></li>
-                                {% endfor %}
-                            </ul>
-                        </li>
-                    </ul>
-                    <div class="card-body text-center">
-                        <a href="{{ url('roomDetails', {'id': room.id , 'checkin':  checkin  , 'checkout': checkout }) }}" class="btn color2 text-light w-100">Show Room</a>
-                    </div>
-                </div>
-            </div>
-        {% endfor %}
-{% endif %}
+	{% if rooms is empty %}
+		<div class="col-12 my-5">
+			<div class="alert alert-warning text-center" role="alert">
+				<h6 class="m-3">No Room Available !
+				</h6>
+			</div>
+		</div>
+	{% else %}
+		{% for room in rooms %}
+			<!-- Room Start-->
+			<div class="col-lg-6 p-0 col-md-6">
+				<div class="room__text">
+					<h3>{{ room.categorie }}
+					</h3>
+					<h4>Hotel
+						{{ room.hotel.nom }}</h4>
+					<div class="stars">
+						{% for i in 1..6 %}
+							{% if i <= room.hotel.nbrEtoiles %}
+								<span style="color : #E9AD28" class="icon_star"></span>
+							{% else %}
+								<span style="color : #E9AD28" class="icon_star_alt"></span>
+							{% endif %}
+						{% endfor %}
+					</div>
+					<br>
+					<h2>
+						<sup>&euro;</sup>
+						{{ (room.prixSaison.prix *  room.prixSaison.taux)|round(2, 'ceil') }}<span>/day</span>
+					</h2>
+					<ul>
+						<li>
+							<span>Capacity:</span>Max.
+							{{ room.Capacity }}
+							Person{% if room.Capacity > 1 %}s{% endif %}
+						</li>
+						<li>
+							<span>City:</span>
+							{{ room.Hotel.ville }}</li>
+						<li>Distance to Downtown:
+							<span class="ml-5">{{ room.Hotel.DistanceCentre }}
+								Km</span>
+						</li>
+					</ul>
+					<a href="{{ url('roomDetails', {'id': room.id , 'ci': checkin , 'co': checkout }) }}">View Details</a>
+				</div>
+			</div>
+			<div class="col-lg-6 p-0 col-md-6">
+				<div class="room__pic__slider owl-carousel">
+					<img class="room__pic__item" src="{{ asset('uploads/imgs/' ~ room.image) }}">
+				</div>
+			</div>
+			<!-- Room End-->
+		{% endfor %}
+	{% endif %}
 {% endblock %}

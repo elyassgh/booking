@@ -9,10 +9,10 @@ use App\Repository\ChambreRepository;
 use App\Repository\ClientRepository;
 use App\Repository\HotelRepository;
 use App\Repository\ReservationRepository;
+use App\Service\DateFormater;
 use DateInterval;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\TelType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -37,26 +37,28 @@ class HomeController extends AbstractController
      * @param HotelRepository $hotelRepository
      * @return Response
      */
-    public function index(Request $request, ChambreRepository $chambreRepository, HotelRepository $hotelRepository): Response
+    public function index(Request $request, ChambreRepository $chambreRepository, HotelRepository $hotelRepository, DateFormater $df): Response
     {
 
         $form = $this->createFormBuilder()
             ->add('destination', TextType::class)
-            ->add('checkin', DateType::class, [
-                'widget' => 'single_text',
-                // 'data' => new \DateTime(),
+            ->add('checkin', TextType::class, [
+                'attr' => [
+                    'placeholder' => $df->tostr(new \DateTime()),
+                ],
             ])
-            ->add('checkout', DateType::class, [
-                'widget' => 'single_text',
-                // 'data' => (new \DateTime())->add(new DateInterval('P1D')),
+            ->add('checkout', TextType::class, [
+                'attr' => [
+                    'placeholder' => $df->tostr((new \DateTime())->add(new DateInterval('P1D'))),
+                ],
             ])
             ->add('guests', ChoiceType::class, [
                 'choices' => [
-                    'any' => 0,
-                    '1' => 1,
-                    '2' => 2,
-                    '3' => 3,
-                    '4+' => 4,
+                    'Any' => 0,
+                    '1 Person' => 1,
+                    '2 Persons' => 2,
+                    '3 Persons' => 3,
+                    '+4 Persons' => 4,
                 ],
             ])
             ->getForm();
@@ -68,9 +70,9 @@ class HomeController extends AbstractController
         $filter->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
+            
             $data = $form->getData();
-            $rooms = $chambreRepository->findByInputs($data['destination'], $data['checkin'], $data['checkout'], $data['guests']);
+            $rooms = $chambreRepository->findByInputs($data['destination'], $df->todate($data['checkin']), $df->todate($data['checkout']), $data['guests']);
             $this->session->set('rooms', $rooms);
             $this->session->set('checkin', $data['checkin']);
             $this->session->set('checkout', $data['checkout']);
@@ -81,10 +83,10 @@ class HomeController extends AbstractController
             ]);
         }
 
-        $RecommendedHotels = $hotelRepository->findRecommendedHotels();
+        $recommendedHotels = $hotelRepository->findRecommendedHotels();
         return $this->render('home/index.html.twig', [
             'form' => $form->createView(),
-            'RecommendedHotels' => $RecommendedHotels,
+            'RecommendedHotels' => $recommendedHotels,
         ]);
     }
 
@@ -110,7 +112,7 @@ class HomeController extends AbstractController
      * @param ChambreRepository $chambreRepository
      * @return Response
      */
-    public function hotelroomsAvailable(Request $request, int $hotelid, HotelRepository $hotelRepository, ChambreRepository $chambreRepository): Response
+    public function hotelroomsAvailable(Request $request, int $hotelid, HotelRepository $hotelRepository, ChambreRepository $chambreRepository, DateFormater $df): Response
     {
 
         $hotelname = ($hotelRepository->find($hotelid))->getNom();
@@ -119,21 +121,19 @@ class HomeController extends AbstractController
             ->add('destination', TextType::class, [
                 'data' => $hotelname,
             ])
-            ->add('checkin', DateType::class, [
-                'widget' => 'single_text',
-                'data' => new \DateTime(),
+            ->add('checkin', TextType::class, [
+                'data' => $df->tostr(new \DateTime()),
             ])
-            ->add('checkout', DateType::class, [
-                'widget' => 'single_text',
-                'data' => (new \DateTime())->add(new DateInterval('P1D')),
+            ->add('checkout', TextType::class, [
+                'data' => $df->tostr((new \DateTime())->add(new DateInterval('P1D'))),
             ])
             ->add('guests', ChoiceType::class, [
                 'choices' => [
-                    'any' => 0,
-                    '1' => 1,
-                    '2' => 2,
-                    '3' => 3,
-                    '4+' => 4,
+                    'Any' => 0,
+                    '1 Person' => 1,
+                    '2 Persons' => 2,
+                    '3 Person' => 3,
+                    '+4 Person' => 4,
                 ]
             ])
             ->getForm();
@@ -146,7 +146,7 @@ class HomeController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
-            $rooms = $chambreRepository->findByInputs($data['destination'], $data['checkin'], $data['checkout'], $data['guests']);
+            $rooms = $chambreRepository->findByInputs($data['destination'], $df->todate($data['checkin']), $df->todate($data['checkout']), $data['guests']);
 
             //Modifying session variables
             $this->session->set('rooms', $rooms);
@@ -165,8 +165,9 @@ class HomeController extends AbstractController
 
         //Modifying session variables
         $this->session->set('rooms', $rooms);
-        $this->session->set('checkin', $today);
-        $this->session->set('checkout', $tomorrow);
+        $this->session->set('checkin', $df->tostr($today));
+        $this->session->set('checkout', $df->tostr($tomorrow));
+
 
         return $this->render('home/rooms.html.twig', ['form' => $form->createView(),
             'filter' =>$filter->createView(),
@@ -189,8 +190,8 @@ class HomeController extends AbstractController
             $data = $request->request->all();
             $params = $data['filter'];
             $rooms = $this->session->get('rooms');
-            $checkin = $this->session->get('checkin')->format('Y-m-d');
-            $checkout= $this->session->get('checkout')->format('Y-m-d');
+            $checkin = $this->session->get('checkin');
+            $checkout= $this->session->get('checkout');
 
             $filtredrooms = $chambreRepository->filter($rooms ,$params['stars'],$params['type'],$params['distance'],$params['maxprice']);
             return $this->render('home/roomsloader.html.twig', [
@@ -206,17 +207,16 @@ class HomeController extends AbstractController
     /**
      * @Route("/roomsfiltercancel" , name="ajaxfiltercancel")
      * @param Request $request
-     * @param ChambreRepository $chambreRepository
      * @return Response
      */
-    public function filtercancel(Request $request, ChambreRepository $chambreRepository) {
+    public function filtercancel(Request $request) {
 
         //ajax call with page rendering
         if($request->isXmlHttpRequest()) {
 
             $rooms = $this->session->get('rooms');
-            $checkin = $this->session->get('checkin')->format('Y-m-d');
-            $checkout= $this->session->get('checkout')->format('Y-m-d');
+            $checkin = $this->session->get('checkin');
+            $checkout= $this->session->get('checkout');
 
             return $this->render('home/roomsloader.html.twig', [
                 'rooms' => $rooms,
@@ -229,23 +229,30 @@ class HomeController extends AbstractController
     }
 
     /**
-     * @Route("/rooms/{id}/details/{checkin}/{checkout}", name="roomDetails")
+     * @Route("/rooms/{id}/details/{ci}/{co}", name="roomDetails")
      * @param Request $request
      * @param int $id
-     * @param \DateTime $checkin
-     * @param \DateTime $checkout
+     * @param String $ci
+     * @param String $co
      * @param ChambreRepository $chambreRepository
      * @param ReservationRepository $reservationRepository
      * @param ClientRepository $clientRepository
      * @param \Swift_Mailer $mailer
      * @return Response
      */
-    public function details(Request $request, int $id, \DateTime $checkin, \DateTime $checkout, ChambreRepository $chambreRepository, ReservationRepository $reservationRepository, ClientRepository $clientRepository , \Swift_Mailer $mailer): Response
+    public function details(Request $request, int $id, String $ci, String $co, ChambreRepository $chambreRepository, ReservationRepository $reservationRepository, ClientRepository $clientRepository, \Swift_Mailer $mailer, DateFormater $df): Response
     {
+
+        $checkin = $df->todate($ci);
+        $checkout = $df->todate($co);
 
         $chambreValid = $chambreRepository->isChambreAvailable($id, $checkin, $checkout);
 
-        if ($chambreValid == false || ($checkin < (new \DateTime('today'))) || ($checkin > $checkout) || ($checkin == $checkout)  ) {
+        // Link Injection Or false Submit Guard
+        if ($chambreValid == false
+            || ($checkin < (new \DateTime('today'))) 
+            || ($checkin > $checkout) 
+            || ($checkin == $checkout)  ) {
             //in case there is some link injections or some troubleshooting happened or the chambre is not available!
             return $this->redirectToRoute('home');
         }
@@ -259,15 +266,13 @@ class HomeController extends AbstractController
                 'required' => false,
             ])
             ->add('cinPass', TextType::class)
-            ->add('checkin', DateType::class, [
-                'data' => $checkin,
+            ->add('checkin', TextType::class, [
+                'data' => $ci,
                 'disabled' => true,
-                'widget' => 'single_text',
             ])
-            ->add('checkout', DateType::class, [
-                'data' => $checkout,
+            ->add('checkout', TextType::class, [
+                'data' => $co,
                 'disabled' => true,
-                'widget' => 'single_text',
                 ])
             ->getForm();
 
@@ -323,7 +328,7 @@ class HomeController extends AbstractController
                 $time = $now->format('His');
 
                 //total of the reservation
-                $total = round( $chambre->getPrixSaison()->getPrix()*$chambre->getPrixSaison()->getTaux(), 2, PHP_ROUND_HALF_UP) *($checkout->diff($checkin)->d);
+                $total = round( $chambre->getPrixSaison()->getPrix()*$chambre->getPrixSaison()->getTaux(), 2, PHP_ROUND_HALF_UP) * ($checkout->diff($checkin)->d);
 
                 //reference generation
                 $reference = $sequence . "A" . $date . "L" . $time .  "M" . $clientID;
@@ -362,8 +367,8 @@ class HomeController extends AbstractController
                 //despite render method, renderView method hides response headers from showing ;)
                 $response = new Response($this->renderView('home/confirmation.html.twig' , [
                     'email' => $data['email'],
-                    'now' => $now ,
-                    'checkin' =>$checkin ,
+                    'now' => $now,
+                    'checkin' =>$checkin,
                     'checkout' =>$checkout,
                     'ref' => $reference,
                 ]), 200 );
@@ -396,8 +401,10 @@ class HomeController extends AbstractController
 
         $reservation = $repository->findOneByReference($ref);
 
-        //handling link injections || (ERROR 404 PAGE TO BE ADDED LATER !)
-        if (is_null($reservation)) return $this->redirectToRoute('home');
+        
+        //Handling link injections Or Deletion of a reservation after it's checkin
+        //(ERROR PAGE TO BE ADDED LATER !)
+        if (is_null($reservation) || ( new \DateTime('now') > $reservation->getCheckIn() ) ) return $this->redirectToRoute('home');
 
 
         //ajax call to confirm deleting
@@ -406,7 +413,6 @@ class HomeController extends AbstractController
             $entityManager->remove($reservation);
             $entityManager->flush();
         }
-
 
         $response = new Response($this->renderView('home/cancelation.html.twig' , [
             'reservation' => $reservation

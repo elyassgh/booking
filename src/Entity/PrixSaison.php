@@ -2,7 +2,6 @@
 
 namespace App\Entity;
 
-use App\Repository\PrixSaisonRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -72,6 +71,10 @@ class PrixSaison
         $this->taux = $taux;
 
         return $this;
+    }
+
+    public function __toString() {
+        return "Room #" . strval($this->getChambre()->getNumero()) . " Price";
     }
 
 }

@@ -112,13 +112,14 @@ easy_admin:
         fields:
           - {type: 'group', icon: 'pencil', label: 'Basic Information', css_class: 'col-lg-7'}
           - nom
-          - siteweb
-          - region
-          - ville
-          - distanceCentre
-          - adresse
-          - nbrEtoiles
-          - Description
+          - { property: 'siteweb', type_options: { empty_data: "DEFAULT_VALUE" } } 
+          - { property: 'region', type_options: { empty_data: "DEFAULT_VALUE" } } 
+          - { property: 'siteweb', type_options: { empty_data: "DEFAULT_VALUE" } } 
+          - { property: 'ville', type_options: { empty_data: "DEFAULT_VALUE" } } 
+          - { property: 'distanceCentre', type_options: { empty_data: "0" } } 
+          - { property: 'adresse', type_options: { empty_data: "DEFAULT_VALUE" } } 
+          - { property: 'nbrEtoiles', type_options: { empty_data: "0" } } 
+          - { property: 'Description', type_options: { empty_data: "DEFAULT_VALUE" } } 
           - recommended
 
       list:

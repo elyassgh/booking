@@ -1,140 +1,288 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        {% block metatags %}
-        {% endblock %}
-        <title>{% block title %}ALM BOOKING{% endblock %}</title>
-        {% block stylesheets %}
-            <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
-                  integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
-            <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
-                  integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
-            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/7.0.2/css/bootstrap-slider.min.css">
-            <link rel="stylesheet" href="/assets/css/style.css">
-        {% endblock %}
-        {% block headJS %}
-        {% endblock %}
-    </head>
+<html lang="zxx">
 
-    <body>
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="ALM Booking website">
+    <meta name="keywords" content="ALM, Booking, Hotel, Room, Travel, Morocco">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
-    <div class="container-fluid">
-        <div class="row">
-            <div class="topnav col-xs-12 col-md-12 col-lg-12">
-                <div class="container-fluid">
-                    <div class="topheader row text-light">
-                        <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
-                            ALM BOOKING
-                        </div>
-                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                            Customer Service : +212 (0) 661-123456
-                        </div>
-                        <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
-                            Email : contact@alm.com
+    {% block metas %}
+    {% endblock %}
+    
+    <title>{% block title %}ALM BOOKING{% endblock %}</title>
+    
+    {% block stylesheets %}
+            <link rel="stylesheet" href="/home/css/bootstrap.min.css" type="text/css">
+            <link rel="stylesheet" href="/home/css/font-awesome.min.css" type="text/css">
+            <link rel="stylesheet" href="/home/css/elegant-icons.css" type="text/css">
+            <link rel="stylesheet" href="/home/css/nice-select.css" type="text/css">
+            <link rel="stylesheet" href="/home/css/jquery-ui.min.css" type="text/css">
+            <link rel="stylesheet" href="/home/css/owl.carousel.min.css" type="text/css">
+            <link rel="stylesheet" href="/home/css/slicknav.min.css" type="text/css">
+            <link rel="stylesheet" href="/home/css/style.css" type="text/css">            
+    {% endblock %}
+
+    <script>
+        function activate(order){
+            var ul = document.getElementById('navigation-ul');
+            ul.getElementsByTagName("li")[order].classList.add('active');
+        }
+    </script>
+
+    {% block headJS %}
+    {% endblock %}    
+
+</head>
+
+<body>
+    <!-- Page Preloder -->
+    <div id="preloder">
+        <div class="loader"></div>
+    </div>
+
+    <!-- Offcanvas Menu Begin -->
+    <div class="offcanvas-menu-overlay"></div>
+    <div class="offcanvas-menu-wrapper">
+        <div class="offcanvas__logo">
+            <a href="{{ path('home') }}"><img src="/home/img/alm.png" alt=""></a>
+        </div>
+        <div id="mobile-menu-wrap"></div>
+        <div class="offcanvas__btn__widget">
+            <a href="#">Book Now <span class="arrow_right"></span></a>
+        </div>
+        <div class="offcanvas__widget">
+            <ul>
+                <li><span class="icon_pin_alt"></span>Bvd Cheikh Rabhi Residence Yasmine 14 Gueliz Marrakech, MA</li>
+                <li><span class="icon_phone"></span> +(212) 661-00-010</li>
+            </ul>
+        </div>
+        <div class="offcanvas__language">
+            <img src="/home/img/lan.png" alt="">
+            <span>English</span>
+            <i class="fa fa-angle-down"></i>
+            <ul>
+                <li>English</li>
+                <li>العربية</li>
+                <li>Français</li>
+            </ul>
+        </div>
+        <div class="offcanvas__auth">
+            <ul>
+                <li><a href="#">Login</a></li>
+                <li><a href="#">Register</a></li>
+            </ul>
+        </div>
+    </div>
+    <!-- Offcanvas Menu End -->
+
+    <!-- Header Section Begin -->
+    <header class="header">
+        <div class="header__top">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-7">
+                        <ul class="header__top__widget">
+                            <li><span class="icon_pin_alt"></span>Bvd Cheikh Rabhi Residence Yasmine 14 Gueliz Marrakech, MA</li>
+                            <li><span class="icon_phone"></span> +(212) 661-00-010</li>
+                        </ul>
+                    </div>
+                    <div class="col-lg-5">
+                        <div class="header__top__right">
+                            <div class="header__top__auth">
+                                <ul>
+                                    <li><a href="#">Login</a></li>
+                                    <li><a href="#">Register</a></li>
+                                </ul>
+                            </div>
+                            <div class="header__top__language">
+                                <img src="/home/img/lan.png" alt="">
+                                <span>English</span>
+                                <i class="fa fa-angle-down"></i>
+                                <ul>
+                                    <li>English</li>
+                                    <li>العربية</li>
+                                    <li>Français</li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-
-    <header class="header sticky-top">
-        <nav class="navbar navbar-expand-lg navbar-dark py-3 shadow-lg">
+        <div class="header__nav__option">
             <div class="container">
-                <img src="/assets/imgs/alm.png" width="100px" alt="logo">
-                <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
-                        data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
-                        aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav ml-auto">
-                        <li class="nav-item active"><a class="nav-link" href="{{ path('home') }}">Home <span
-                                        class="sr-only">(current)</span></a></li>
-                        <li class="nav-item"><a class="nav-link" href="{{ path('about') }}">About</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{{ path('contact') }}">Contact</a></li>
-                    </ul>
+                <div class="row">
+                    <div class="col-lg-2">
+                        <div class="header__logo">
+                            <a href="{{ path('home') }}"><img src="/home/img/alm.png" alt=""></a>
+                        </div>
+                    </div>
+                    <div class="col-lg-10">
+                        <div class="header__nav">
+                            <nav class="header__menu">
+                                <ul id="navigation-ul" class="menu__class">
+                                    <li><a href="{{ path('home') }}">Home</a></li>
+                                    <li><a href="{{ path('about') }}">About Us</a></li>
+                                    <li><a href="{{ path('contact') }}">Contact</a></li>
+                                    <li><a href="#">Pages &downarrow;</a>
+                                        <ul class="dropdown">
+                                            <li><a href="{{ path('about') }}">About Us</a></li>
+                                            <li><a href="/home/blog.html">Blog</a></li>
+                                            <li><a href="/home/blog-details.html">Blog Details</a></li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </nav>
+                            <div class="header__nav__widget">
+                                <a href="#">Book Now <span class="arrow_right"></span></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="canvas__open">
+                    <span class="fa fa-bars"></span>
                 </div>
             </div>
-        </nav>
+        </div>
     </header>
+    <!-- Header Section End -->
 
     {% block body %}{% endblock %}
 
-    <div class=" mt-5 parallax parallax2" style="height:100px;"></div>
-
-    <footer class="footer">
+    <!-- Footer Section Begin -->
+    <footer class="footer set-bg" data-setbg="/home/img/footer-bg.jpg">
         <div class="container">
             <div class="row">
-                <div class="col-lg-3 mb-2 mb-lg-0">
-                    <h2 class="h5 lined mb-4 text-white">Adresse</h2>
-                    <p class="text-muted text-small">Boulevard Cheikh Rabhi
-                        Residence Yasmine 14 Gueliz
-                        Marrakech, Morocco</p>
-                    <br>
-                    <h2 class="h5 text-white text-small">Find Us on Social Media</h2>
-                    <ul class="list-inline mb-4">
-                        <li class="list-inline-item"><a class="social-link" href="#">
-                                <i class="fa fa-facebook-f"></i></a></li>
-                        <li class="list-inline-item"><a class="social-link" href="#">
-                                <i class="fa fa-instagram"></i></a>
-                        </li>
-                        <li class="list-inline-item"><a class="social-link" href="#"><i class="fa fa-twitter"></i></a>
-                        </li>
-                        <li class="list-inline-item"><a class="social-link" href="#"><i
-                                        class="fa fa-tripadvisor"></i></a>
-                        </li>
-                    </ul>
+                <div class="col-lg-12 footer__about">
+                    <h4 class="mb-1" style="color: whitesmoke;"> Our Partners</h4>
                 </div>
-                <div class="col-lg-5 mb-2 mb-lg-0">
-                    <h2 class="h5 text-white lined mb-4">Quick Links</h2>
-                    <div class="d-flex">
-                        <ul class="list-unstyled d-inline-block mr-4 mb-0">
-                            <li class="mb-2"><a class="footer-link" href="#">Link 1 </a></li>
-                            <li class="mb-2"><a class="footer-link" href="#">Link 2</a></li>
-                            <li class="mb-2"><a class="footer-link" href="#">Link 3</a></li>
-                        </ul>
-                        <ul class="list-unstyled d-inline-block mb-0">
-                            <li class="mb-2"><a class="footer-link" href="{{ path('home') }}">Home </a></li>
-                            <li class="mb-2"><a class="footer-link" href="{{ path('about') }}">About us</a></li>
-                            <li class="mb-2"><a class="footer-link" href="{{ path('contact') }}">Contact us</a></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-lg-4">
-                    <h2 class="h5 text-white lined mb-4">Newsletter</h2>
-                    <p class="text-muted text-small">
-                        Join to our mailing list to get the updates to your email inbox.</p>
-                    <div class="input-group mb-3">
-                        <input class="form-control text-muted bg-light" type="text"
-                               placeholder="Email address" aria-label="Recipient's username"
-                               aria-describedby="button-addon2">
-                        <div class="input-group-append">
-                            <button class="btn btn-dark color2 border-0" id="button-addon2" type="button">
-                                <i class="fa fa-paper-plane"></i></button>
+                <div class="col-lg-12">
+                    <div class="logo__carousel owl-carousel">
+                        <div class="logo__carousel__item">
+                            <a href="#"><img src="/home/img/logo/logo-1.png" alt=""></a>
+                        </div>
+                        <div class="logo__carousel__item">
+                            <a href="#"><img src="/home/img/logo/logo-2.png" alt=""></a>
+                        </div>
+                        <div class="logo__carousel__item">
+                            <a href="#"><img src="/home/img/logo/logo-3.png" alt=""></a>
+                        </div>
+                        <div class="logo__carousel__item">
+                            <a href="#"><img src="/home/img/logo/logo-4.png" alt=""></a>
+                        </div>
+                        <div class="logo__carousel__item">
+                            <a href="#"><img src="/home/img/logo/logo-5.png" alt=""></a>
+                        </div>
+                        <div class="logo__carousel__item">
+                            <a href="#"><img src="/home/img/logo/logo-2.png" alt=""></a>
+                        </div>
+                        <div class="logo__carousel__item">
+                            <a href="#"><img src="/home/img/logo/logo-3.png" alt=""></a>
+                        </div>
+                        <div class="logo__carousel__item">
+                            <a href="#"><img src="/home/img/logo/logo-4.png" alt=""></a>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="copyrights">
-            <div class="container text-center py-4">
-                <p class="mb-0 text-muted">
-                    &copy; 2020, ALM. Template fully designed by <b class="text-light">Elghazi Ilyass</b>.
-                </p>
+        <div class="container">
+            <div class="footer__content">
+                <div class="row">
+                    <div class="col-lg-3 col-md-6 col-sm-6">
+                        <div class="footer__about">
+                            <div class="footer__logo">
+                                <a href="#"><img src="/home/img/alm.png" alt=""></a>
+                            </div>
+                            <h4>+(212) 661-00-010</h4>
+                            <ul>
+                                <li>Boulevard Cheikh Rabhi Residence Yasmine 14 Gueliz Marrakech, Morocco</li>
+                                <li>contact@alm.ma</li>
+                            </ul>
+                            <div class="footer__social">
+                                <a href="#"><i class="fa fa-facebook"></i></a>
+                                <a href="#"><i class="fa fa-twitter"></i></a>
+                                <a href="#"><i class="fa fa-linkedin"></i></a>
+                                <a href="#"><i class="fa fa-youtube-play"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 offset-lg-1 col-md-5 offset-md-1 col-sm-6">
+                        <div class="footer__widget">
+                            <h4>Quick Link</h4>
+                            <ul>
+                                <li><a href="#">Home</a></li>
+                                <li><a href="#">Booking</a></li>
+                                <li><a href="#">About Us</a></li>
+                                <li><a href="#">Review</a></li>
+                                <li><a href="#">Contact</a></li>
+                            </ul>
+                            <ul>
+                                <li><a href="#">Services</a></li>
+                                <li><a href="#">Our Room</a></li>
+                                <li><a href="#">Restaurants</a></li>
+                                <li><a href="#">Payments</a></li>
+                                <li><a href="#">Events</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-5 col-md-8 col-sm-12">
+                        <div class="footer__newslatter">
+                            <h4>Subscribe our newsletter</h4>
+                            <form action="#">
+                                <input type="text" placeholder="Your E-mail Address">
+                                <button type="submit">Subscribe</button>
+                            </form>
+                            <div class="footer__newslatter__find">
+                                <h5>Find Us:</h5>
+                                <div class="footer__newslatter__find__links">
+                                    <a href="#"><i class="fa fa-tripadvisor"></i></a>
+                                    <a href="#"><i class="fa fa-map-o"></i></a>
+                                    <a href="#"><i class="fa fa-dribbble"></i></a>
+                                    <a href="#"><i class="fa fa-forumbee"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="footer__copyright">
+                <div class="row">
+                    <div class="col-lg-7 col-md-7">
+                        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                        <div class="footer__copyright__text">
+                            <p>Copyright &copy; <script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a></p>
+                        </div>
+                        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                    </div>
+                    <div class="col-lg-5 col-md-5">
+                        <ul class="footer__copyright__links">
+                            <li><a href="#">Terms Of Use</a></li>
+                            <li><a href="#">Privacy Policy</a></li>
+                        </ul>
+                    </div>
+                </div>
             </div>
         </div>
     </footer>
+    <!-- Footer Section End -->
 
     {% block javascripts %}
-        <script src="/assets/js/core/jquery.min.js"></script>
-        <script src="/assets/js/core/popper.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.js"></script>
-        <script src="/assets/js/core/bootstrap.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/7.0.2/bootstrap-slider.min.js"></script>
-        <script src="/assets/js/app.js"></script>
+        <script src="/home/js/jquery-3.3.1.min.js"></script>
+        <script src="/home/js/bootstrap.min.js"></script>
+        <script src="/home/js/jquery.nice-select.min.js"></script>
+        <script src="/home/js/jquery-ui.min.js"></script>
+        <script src="/home/js/jquery.slicknav.js"></script>
+        <script src="/home/js/owl.carousel.min.js"></script>
+        <script src="/home/js/main.js"></script>
     {% endblock %}
+
     {% block js %}
     {% endblock %}
-    </body>
+
+</body>
+
 </html>
+

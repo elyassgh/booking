@@ -29,7 +29,6 @@ use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
-
 /**
  * @Route("/admin")
  * @IsGranted("ROLE_ADMIN")
@@ -60,7 +59,7 @@ class AdminController extends AbstractController
     {
 
         $admin = $this->getUser();
-        return $this->render('BackOffice/Dashboard/index.html.twig', [
+        return $this->render('admin/dashboard/index.html.twig', [
             'admin' => $admin,
         ]);
     }
@@ -190,7 +189,7 @@ class AdminController extends AbstractController
                 ])
                 ->getForm();
 
-            return $this->render('BackOffice/Credentials/index.html.twig', [
+            return $this->render('admin/credentials/index.html.twig', [
                 'admin' => $admin,
                 'form' => $form->createView(),
                 'imgform' => $imgForm->createView(),
@@ -252,7 +251,7 @@ class AdminController extends AbstractController
                 ])
                 ->getForm();
 
-            return $this->render('BackOffice/Credentials/index.html.twig', [
+            return $this->render('admin/credentials/index.html.twig', [
                 'admin' => $admin,
                 'form' => $form->createView(),
                 'imgform' => $imgForm->createView(),
@@ -260,7 +259,7 @@ class AdminController extends AbstractController
 
         }
 
-        return $this->render('BackOffice/Credentials/index.html.twig', [
+        return $this->render('admin/credentials/index.html.twig', [
             'admin' => $admin,
             'form' => $form->createView(),
             'imgform' => $imgForm->createView(),
@@ -271,7 +270,7 @@ class AdminController extends AbstractController
     /**
      * @Route("/reservations", name="reservations")
      */
-    public function reservations(Request $request, ReservationRepository $repository, AdminRepository $repo)
+    public function reservations(Request $request, ReservationRepository $repository)
     {
 
         $admin = $this->getUser();
@@ -304,7 +303,7 @@ class AdminController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
             $reservations = $repository->findByInputs($admin->getHotel()->getId(), $data['date'], $data['checkin'], $data['id']);
-            return $this->render('BackOffice/Reservations/index.html.twig', [
+            return $this->render('admin/reservations/index.html.twig', [
                 'admin' => $admin,
                 'form' => $form->createView(),
                 'form2' => $form2->createView(),
@@ -317,8 +316,11 @@ class AdminController extends AbstractController
         if ($form2->isSubmitted() && $form2->isValid()) {
             $data = $form2->getData();
             $reservation = $repository->findOneByReference($data['ref']);
+        
+            // don't show other hotels reservations to non hotel administrators
+            if(($reservation->getChambre())->getHotel() != $admin->getHotel()) $reservation = null;
 
-            return $this->render('BackOffice/Reservations/index.html.twig', [
+            return $this->render('admin/reservations/index.html.twig', [
                 'admin' => $admin,
                 'form' => $form->createView(),
                 'form2' => $form2->createView(),
@@ -327,7 +329,7 @@ class AdminController extends AbstractController
             ]);
         }
 
-        return $this->render('BackOffice/Reservations/index.html.twig', [
+        return $this->render('admin/reservations/index.html.twig', [
             'admin' => $admin,
             'form' => $form->createView(),
             'form2' => $form2->createView(),
@@ -339,11 +341,9 @@ class AdminController extends AbstractController
     /**
      * @Route("/roomsmanagement", name="roomsmanagement")
      */
-    public function roomsmanagement(Request $request, FileUploader $fileUploader,ChambreRepository $chambreRepository, AdminRepository $repo) {
+    public function roomsmanagement(Request $request, FileUploader $fileUploader,ChambreRepository $chambreRepository) {
 
         $admin = $this->getUser();
-
-        $hotelid = $admin->getHotel()->getId();
 
         $chambre = new Chambre();
 
@@ -558,7 +558,7 @@ class AdminController extends AbstractController
             ;
 
             //RETURN !!!
-            return $this->render('BackOffice/Rooms/index.html.twig' , [
+            return $this->render('admin/rooms/index.html.twig' , [
                 'admin' => $admin,
                 'selectform' => $selectform->createView() ,
                 'form' => $form->createView(),
@@ -618,7 +618,7 @@ class AdminController extends AbstractController
             $this->getDoctrine()->getManager()->flush();
 
             //RETURN !!!
-            return $this->render('BackOffice/Rooms/index.html.twig' , [
+            return $this->render('admin/rooms/index.html.twig' , [
                 'admin' => $admin,
                 'selectform' => $selectform->createView() ,
                 'form' => $form->createView(),
@@ -672,7 +672,7 @@ class AdminController extends AbstractController
                 $entityManager->flush();
 
                 //RETURN !!!
-                return $this->render('BackOffice/Rooms/index.html.twig' , [
+                return $this->render('admin/rooms/index.html.twig' , [
                     'admin' => $admin,
                     'form' => $form->createView(),
                     'selectform' => $selectform->createView() ,
@@ -680,7 +680,7 @@ class AdminController extends AbstractController
                 ]);
             } else {
                 //RETURN !!!
-                return $this->render('BackOffice/Rooms/index.html.twig' , [
+                return $this->render('admin/rooms/index.html.twig' , [
                     'admin' => $admin,
                     'form' => $form->createView(),
                     'selectform' => $selectform->createView() ,
@@ -690,7 +690,7 @@ class AdminController extends AbstractController
         }
 
         //RETURN !!!
-        return $this->render('BackOffice/Rooms/index.html.twig' , [
+        return $this->render('admin/rooms/index.html.twig' , [
             'admin' => $admin,
             'selectform' => $selectform->createView() ,
             'form' => $form->createView(),
@@ -703,8 +703,6 @@ class AdminController extends AbstractController
     public function roomsgallery(Request $request, FileUploader $fileUploader, ChambreRepository $repo) {
 
         $admin = $this->getUser();
-
-        $hotelid = $admin->getHotel()->getId();
 
         //select room form
         $selectform = $this->createFormBuilder()
@@ -737,7 +735,7 @@ class AdminController extends AbstractController
         if ($selectform->isSubmitted() && $selectform->isValid()) {
             $data = $selectform->getData();
             $this->session->set('chambre' , $data['num']);
-            return $this->render('BackOffice/Gallery/index.html.twig' , [
+            return $this->render('admin/gallery/index.html.twig' , [
                 'admin' => $admin,
                 'selectform' => $selectform->createView(),
                 'chambre' => $data['num'],
@@ -761,7 +759,7 @@ class AdminController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->render('BackOffice/Gallery/index.html.twig' , [
+        return $this->render('admin/gallery/index.html.twig' , [
             'admin' => $admin,
             'selectform' => $selectform->createView(),
         ]);
@@ -789,7 +787,7 @@ class AdminController extends AbstractController
     /**
      * @Route("/delete/{id}", name="chambre_delete")
      */
-    public function delete(Request $request, Chambre $chambre, FileUploader $fileUploader): Response
+    public function delete(Chambre $chambre, FileUploader $fileUploader): Response
     {
         $filesystem = new Filesystem();
         $dir = $fileUploader->getTargetDirectory();
@@ -806,7 +804,7 @@ class AdminController extends AbstractController
     }
 
 
-    // API Approach Methods --> JSON OBJECT RETURNED !!
+    // API Approach Methods --> JSON OBJECT RETURNED !! Used for dashboard statistics
 
     /**
      * @Route ("/yearIncome/{id}" , name="yearincome")

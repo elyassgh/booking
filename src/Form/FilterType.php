@@ -23,7 +23,8 @@ class FilterType extends AbstractType
                     "4 Stars" => 4,
                     "5 Stars" => 5,
                     "6 Stars" => 6,
-                ]
+                ],
+                'data' => '5',
             ])
             ->add('type' , ChoiceType::class , [
                 'choices' => [
@@ -38,19 +39,19 @@ class FilterType extends AbstractType
             ->add('distance' , ChoiceType::class , [
                 'choices' => [
                     'City Center' => 0,
-                    'Less than 3 Km from center' => 3,
-                    'Less than 5 Km from center' => 5,
-                    'Less than 10 Km from center' => 10,
-                    'Less than 20 Km from center' => 20,
-                ]
+                    'Less than 3 Km' => 3,
+                    'Less than 5 Km' => 5,
+                    'Less than 10 Km' => 10,
+                    'Less than 20 Km' => 20,
+                ],
+                'data' => '5',
             ])
-            ->add('maxprice' , IntegerType::class , [
+            ->add('maxprice' , RangeType::class , [
                 'attr' => [
-                    "data-provide" => "slider",
-                    "data-slider-ticks" => "[50, 250, 500, 1000]",
-                    "data-slider-ticks-labels" => '["50€", "250€", "500€", "1000€"]',
-                    "data-slider-step" => "50",
-                    "data-slider-value" => "250",
+                    "min" => 50,
+                    "max" => 1000,
+                    "step" => 10,
+                    "value" => 250,
                 ]
             ])
         ;

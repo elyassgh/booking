@@ -1,324 +1,312 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Room details{% endblock %}
+{% block title %}Room Details{% endblock %}
 
-{% block metatags %}
-     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-     <meta http-equiv="Pragma" content="no-cache">
-     <meta http-equiv="Expires" content="0">
+{% block metas %}
+	<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+	<meta http-equiv="Pragma" content="no-cache">
+	<meta http-equiv="Expires" content="0">
 {% endblock %}
 
 {% block headJS %}
-    <script>
-        //handling if the user back in navigation
-        if( window.performance.navigation.type === 2)
-        {
-            location.reload() ;
-        }
-    </script>
-    <script src="/assets/js/jssor.slider-28.0.0.min.js" type="text/javascript"></script>
-    <script type="text/javascript">
-        window.jssor_1_slider_init = function() {
-            var jssor_1_SlideshowTransitions = [
-                {$Duration:1200,$Zoom:1,$Easing:{$Zoom:$Jease$.$InCubic,$Opacity:$Jease$.$OutQuad},$Opacity:2},
-                {$Duration:1000,$Zoom:11,$SlideOut:true,$Easing:{$Zoom:$Jease$.$InExpo,$Opacity:$Jease$.$Linear},$Opacity:2},
-                {$Duration:1200,$Zoom:1,$Rotate:1,$During:{$Zoom:[0.2,0.8],$Rotate:[0.2,0.8]},$Easing:{$Zoom:$Jease$.$Swing,$Opacity:$Jease$.$Linear,$Rotate:$Jease$.$Swing},$Opacity:2,$Round:{$Rotate:0.5}},
-                {$Duration:1000,$Zoom:11,$Rotate:1,$SlideOut:true,$Easing:{$Zoom:$Jease$.$InQuint,$Opacity:$Jease$.$Linear,$Rotate:$Jease$.$InQuint},$Opacity:2,$Round:{$Rotate:0.8}},
-                {$Duration:1200,x:0.5,$Cols:2,$Zoom:1,$Assembly:2049,$ChessMode:{$Column:15},$Easing:{$Left:$Jease$.$InCubic,$Zoom:$Jease$.$InCubic,$Opacity:$Jease$.$Linear},$Opacity:2},
-                {$Duration:1200,x:4,$Cols:2,$Zoom:11,$SlideOut:true,$Assembly:2049,$ChessMode:{$Column:15},$Easing:{$Left:$Jease$.$InExpo,$Zoom:$Jease$.$InExpo,$Opacity:$Jease$.$Linear},$Opacity:2},
-                {$Duration:1200,x:0.6,$Zoom:1,$Rotate:1,$During:{$Left:[0.2,0.8],$Zoom:[0.2,0.8],$Rotate:[0.2,0.8]},$Opacity:2,$Round:{$Rotate:0.5}},
-                {$Duration:1000,x:-4,$Zoom:11,$Rotate:1,$SlideOut:true,$Easing:{$Left:$Jease$.$InQuint,$Zoom:$Jease$.$InQuart,$Opacity:$Jease$.$Linear,$Rotate:$Jease$.$InQuint},$Opacity:2,$Round:{$Rotate:0.8}},
-                {$Duration:1200,x:-0.6,$Zoom:1,$Rotate:1,$During:{$Left:[0.2,0.8],$Zoom:[0.2,0.8],$Rotate:[0.2,0.8]},$Opacity:2,$Round:{$Rotate:0.5}},
-                {$Duration:1000,x:4,$Zoom:11,$Rotate:1,$SlideOut:true,$Easing:{$Left:$Jease$.$InQuint,$Zoom:$Jease$.$InQuart,$Opacity:$Jease$.$Linear,$Rotate:$Jease$.$InQuint},$Opacity:2,$Round:{$Rotate:0.8}},
-                {$Duration:1200,x:0.5,y:0.3,$Cols:2,$Zoom:1,$Rotate:1,$Assembly:2049,$ChessMode:{$Column:15},$Easing:{$Left:$Jease$.$InCubic,$Top:$Jease$.$InCubic,$Zoom:$Jease$.$InCubic,$Opacity:$Jease$.$OutQuad,$Rotate:$Jease$.$InCubic},$Opacity:2,$Round:{$Rotate:0.7}},
-                {$Duration:1000,x:0.5,y:0.3,$Cols:2,$Zoom:1,$Rotate:1,$SlideOut:true,$Assembly:2049,$ChessMode:{$Column:15},$Easing:{$Left:$Jease$.$InExpo,$Top:$Jease$.$InExpo,$Zoom:$Jease$.$InExpo,$Opacity:$Jease$.$Linear,$Rotate:$Jease$.$InExpo},$Opacity:2,$Round:{$Rotate:0.7}},
-                {$Duration:1200,x:-4,y:2,$Rows:2,$Zoom:11,$Rotate:1,$Assembly:2049,$ChessMode:{$Row:28},$Easing:{$Left:$Jease$.$InCubic,$Top:$Jease$.$InCubic,$Zoom:$Jease$.$InCubic,$Opacity:$Jease$.$OutQuad,$Rotate:$Jease$.$InCubic},$Opacity:2,$Round:{$Rotate:0.7}},
-                {$Duration:1200,x:1,y:2,$Cols:2,$Zoom:11,$Rotate:1,$Assembly:2049,$ChessMode:{$Column:19},$Easing:{$Left:$Jease$.$InCubic,$Top:$Jease$.$InCubic,$Zoom:$Jease$.$InCubic,$Opacity:$Jease$.$OutQuad,$Rotate:$Jease$.$InCubic},$Opacity:2,$Round:{$Rotate:0.8}}
-            ];
-            var jssor_1_options = {
-                $AutoPlay: 1,
-                $SlideshowOptions: {
-                    $Class: $JssorSlideshowRunner$,
-                    $Transitions: jssor_1_SlideshowTransitions,
-                    $TransitionsOrder: 1
-                },
-                $ArrowNavigatorOptions: {
-                    $Class: $JssorArrowNavigator$
-                },
-                $ThumbnailNavigatorOptions: {
-                    $Class: $JssorThumbnailNavigator$,
-                    $Rows: 2,
-                    $SpacingX: 14,
-                    $SpacingY: 12,
-                    $Orientation: 2,
-                    $Align: 156
-                }
-            };
-            var jssor_1_slider = new $JssorSlider$("jssor_1", jssor_1_options);
-            /*#region responsive code begin*/
-            var MAX_WIDTH = 960;
-            function ScaleSlider() {
-                var containerElement = jssor_1_slider.$Elmt.parentNode;
-                var containerWidth = containerElement.clientWidth;
-
-                if (containerWidth) {
-
-                    var expectedWidth = Math.min(MAX_WIDTH || containerWidth, containerWidth);
-
-                    jssor_1_slider.$ScaleWidth(expectedWidth);
-                }
-                else {
-                    window.setTimeout(ScaleSlider, 30);
-                }
-            }
-            ScaleSlider();
-            $Jssor$.$AddEvent(window, "load", ScaleSlider);
-            $Jssor$.$AddEvent(window, "resize", ScaleSlider);
-            $Jssor$.$AddEvent(window, "orientationchange", ScaleSlider);
-            /*#endregion responsive code end*/
-        };
-    </script>
+	<script>
+		// handling if the user back in navigation
+		if (window.performance.navigation.type === 2) {
+		location.reload();
+		}
+	</script>
 {% endblock %}
 
 {% block body %}
-    <section class="container-fluid">
-        <div class="row bg-light shadow-sm">
-            <div class="col-12 p-5">
-                <div class="text-center" style="width: auto;">
-                    <h1 class="myFont m-3 color3">RESERVATION</h1>
-                    <hr class="color2" style="width: 40%; height: 0.2rem;">
-                    <hr style="width: 20%;">
-                </div>
-            </div>
-        </div>
-        <div class="row mt-5">
-            <div class="col-xs-12 col-lg-6">
-                <img class="img-thumbnail" style="margin-top: 5%" src="{{ asset('uploads/imgs/'~ chambre.image) }}" width="100%" alt="">
-            </div>
-            <div class="col-xs-12 col-lg-6 p-3">
-                <div class="p-2">
-                    <div class="row">
-                        <div class="col-xs-12 col-lg-6">
-                            <h2 class="myFont">{{ chambre.hotel.nom }}</h2>
-                        </div>
-                        <div class="col-xs-12 col-lg-6 mt-1 mb-3">
-                            <ul class="list-unstyled list-inline mb-0">
-                                {% for i in 1..chambre.hotel.nbrEtoiles %}
-                                    <li class="list-inline-item"><span class="fa fa-2x fa-star-o" style="color: goldenrod;"></span></li>
-                                {% endfor %}
-                            </ul>
-                        </div>
-                    </div>
-                    <h6> <span class="fa fa-map-marker" style="width: 18px;"></span> {{ chambre.hotel.DistanceCentre }} Km far from {{ chambre.Hotel.ville }} center</h6>
-                </div>
-                <div class="card">
-                    <div class="card-body ">
-                        <ul class="list-unstyled" style="font-size: large;">
-                            <li>
-                                Type : {{ chambre.categorie }}
-                            </li>
-                            <li class="pt-2">
-                                <ul class="list-unstyled list-inline mb-0">
-                                    <li class="list-inline-item">Surface : {{ chambre.superficie }} m<sup>2</sup></li>
-                                    <li class="list-inline-item">Floor : {{ chambre.etage }}</li>
-                                </ul>
-                            </li>
-                            <li class="pt-2">Capacity :
-                                {% for i in 1..chambre.Capacity() %}
-                                    <span class="fa fa-male mx-1"></span>
-                                {% endfor %}
-                            </li>
-                            <li class="pt-2">
-                                    Price : {{ (chambre.prixSaison.prix *  chambre.prixSaison.taux)|round(2, 'ceil') }} <span class="fa fa-euro"></span> / Night
-                            </li>
-                        </ul>
-                        <p class="myFont2 card-text">{{ chambre.description }}
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
 
-    <section class="container text-center">
-        <div class="row mt-3">
-            <div class="col-12">
-                <div class="text-center" style="width: auto;">
-                    <h1 class="myFont m-1 color3">ROOM GALLERY</h1>
-                    <hr style="width: 25%;">
-                </div>
-            </div>
-        </div>
-        <div class="row m-0 p-0 text-center">
-            <div id="jssor_1" style="position:relative;margin:0 auto;top:0px;left:0px;width:960px;height:480px;overflow:hidden;visibility:hidden;background-color:#24262e;">
-                <!-- Loading Screen -->
-                <div data-u="loading" class="jssorl-009-spin" style="position:absolute;top:0px;left:0px;width:100%;height:100%;text-align:center;background-color:rgba(0,0,0,0.7);">
-                    <img style="margin-top:-19px;position:relative;top:50%;width:38px;height:38px;" src="/assets/imgs/spin.svg" />
-                </div>
-                <div data-u="slides" style="cursor:default;position:relative;top:0px;left:240px;width:720px;height:480px;overflow:hidden;">
-
-                    {% for img in chambre.images %}
-                        <div>
-                            <img data-u="image"  src="{{ asset('uploads/imgs/'~ img.image) }}" width="720px" height="480px" />
-                            <img data-u="thumb" src="{{ asset('uploads/imgs/'~ img.image) }}" width="99px" height="66px" />
-                        </div>
-                    {% endfor %}
-
-                </div>
-                <!-- Thumbnail Navigator -->
-                <div data-u="thumbnavigator" class="jssort101" style="position:absolute;left:0px;top:0px;width:240px;height:480px;background-color:#000;" data-autocenter="2" data-scale-left="0.75">
-                    <div data-u="slides">
-                        <div data-u="prototype" class="p" style="width:99px;height:66px;">
-                            <div data-u="thumbnailtemplate" class="t"></div>
-                            <svg viewbox="0 0 16000 16000" class="cv">
-                                <circle class="a" cx="8000" cy="8000" r="3238.1"></circle>
-                                <line class="a" x1="6190.5" y1="8000" x2="9809.5" y2="8000"></line>
-                                <line class="a" x1="8000" y1="9809.5" x2="8000" y2="6190.5"></line>
-                            </svg>
-                        </div>
-                    </div>
-                </div>
-                <!-- Arrow Navigator -->
-                <div data-u="arrowleft" class="jssora093" style="width:50px;height:50px;top:0px;left:270px;" data-autocenter="2">
-                    <svg viewbox="0 0 16000 16000" style="position:absolute;top:0;left:0;width:100%;height:100%;">
-                        <circle class="c" cx="8000" cy="8000" r="5920"></circle>
-                        <polyline class="a" points="7777.8,6080 5857.8,8000 7777.8,9920 "></polyline>
-                        <line class="a" x1="10142.2" y1="8000" x2="5857.8" y2="8000"></line>
-                    </svg>
-                </div>
-                <div data-u="arrowright" class="jssora093" style="width:50px;height:50px;top:0px;right:30px;" data-autocenter="2">
-                    <svg viewbox="0 0 16000 16000" style="position:absolute;top:0;left:0;width:100%;height:100%;">
-                        <circle class="c" cx="8000" cy="8000" r="5920"></circle>
-                        <polyline class="a" points="8222.2,6080 10142.2,8000 8222.2,9920 "></polyline>
-                        <line class="a" x1="5857.8" y1="8000" x2="10142.2" y2="8000"></line>
-                    </svg>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="container text-center">
-        <div class="row mt-3">
-            <div class="col-12">
-                <div class="text-center" style="width: auto;">
-                    <h1 class="myFont m-1 color3">AMENITIES</h1>
-                    <hr style="width: 25%;">
-                </div>
-            </div>
-        </div>
-        <div class="row m-0 p-0 text-center">
-            {% for service in chambre.services %}
-            <div class="col-sm-12 col-md-4 col-lg-3 mt-2">
-                <div class="card border-0 m-auto" style="background-color: #f5f5f5; color: #3d3935;">
-                    <div class="card-body">
-                        <p class="m-0">{{ service.libelle }}</p>
-                    </div>
-                </div>
-            </div>
-            {% endfor %}
-        </div>
-    </section>
-
-    <section class="container pt-5">
-        <div class="row mt-5">
-            <div class="col-12">
-                <div class="text-center" style="width: auto;">
-                    <h1 class="myFont m-1 color3">Make Your Resevation</h1>
-                    <hr style="width: 25%;">
-                </div>
-            </div>
-        </div>
-
-        <div id="reservation" class="container">
-            <div id="myModal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLongTitle"> Confirmation </h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <p>Are You Sure You want To submit The Form ?</p>
-                        </div>
-                        <div class="modal-footer">
-                            <button class="btn" data-dismiss="modal" aria-hidden="true">No.</button>
-                            <button class="color2 text-light btn" id="SubForm">Yes, Confirm and Proceed.</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="reservation-form pb-5">
-                    {{ form_start(form , { 'attr' :{'id':'reserve'}}) }}
-                        <div class="row">
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <span class="form-label">Full Name</span>
-                                    {{ form_widget(form.name, {'attr':{'class':'form-control', 'placeholder':"Your Full Name" }}) }}
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <span class="form-label">Passport Number OR CIN</span>
-                                    {{ form_widget(form.cinPass, {'attr':{'class':'form-control', 'placeholder':"Your ID Number" }}) }}
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <span class="form-label">Phone Number</span>
-                                    {{ form_widget(form.tele, {'attr':{'class':'form-control', 'placeholder':"Not Necessary" }}) }}
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <span class="form-label">Email <sup>*</sup> </span>
-                                    {{ form_widget(form.email, {'attr':{'class':'form-control', 'placeholder':"Must Be a Valid Email" }}) }}
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <span class="form-label">Check-in</span>
-                                    {{ form_widget(form.checkin, {'attr':{'class':'form-control'}}) }}
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <span class="form-label">Check-out</span>
-                                    {{ form_widget(form.checkout, {'attr':{'class':'form-control'}}) }}
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row text-center">
-                            <div class="col-12">
-                                <div class="form-btn text-center">
-                                    <button class="submit-btn">Reserve</button>
-                                </div>
-                            </div>
-                        </div>
-                    {{ form_end(form) }}
-                    <p class="text-light mt-4">* Notice that you will recive an email confirming your reservation.</p>
-                </div>
-            </div>
-        </div>
-    </section>
+	<!-- Room Imgs Slider Begin -->
+	<div class="room-details-slider">
+		<div class="container">
+			<div class="room__details__pic__slider owl-carousel">
+				<div class="room__details__pic__slider__item set-bg" data-setbg="{{ asset('uploads/imgs/'~ chambre.image) }}"></div>
+				{% for img in chambre.images %}
+					<div>
+						<div class="room__details__pic__slider__item set-bg" data-setbg="{{ asset('uploads/imgs/'~ img.image) }}"></div>
+					</div>
+				{% endfor %}
+			</div>
+		</div>
+	</div>
+	<!-- Room Imgs Slider End -->
 
 
+	<!-- Rooms Details Section Begin -->
+	<section class="room-details spad">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="room__details__content">
+						<div class="room__details__rating">
+							<div class="room__details__hotel">
+								<span>Hotel
+									{{ chambre.hotel.nom }}
+								</span>
+								<div class="room__details__hotel__rating">
+									{% for i in 1..6 %}
+										{% if i <= chambre.hotel.nbrEtoiles %}
+											<span style="color : #E9AD28" class="icon_star"></span>
+										{% else %}
+											<span style="color : #E9AD28" class="icon_star_alt"></span>
+										{% endif %}
+									{% endfor %}
+								</div>
+							</div>
+							<div class="room__details__advisor">
+								<img src="/home/img/rooms/details/tripadvisor.png" alt="">
+								<div class="room__details__advisor__rating">
+									<span class="icon_star"></span>
+									<span class="icon_star"></span>
+									<span class="icon_star"></span>
+									<span class="icon_star"></span>
+									<span class="icon_star-half_alt"></span>
+								</div>
+								<span class="review">(1000 Reviews)</span>
+							</div>
+						</div>
+						<div class="room__details__title">
+							<h6>About this Hotel</h6>
+							<div class="room__details__desc">
+								<p>{{ chambre.hotel.Description }}</p>
+							</div>
+						</div>
+						<div class="room__details__title">
+							<h2>Premium King Room</h2>
+							<a href="#reservation" class="primary-btn">Booking Now</a>
+						</div>
+						<div class="row">
+							<div class="col-lg-6">
+								<div class="room__text">
+									<ul>
+										<li>
+											&pointint;
+											<span>Capacity:</span>Max.
+											{{ chambre.Capacity }}
+											Person
+											{% if chambre.Capacity > 1 %}s
+											{% endif %}
+										</li>
+										<li>
+											&pointint;
+											<span>Surface:</span>
+											{{ chambre.superficie }}
+											m<sup>3</sup>
+										</li>
+										<li>
+											&pointint;
+											<span>Floor:</span>
+											{{ chambre.etage }}
+											<sup>
+												{% if chambre.etage matches '/1$/' %}St.{% else %}Th.
+												{% endif %}
+											</sup>
+										</li>
+									</ul>
+								</div>
+							</div>
+							<div class="col-lg-6">
+								<h2 style="border-left : 2.5px solid #E9AD28; border-radius: 12px;">
+									&nbsp; Price :</h2>
+								<div class="room__text">
+									<h2 class="mt-2">
+										<sup>$</sup>
+										{{ (chambre.prixSaison.prix *  chambre.prixSaison.taux)|round(2, 'ceil') }}<span>/day</span>
+									</h2>
+								</div>
+							</div>
+						</div>
+						<div class="room__details__desc">
+							<h2>Room Description:</h2>
+							<p>{{ chambre.description }}</p>
+
+						</div>
+						<div class="row">
+							<div class="col-lg-6 col-md-6 col-sm-6">
+								<div class="room__details__more__facilities">
+									<h2>Room facilities:</h2>
+									<div class="row">
+										<div class="col-lg-6">
+											<div class="room__details__more__facilities__item">
+												<div class="icon"><img src="/home/img/rooms/details/facilities/fac-1.png" alt=""></div>
+												<h6>Air Conditioning</h6>
+											</div>
+											<div class="room__details__more__facilities__item">
+												<div class="icon"><img src="/home/img/rooms/details/facilities/fac-2.png" alt=""></div>
+												<h6>Cable TV</h6>
+											</div>
+											<div class="room__details__more__facilities__item">
+												<div class="icon"><img src="/home/img/rooms/details/facilities/fac-3.png" alt=""></div>
+												<h6>Free drinks</h6>
+											</div>
+											<div class="room__details__more__facilities__item">
+												<div class="icon"><img src="/home/img/rooms/details/facilities/fac-4.png" alt=""></div>
+												<h6>Unlimited Wifi</h6>
+											</div>
+										</div>
+										<div class="col-lg-6">
+											<div class="room__details__more__facilities__item">
+												<div class="icon"><img src="/home/img/rooms/details/facilities/fac-5.png" alt=""></div>
+												<h6>Restaurant quality</h6>
+											</div>
+											<div class="room__details__more__facilities__item">
+												<div class="icon"><img src="/home/img/rooms/details/facilities/fac-6.png" alt=""></div>
+												<h6>Service 24/24</h6>
+											</div>
+											<div class="room__details__more__facilities__item">
+												<div class="icon"><img src="/home/img/rooms/details/facilities/fac-7.png" alt=""></div>
+												<h6>Gym Centre</h6>
+											</div>
+											<div class="room__details__more__facilities__item">
+												<div class="icon"><img src="/home/img/rooms/details/facilities/fac-8.png" alt=""></div>
+												<h6>Spa &amp; Wellness</h6>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-lg-6 col-md-6 col-sm-6">
+								<div class="room__details__facilities">
+									<h2>Others facilities:</h2>
+									<div class="row">
+										<div class="col-lg-6">
+											<ul>
+												{% for service in (chambre.services) %}
+													{% if loop.index0 <= (loop.length)/2 %}
+														<li>
+															<span class="icon_check"></span>
+															{{ service.libelle }}
+														</li>
+													{% endif %}
+												{% endfor %}
+											</ul>
+										</div>
+										<div class="col-lg-6">
+											<ul>
+												{% for service in (chambre.services) %}
+													{% if loop.index0 > (loop.length)/2 %}
+														<li>
+															<span class="icon_check"></span>
+															{{ service.libelle }}
+														</li>
+													{% endif %}
+												{% endfor %}
+											</ul>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div id="reservation" class="row mt-5">
+				<div class="col-lg-5 col-md-6 col-sm-5">
+					<div class="contact__widget">
+						<div class="contact__widget__item">
+							<h4>Hotel
+								{{ chambre.hotel.nom }}</h4>
+							<ul>
+								<li>{{ chambre.hotel.siteweb }}</li>
+							</ul>
+						</div>
+						<div class="contact__widget__item">
+							<h4>Address</h4>
+							<p>{{ chambre.hotel.adresse }}</p>
+						</div>
+						<div class="contact__widget__time">
+							<h4>Check-In &amp; Check-Out Times</h4>
+							<div class="row">
+								<div class="col-lg-6 col-md-6 col-sm-6">
+									<div class="contact__widget__time__item">
+										<ul>
+											<li>Check In Starts At:</li>
+											<li>
+												<span>9:30 am</span>
+											</li>
+										</ul>
+									</div>
+								</div>
+								<div class="col-lg-6 col-md-6 col-sm-6">
+									<div class="contact__widget__time__item">
+										<ul>
+											<li>Check Out Ends At:</li>
+											<li>
+												<span>19 pm - 21 pm</span>
+											</li>
+										</ul>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-6 offset-lg-1 col-md-6 col-sm-7">
+					<div class="contact__form">
+						<div id="myModal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+							<div class="modal-dialog modal-dialog-centered" role="document">
+								<div class="modal-content">
+									<div class="modal-header">
+										<h5 class="modal-title" id="exampleModalLongTitle">
+											Confirmation
+										</h5>
+										<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+											<span aria-hidden="true">&times;</span>
+										</button>
+									</div>
+									<div class="modal-body">
+										<p>Are You Sure You want To submit The Form ?</p>
+									</div>
+									<div class="modal-footer">
+										<button class="btn" data-dismiss="modal" aria-hidden="true">No.</button>
+										<button class="text-light btn" style="background-color: #E9AD28" id="SubForm">Yes, Confirm and Proceed.</button>
+									</div>
+								</div>
+							</div>
+						</div>
+						<h2>Make Your Reservation</h2>
+						{{ form_start(form , { 'attr' :{'id':'reserve'}}) }}
+
+						{{ form_widget(form.name, {'attr':{'placeholder':"Full Name" }}) }}
+						{{ form_widget(form.cinPass, {'attr':{'placeholder':"Id N°" }}) }}
+						{{ form_widget(form.tele, {'attr':{'placeholder':"Phone N°" }}) }}
+						{{ form_widget(form.email, {'attr':{'placeholder':"Valide Email*" }}) }}
+
+						<div class="booking__form__item">
+							<p>Check In</p>
+							<div class="filter__form__datepicker">
+								<span class="icon_calendar"></span>
+								{{ form_widget(form.checkin, {'attr':{'class':'p-0'}}) }}
+							</div>
+							<p>Check Out</p>
+							<div class="filter__form__datepicker">
+								<span class="icon_calendar"></span>
+								{{ form_widget(form.checkout, {'attr':{'class':'p-0'}}) }}
+							</div>
+						</div>
+						<button type="submit">Place Reservation</button>
+						{{ form_end(form) }}
+						<p class="text-small mt-2">*Notice that you will recive an email confirming your reservation.</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<!-- Rooms Details Section End -->
 
 {% endblock %}
 
 {% block js %}
-    <script type="text/javascript">jssor_1_slider_init();</script>
-    <script>
-            $("#reserve").submit(function (e) {
-                    e.preventDefault();
-                    $("#myModal").modal('show');
-                    $('#SubForm').click(function () {
-                        form.submit();
-                    });
-            });
-    </script>
+	<script>
+		$("#reserve").submit(function (e) {
+e.preventDefault();
+$("#myModal").modal('show');
+$('#SubForm').click(function () {
+form.submit();
+});
+});
+	</script>
 {% endblock %}

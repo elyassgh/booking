@@ -2,7 +2,6 @@
 
 namespace App\Entity;
 
-use App\Repository\ServiceRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -61,5 +60,10 @@ class Service
         $this->chambre = $chambre;
 
         return $this;
+    }
+
+
+    public function __toString() {
+        return $this->getLibelle();
     }
 }

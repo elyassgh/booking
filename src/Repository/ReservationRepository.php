@@ -3,11 +3,11 @@
 namespace App\Repository;
 
 use App\Entity\Reservation;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Persistence\ManagerRegistry;
 use DateInterval;
 use DatePeriod;
 use DateTime;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * @method Reservation|null find($id, $lockMode = null, $lockVersion = null)

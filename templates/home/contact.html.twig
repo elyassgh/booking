@@ -1,110 +1,74 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Contact us{% endblock %}
+{% block title %}Contact Us{% endblock %}
 
 {% block body %}
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-xs-12 col-md-12 col-lg-12 p-0">
-                <div class="flex-center pageTop">
-                    <div class="container text-center text-wrap text-white">
-                        <h1 class="myFont" style="font-size: 4rem">Contact Us</h1>
+    <!-- Map Begin -->
+    <div class="map">
+        <iframe src="https://www.google.com/maps/embed?pb=!1m19!1m8!1m3!1d11207.556661876328!2d-8.029167882279053!3d31.639239376512826!3m2!1i1024!2i768!4f13.1!4m8!3e0!4m0!4m5!1s0xdafeea25f595b37%3A0x540c592c42400b54!2sAgence%20de%20Loisirs%20Marocains%20ALM%2C%202%C3%A8me%20%C3%A9tage%D8%8C%20R%C3%A9sidence%20YASMINE%20Boulevard%20Cheikh%20Rabhi%20Camp%20El%20Ghoul%20Appt%20N14%D8%8C%20Marrakesh!3m2!1d31.640816599999997!2d-8.0263445!5e0!3m2!1sen!2sma!4v1613993014451!5m2!1sen!2sma"
+            height="600" style="border:0;" allowfullscreen=""></iframe>
+    </div>
+    <!-- Map End -->
+
+    <!-- Contact Section Begin -->
+    <section class="contact spad">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-5 col-md-6 col-sm-5">
+                    <div class="contact__widget">
+                        <div class="contact__widget__item">
+                            <h4>Contact Us</h4>
+                            <ul>
+                                <li>+(212) 661-00-010</li>
+                                <li>contact@alm.ma</li>
+                            </ul>
+                        </div>
+                        <div class="contact__widget__item">
+                            <h4>Address</h4>
+                            <p>Boulevard Cheikh Rabhi Residence Yasmine 14 Gueliz <br>Marrakech, Morocco</p>
+                        </div>
+                        <div class="contact__widget__time">
+                            <h4>Opentime</h4>
+                            <div class="row">
+                                <div class="col-lg-6 col-md-6 col-sm-6">
+                                    <div class="contact__widget__time__item">
+                                        <ul>
+                                            <li>Monday - Friday</li>
+                                            <li><span>8 am - 9 pm</span></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-6">
+                                    <div class="contact__widget__time__item">
+                                        <ul>
+                                            <li>Saturday - Sunday</li>
+                                            <li><span>8 am - 9 pm</span></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 offset-lg-1 col-md-6 col-sm-7">
+                    <div class="contact__form">
+                        <h2>Your question?</h2>
+                        <form action="#">
+                            <input type="text" placeholder="Your Name">
+                            <input type="text" placeholder="Email">
+                            <textarea placeholder="Your Message"></textarea>
+                            <button type="submit">Send Message</button>
+                        </form>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-
-    <section class="py-2 px-0">
-        <div class="container-fluid py-5 text-center px-0" style="width: 90%">
-            <div class="row px-0">
-                <div class="col-lg-12">
-                    <div id="map" style="width: 100%;height: 600px"></div>
-                </div>
-                <div class="col-lg-12">
-                    <hr class="color2" style="width: 50%; height: 0.2rem;">
-                    <hr width="20%">
-                </div>
-            </div>
-        </div>
     </section>
-
-    <section class="container">
-        <div class="row">
-            <div class="col-12 text-center p-4">
-                <h1 class="py-5 myFont color">Drop us a message</h1>
-            </div>
-            <div class="col-12 container-fluid">
-                    <form id="contactform" action="">
-                        <div class="row">
-                            <div class="col-xs-12 col-md-6">
-                                <div class="group">
-                                    <input type="text" required>
-                                    <span class="highlight"></span>
-                                    <span class="bar"></span>
-                                    <label>Name</label>
-                                </div>
-                            </div>
-                            <div class="col-xs-12 col-md-6">
-                                <div class="group">
-                                    <input type="text" required>
-                                    <span class="highlight"></span>
-                                    <span class="bar"></span>
-                                    <label>Email</label>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row ">
-                            <div class="col-12 mb-0 group">
-                                <div class="group">
-                                    <input type="text" required>
-                                    <span class="highlight"></span>
-                                    <span class="bar"></span>
-                                    <label>Topic</label>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row mt-0">
-                            <div class="col-12 group">
-                                <textarea name="" id="" rows="5" placeholder="Message"></textarea>
-                                <span class="highlight"></span>
-                                <span class="bar"></span>
-                            </div>
-                        </div>
-                        <div class="form-row text-center">
-                            <div class="col">
-                                <button class="btn btn-md w-50 color2 text-light">Send</button>
-                            </div>
-                        </div>
-                    </form>
-            </div>
-            <div class="col-lg-12">
-                <hr class="color2" style="width: 50%; height: 0.2rem;">
-                <hr width="20%">
-            </div>
-        </div>
-    </section>
+    <!-- Contact Section End -->
 {% endblock %}
 
 {% block js %}
-    <script async src="https://maps.googleapis.com/maps/api/js?key=&callback=initMap&libraries=&v=weekly" defer>
-    </script>
     <script>
-        (function (exports) {
-            "use strict";
-
-            function initMap() {
-                exports.map = new google.maps.Map(document.getElementById("map"), {
-                    center: {
-                        lat: 31.6328892,
-                        lng: -8.008825
-                    },
-                    zoom: 15
-                });
-            }
-
-            exports.initMap = initMap;
-        })
-        ((this.window = this.window || {}));
+        activate(2);
     </script>
 {% endblock %}

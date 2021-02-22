@@ -3,127 +3,146 @@
 
 {% block body %}
 
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-xs-12 col-md-12 col-lg-12 p-0">
-                <div class="flex-center pageTop">
-                    <div class="container text-center text-wrap text-white">
-                        <h1 class="myFont" style="font-size: 3.8rem">SEARCH</h1>
+    <!-- Breadcrumb Begin -->
+    <div class="breadcrumb-option set-bg" data-setbg="/home/img/breadcrumb-bg.jpg">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <div class="breadcrumb__text">
+                        <h1>Search</h1>
+                        <div class="breadcrumb__links">
+                            <a href="{{ path('home') }}">Home</a>
+                            <span>Search</span>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
-
-    <div class="info form-holder no-margin p-0">
-        <div class="container">
-            <div class="row">
-                <div class="booking-form shadow-lg">
-                    {{ form_start(form) }}
-                    <div class="row no-margin">
-                        <div class="col-md-3 bg-light">
-                            <div class="form-group">
-                                <span class="form-label">Destination</span>
-                                {{ form_widget(form.destination, {'attr':{'class':'form-control', 'placeholder':"Region, City or Hotel." }}) }}
+            <div class="row mt-5">
+                <div class="col-lg-12">
+                    {{ form_start(form, { 'attr':{'class':'filter__form', 'autocomplete':'off'} }) }}
+                        <div class="filter__form__item filter__form__item--search">
+                            <p>Location</p>
+                            <div class="filter__form__input">
+                                {{ form_widget(form.destination, {'attr':{'placeholder':"Search Location" }}) }}
+                                <span class="icon_search"></span>
                             </div>
                         </div>
-                        <div class="col-md-6 bg-light">
-                            <div class="row no-margin ">
-                                <div class="col-md-5">
-                                    <div class="form-group">
-                                        <span class="form-label">Check In</span>
-                                        {{ form_widget(form.checkin, {'attr':{'class':'form-control'}}) }}
-                                    </div>
-                                </div>
-                                <div class="col-md-5">
-                                    <div class="form-group">
-                                        <span class="form-label">Check out</span>
-                                        {{ form_widget(form.checkout, {'attr':{'class':'form-control'}}) }}
-                                    </div>
-                                </div>
-                                <div class="col-md-2">
-                                    <div class="form-group">
-                                        <span class="form-label">Guests</span>
-                                        {{ form_widget(form.guests, {'attr':{'class':'form-control'}}) }}
-                                        <span class="select-arrow"></span>
-                                    </div>
-                                </div>
+                        <div class="filter__form__item">
+                            <p>Check In</p>
+                            <div class="filter__form__datepicker">
+                                <span class="icon_calendar"></span>
+                                {{ form_widget( form.checkin, {'attr':{'class':'datepicker_pop_in check__in'}}) }}
+                                <i class="arrow_carrot-down"></i>
                             </div>
                         </div>
-                        <div class="col-md-3 bg-light">
-                            <div class="form-btn">
-                                <button class="submit-btn">Check availability</button>
+                        <div class="filter__form__item">
+                            <p>Check Out</p>
+                            <div class="filter__form__datepicker">
+                                <span class="icon_calendar"></span>
+                                {{ form_widget(form.checkout, {'attr':{'class':'datepicker_pop_out check__out'}}) }}
+                                <i class="arrow_carrot-down"></i>
                             </div>
                         </div>
-                    </div>
+                        <div class="filter__form__item filter__form__item--select">
+                            <p>Guests</p>
+                            <div class="filter__form__select">
+                                <span class="icon_group"></span>
+                                {{ form_widget(form.guests) }}
+                            </div>
+                        </div>
+                        <button type="submit">Check Availablity</button>
                     {{ form_end(form) }}
                 </div>
             </div>
         </div>
     </div>
+    <!-- Breadcrumb End -->
 
-    <section class="filter">
+ 
+    <!-- Filter Form Begin-->
+    <section class="filter m-5">
         <div class="container">
             <div class="row">
-                <div class="col-12">
-                    <h1 class="myFont color">Filter By :</h1>
+                <div class="col-lg-12">
+                    <div class="filter__text">
+                        <h5>Filter the result</h5>
+                        <h4>Make Your Search More Precise</h4>
+                    </div>
+                    {{ form_start(filter, {'attr':{'id':'filter' , "class":"filter__form"}}) }}
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="filter__form__item filter__form__item--select">
+                                    <p>Start Rating</p>
+                                    <div class="filter__form__select">
+                                        <span class="icon_star"></span>
+                                        {{ form_widget(filter.stars)}}
+                                    </div>
+                                </div>
+                                <div class="filter__form__item filter__form__item--select">
+                                    <p>Room Type</p>
+                                    <div class="filter__form__select">
+                                        <span class="icon_house"></span>
+                                        {{ form_widget(filter.type)}}
+                                    </div>
+                                </div>
+                                <div class="filter__form__item filter__form__item--select">
+                                    <p>Dist. to Downtown</p>
+                                    <div class="filter__form__select">
+                                        <span class="icon_pin"></span>
+                                        {{ form_widget(filter.distance)}}
+                                    </div>
+                                </div>
+                                <div class="filter__form__item filter__form__item--search">
+                                    <p>Max Price</p>
+                                    <div class="">
+                                        <div class="range-slider">
+                                            {{ form_widget(filter.maxprice) }}
+                                            <span class="range-value">250</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {{ form_end(filter) }}
                 </div>
-            </div>
-        </div>
-        <div class="container">
-            {{ form_start(filter, {'attr':{'id':'filter'}}) }}
-            <div class="row pt-3">
-                <div class="col-sm-12 col-md-6 col-lg-3 text-center">
-                    <h4 class="my-3">Star Rating <span class="fa fa-star-o"></span></h4>
-                    {{ form_widget(filter.stars, {'attr':{'class':'form-control','style':'width:100%'}}) }}
-                </div>
-                <div class="col-sm-12 col-md-6 col-lg-3 text-center">
-                    <h4 class="my-3">Room Type <span class="fa fa-home"></span></h4>
-                    {{ form_widget(filter.type, {'attr':{'class':'form-control','style':'width:100%'}}) }}
-                </div>
-                <div class="col-sm-12 col-md-6 col-lg-3 text-center">
-                    <h4 class="my-3">Distance <span class="fa fa-map-marker"></span></h4>
-                    {{ form_widget(filter.distance, {'attr':{'class':'form-control','style':'width:100%'}}) }}
-                </div>
-                <div class="col-sm-12 col-md-6 col-lg-3 text-center">
-                    <h4 class="my-3">Max Price <span class="fa fa-tags"></span>  </h4>
-                    {{ form_widget(filter.maxprice, {'attr':{'class':'form-control','style':'100%'}}) }}
-                </div>
-            </div>
-            {{ form_end(filter) }}
-            <div class="row p-4 text-center">
-                <div class="col-12 pt-4 text-center">
-                    <button id="filtring" class="m-3 btn btn-group btn-sm color2 text-light">Apply filters</button>
-                    <button id="cancelfiltring" class="m-3 btn btn-group btn-sm color2 text-light">Cancel filters</button>
-                </div>
-            </div>
-        </div>
-        <br>
-        <hr width="60%">
-        <br>
-        <div class="container">
-            <div class="row">
-                <div class="col-12">
-                    <h1 class="myFont color">Search Result :</h1>
+                <div class="col-12 text-center pb-3">
+                    <div class="header__nav__widget">
+                        <a id="filtring" href="javascript:void(0)">Apply filters <span class="icon_circle-slelected"></span></a>
+                        <a id="cancelfiltring" href="javascript:void(0)">Cancel filters <span class="icon_circle-empty"></span></a>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
+    <!-- Filter Form End-->
 
-    <section>
+
+    <hr style="width: 55%; height: 2px;">
+
+
+    <!-- Rooms Section Begin -->
+    <section class="rooms spad">
         <div class="container">
             <div id="roomsContainer" class="row">
                 {% include 'home/roomsloader.html.twig' with {'checkin': form.checkin.vars.value, 'checkout' : form.checkout.vars.value } %}
             </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="pagination__number">
+                        <a href="#">1</a>
+                        <a href="#">2</a>
+                        <a href="#">Next <span class="arrow_right"></span></a>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
+    <!-- Rooms Section End -->
 
 {% endblock %}
 {% block js %}
     <script>
-
         $(document).ready(function(){
-
             //Ajax filter
             function filterCallback() {
                     var params = $("#filter").serialize();
@@ -138,6 +157,17 @@
                         },
                         success: function(response) {
                             $("#roomsContainer").html(response);
+                            $(".room__pic__slider").owlCarousel({
+                                loop: true,
+                                margin: 0,
+                                items: 1,
+                                dots: false,
+                                nav: true,
+                                navText: ["<i class='arrow_carrot-left'></i>", "<i class='arrow_carrot-right'></i>"],
+                                smartSpeed: 1200,
+                                autoHeight: false,
+                                autoplay: false
+                            });
                         },
                         error: function (response) {
                             $("#roomsContainer").html('<div class="col-12 my-5"><div class="alert alert-danger text-center" role="alert"><h6 class="m-3">An Error Occurred !</h6></div></div>')
@@ -146,7 +176,6 @@
             }
 
             document.getElementById('filtring').addEventListener('click', filterCallback )
-
 
             function filtercancel() {
                 var params = $("#filter").serialize();
@@ -159,6 +188,17 @@
                     },
                     success: function(response) {
                         $("#roomsContainer").html(response);
+                        $(".room__pic__slider").owlCarousel({
+                                loop: true,
+                                margin: 0,
+                                items: 1,
+                                dots: false,
+                                nav: true,
+                                navText: ["<i class='arrow_carrot-left'></i>", "<i class='arrow_carrot-right'></i>"],
+                                smartSpeed: 1200,
+                                autoHeight: false,
+                                autoplay: false
+                        });
                     },
                     error: function (response) {
                         $("#roomsContainer").html('<div class="col-12 my-5"><div class="alert alert-danger text-center" role="alert"><h6 class="m-3">An Error Occurred !</h6></div></div>')
@@ -169,5 +209,6 @@
             document.getElementById('cancelfiltring').addEventListener('click', filtercancel )
 
         });
+
     </script>
 {% endblock %}

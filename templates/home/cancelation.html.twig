@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Room details{% endblock %}
+{% block title %}Reservation Cancel{% endblock %}
 
 {% block body %}
 
@@ -15,9 +15,9 @@
         <div class="row mx-lg-5">
             <div class="col-12 text-center">
                 <ul class="list-group text-center">
-                    <li class="list-group-item color2 text-light ">
+                    <li class="list-group-item text-light" style="background-color: #718C00;">
                         Reservation Details
-                    </li>
+                    </li>                    
                     <li class="list-group-item">
                         <ul class="list-inline list-unstyled">
                             <li class="list-inline-item">Reference :</li>
@@ -54,7 +54,7 @@
     </div>
 
     <div class="jumbotron bg-white text-center">
-        <h1 style="font-size: 3.5rem">Are you sure you want to do this ?</h1>
+        <h1 style="font-size: 3.5rem">Are you sure you want to cancel this reservation?</h1>
         <hr class="color2" style="width: 50%; height: 0.2rem;">
         <hr width="20%">
 
@@ -81,7 +81,7 @@
                         <p>Your reservation is been canceled.</p>
                     </div>
                     <div class="modal-footer">
-                        <a class="color2 text-light btn" href="{{ path('home') }}" >Go to Home Page</a>
+                        <a class="text-light btn" style="background-color: #E9AD28" href="{{ path('home') }}" >Go to Home Page</a>
                     </div>
                 </div>
             </div>
@@ -103,9 +103,7 @@
 {% endblock %}
 
 {% block js %}
-    <script type="text/javascript">jssor_1_slider_init();</script>
     <script>
-
 
         function cancel() {
             console.log('clicked')
@@ -129,8 +127,6 @@
         }
 
         document.getElementById('confirm').addEventListener("click", cancel)
-
-
 
     </script>
 {% endblock %}
