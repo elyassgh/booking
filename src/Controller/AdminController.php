@@ -318,7 +318,7 @@ class AdminController extends AbstractController
             $reservation = $repository->findOneByReference($data['ref']);
         
             // don't show other hotels reservations to non hotel administrators
-            if(($reservation->getChambre())->getHotel() != $admin->getHotel()) $reservation = null;
+            if( !is_null($reservation) && ($reservation->getChambre())->getHotel() != $admin->getHotel()) $reservation = null;
 
             return $this->render('admin/reservations/index.html.twig', [
                 'admin' => $admin,

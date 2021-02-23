@@ -1,218 +1,273 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-    <title>{% block title %}ALM ADMINISTRATION{% endblock %}</title>
-    <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no'
-          name='viewport' />
-    <!--     Fonts and icons     -->
-    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet" />
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css"
-          integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-    <!-- CSS Files -->
-    <link rel="stylesheet" href="/assets/css/tags-inputs.css">
-    <link href="/assets/css/bootstrap.min.css" rel="stylesheet" />
-    <link href="/assets/css/now-ui-dashboard.css" rel="stylesheet" />
-    <script>
-        function activate(order){
-            var ul = document.getElementById('navigation-ul');
-            var items = ul.getElementsByTagName("li")[order].classList.add('active');
-        }
-    </script>
-</head>
+	<head>
+		<meta charset="utf-8"/>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+		<title>
+			{% block title %}ALM ADMINISTRATION
+			{% endblock %}
+		</title>
+		<meta
+		content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport'/>
+		<!--     Fonts and icons     -->
+		<link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet"/>
+		<link
+		rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+		<!-- CSS Files -->
+		<link rel="stylesheet" href="/assets/css/tags-inputs.css">
+		<link href="/assets/css/bootstrap.min.css" rel="stylesheet"/>
+		<link href="/assets/css/now-ui-dashboard.css" rel="stylesheet"/>
+		<style>
+			#preloder {
+				position: fixed;
+				top: 50%;
+				left: 50%;
+				z-index: 999999;
+				transform: translate(-50%, -50%);
+			}
 
-<body>
-<div class="wrapper ">
-    <div class="sidebar" data-color="red">
-        <div class="logo">
-            <img style="display: block;" src="/home/img/alm.png" alt="alm logo" class="img-fluid">
-            <br>
-            <strong class="text-white m-2">ALM Booking Administration</strong>
-        </div>
-        <div class="sidebar-wrapper" id="sidebar-wrapper">
-            <ul class="nav" id="navigation-ul">
-                <li>
-                    <a href="{{ path('dashboard') }}">
-                        <i class="now-ui-icons design_app"></i>
-                        <p> Hotel {{ admin.hotel.nom }}</p>
-                    </a>
-                </li>
-                <li>
-                    <a href="{{ path('credentials') }}">
-                        <i class="now-ui-icons business_badge"></i>
-                        <p>Credentials</p>
-                    </a>
-                </li>
-                <li>
-                    <a href="{{ path('reservations') }}">
-                        <i class="now-ui-icons ui-1_calendar-60"></i>
-                        <p>Reservations</p>
-                    </a>
-                </li>
-                <li>
-                    <a href="{{ path('roomsmanagement')}}">
-                        <i class="now-ui-icons loader_gear"></i>
-                        <p>ROOMS MANAGEMENT</p>
-                    </a>
-                </li>
-                <li>
-                    <a href="{{ path('roomsgallery')}}">
-                        <i class="now-ui-icons design_image"></i>
-                        <p>ROOMS GALLERY</p>
-                    </a>
-                </li>
-                <script>
+			.loader {
+				width: 40px;
+				height: 40px;
+				margin: auto;
+				border-radius: 60px;
+				animation: loader 0.8s linear infinite;
+				-webkit-animation: loader 0.8s linear infinite;
+			}
 
-                </script>
-                {# MAYBE LATER
-                <li>
-                    <a href="./inbox.html">
-                        <i class="now-ui-icons ui-1_email-85"></i>
-                        <p>Inbox</p>
-                    </a>
-                </li>
-                #}
-            </ul>
-        </div>
-    </div>
-    <div class="main-panel" id="main-panel">
-        <!-- Navbar -->
-        <nav class="navbar navbar-expand-lg navbar-transparent  bg-primary  navbar-absolute">
-            <div class="container-fluid">
-                <div class="navbar-wrapper">
-                    <div class="navbar-toggle">
-                        <button type="button" class="navbar-toggler">
-                            <span class="navbar-toggler-bar bar1"></span>
-                            <span class="navbar-toggler-bar bar2"></span>
-                            <span class="navbar-toggler-bar bar3"></span>
-                        </button>
-                    </div>
-                    <a class="navbar-brand" href="#">{{ page }}</a>
-                </div>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation"
-                        aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-bar navbar-kebab"></span>
-                    <span class="navbar-toggler-bar navbar-kebab"></span>
-                    <span class="navbar-toggler-bar navbar-kebab"></span>
-                </button>
-                <div class="collapse navbar-collapse justify-content-end" id="navigation">
-                    <ul class="navbar-nav">
-                        <li class="nav-item">
-                            <a class="nav-link" href="#!">
-                                <i class="now-ui-icons users_circle-08"></i>
-                                <p>
-                                    <span class="d-lg-none d-md-block">{{ admin.email }}</span>
-                                </p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ path('app_logout') }}">
-                                <i class="fa fa-sign-out-alt"></i>
-                                <p>
-                                    <span class="d-lg-none d-md-block">Log out</span>
-                                </p>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
-        <!-- End Navbar -->
+			@keyframes loader {
+				0% {
+					-webkit-transform: rotate(0deg);
+					transform: rotate(0deg);
+					border: 4px solid #f44336;
+					border-left-color: transparent;
+				}
+				50% {
+					-webkit-transform: rotate(180deg);
+					transform: rotate(180deg);
+					border: 4px solid #673ab7;
+					border-left-color: transparent;
+				}
+				100% {
+					-webkit-transform: rotate(360deg);
+					transform: rotate(360deg);
+					border: 4px solid #f44336;
+					border-left-color: transparent;
+				}
+			}
 
-        {% block header %}
-        {% endblock %}
+			@-webkit-keyframes loader {
+				0% {
+					-webkit-transform: rotate(0deg);
+					border: 4px solid #f44336;
+					border-left-color: transparent;
+				}
+				50% {
+					-webkit-transform: rotate(180deg);
+					border: 4px solid #673ab7;
+					border-left-color: transparent;
+				}
+				100% {
+					-webkit-transform: rotate(360deg);
+					border: 4px solid #f44336;
+					border-left-color: transparent;
+				}
+			}
+		</style>
+		<script>
+			function activate(order) {
+				var ul = document.getElementById('navigation-ul');
+				var items = ul.getElementsByTagName("li")[order].classList.add('active');
+			}
+		</script>
+	</head>
 
-        <div class="content">
-            {% block content %}
-            {% endblock %}
-        </div>
+	<body>
+		<div class="wrapper ">
+			<div class="sidebar" data-color="red">
+				<div class="logo">
+					<img style="display: block;" src="/home/img/alm.png" alt="alm logo" class="img-fluid">
+					<br>
+					<strong class="text-white m-2">ALM Booking Administration</strong>
+				</div>
+				<div class="sidebar-wrapper" id="sidebar-wrapper">
+					<ul class="nav" id="navigation-ul">
+						<li>
+							<a href="{{ path('dashboard') }}">
+								<i class="now-ui-icons design_app"></i>
+								<p>
+									Hotel
+									{{ admin.hotel.nom }}</p>
+							</a>
+						</li>
+						<li>
+							<a href="{{ path('credentials') }}">
+								<i class="now-ui-icons business_badge"></i>
+								<p>Credentials</p>
+							</a>
+						</li>
+						<li>
+							<a href="{{ path('reservations') }}">
+								<i class="now-ui-icons ui-1_calendar-60"></i>
+								<p>Reservations</p>
+							</a>
+						</li>
+						<li>
+							<a href="{{ path('roomsmanagement')}}">
+								<i class="now-ui-icons loader_gear"></i>
+								<p>ROOMS MANAGEMENT</p>
+							</a>
+						</li>
+						<li>
+							<a href="{{ path('roomsgallery')}}">
+								<i class="now-ui-icons design_image"></i>
+								<p>ROOMS GALLERY</p>
+							</a>
+						</li>
+						{# MAYBE LATER
+						    <li>
+						        <a href="./inbox.html">
+						            <i class="now-ui-icons ui-1_email-85"></i>
+						            <p>Inbox</p>
+						        </a>
+						    </li>
+						#}
+					</ul>
+				</div>
+			</div>
+			<div
+				class="main-panel" id="main-panel">
+				<!-- Navbar -->
+				<nav class="navbar navbar-expand-lg navbar-transparent  bg-primary  navbar-absolute">
+					<div class="container-fluid">
+						<div class="navbar-wrapper">
+							<div class="navbar-toggle">
+								<button type="button" class="navbar-toggler">
+									<span class="navbar-toggler-bar bar1"></span>
+									<span class="navbar-toggler-bar bar2"></span>
+									<span class="navbar-toggler-bar bar3"></span>
+								</button>
+							</div>
+							<a class="navbar-brand" href="#">{{ page }}</a>
+						</div>
+						<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
+							<span class="navbar-toggler-bar navbar-kebab"></span>
+							<span class="navbar-toggler-bar navbar-kebab"></span>
+							<span class="navbar-toggler-bar navbar-kebab"></span>
+						</button>
+						<div class="collapse navbar-collapse justify-content-end" id="navigation">
+							<ul class="navbar-nav">
+								<li class="nav-item">
+									<a class="nav-link" href="#!">
+										<i class="now-ui-icons users_circle-08"></i>
+										<p>
+											<span class="d-lg-none d-md-block">{{ admin.email }}</span>
+										</p>
+									</a>
+								</li>
+								<li class="nav-item">
+									<a class="nav-link" href="{{ path('app_logout') }}">
+										<i class="fa fa-sign-out-alt"></i>
+										<p>
+											<span class="d-lg-none d-md-block">Log out</span>
+										</p>
+									</a>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</nav>
+				<!-- End Navbar -->
 
-        <footer class="footer">
-            <div class=" container-fluid ">
-                <div class="copyright" id="copyright">
-                    &copy; <script>
-                        document.getElementById('copyright').appendChild(document.createTextNode(new Date()
-                            .getFullYear()))
-                    </script> ALM Booking.
+				{% block header %}{% endblock %}
 
-                </div>
-            </div>
-        </footer>
-    </div>
-</div>
+				<div class="content"> {% block content %}{% endblock %}
+					</div>
 
-<!--   Core JS Files   -->
-<script src="/assets/js/core/jquery.min.js"></script>
-<script src="/assets/js/core/popper.min.js"></script>
-<script src="/assets/js/core/bootstrap.min.js"></script>
-<script src="/assets/js/plugins/perfect-scrollbar.jquery.min.js"></script>
-<!-- Chart JS -->
-<script src="/assets/js/plugins/chartjs.min.js"></script>
-<!--  Notifications Plugin    -->
-<!-- <script src="/assets/js/plugins/bootstrap-notify.js"></script> -->
-<script src="/assets/js/now-ui-dashboard.min.js" type="text/javascript"></script>
-<script>
-    var yearIncome;
-    function getyearIncome() {
-        return $.ajax({
-            url: '{{ path('yearincome', {'id':admin.hotel.id}) }}',
-            async: true,
-            success: function(response) {
-                yearIncome = response;
-            }
-        });
-    }
-    // REMEMBER --> There are Arrays withing this Array ! (Array of Arrays)
-    var monthIncomeLabels = [];
-    var monthIncomeData = [];
-    function getMonthIncome() {
-        return $.ajax({
-            url: '{{ path('monthRevenue', {'id':admin.hotel.id}) }}',
-            async: true,
-            success: function(response) {
-                //Nailed it ;) --> Easy.
-                for (var key in response) {
-                    monthIncomeLabels.push(response[key]['dateReservation']);
-                    monthIncomeData.push(parseInt(response[key]['Revenue']));
-                }
-            }
-        });
-    }
-    var bookingsLabels = [];
-    var bookingsData = [];
-    function getWeekBookings() {
-        return $.ajax({
-            url: '{{ path('weekbookings' , {'id':admin.hotel.id}) }}',
-            async: true,
-            success: function(response) {
-                for (var key in response) {
-                    bookingsLabels.push(key);
-                    bookingsData.push(response[key]);
-                }
-            }
-        });
-    }
-    var trendingRoomsLabels = [];
-    var trendingRoomsData = [];
-    function getTrendingRooms() {
-        return $.ajax({
-            url: '{{ path('trendingRooms' , {'id':admin.hotel.id}) }}',
-            async: true,
-            success: function(response) {
-                for (var key in response) {
-                    trendingRoomsLabels.push(key);
-                    trendingRoomsData.push(response[key]);
-                }
-            }
-        });
-    }
+					<footer class="footer">
+						<div class=" container-fluid ">
+							<div class="copyright" id="copyright">
+								&copy;
+								<script>
+									document.getElementById('copyright').appendChild(document.createTextNode(new Date().getFullYear()))
+								</script>
+								ALM Booking.
 
-</script>
-<script defer src="/assets/demo/demo.js"></script>
-{% block js %}
-{% endblock %}
-</body>
+							</div>
+						</div>
+					</footer>
+				</div>
+			</div>
 
-</html>
+			<!--   Core JS Files   -->
+			<script src="/assets/js/core/jquery.min.js"></script>
+			<script src="/assets/js/core/popper.min.js"></script>
+			<script src="/assets/js/core/bootstrap.min.js"></script>
+			<script src="/assets/js/plugins/perfect-scrollbar.jquery.min.js"></script>
+			<!-- Chart JS -->
+			<script src="/assets/js/plugins/chartjs.min.js"></script>
+			<!--  Notifications Plugin    -->
+			<!-- <script src="/assets/js/plugins/bootstrap-notify.js"></script> -->
+			<script src="/assets/js/now-ui-dashboard.min.js" type="text/javascript"></script>
+			<script>
+				var yearIncome;
+				function getyearIncome() {
+					return $.ajax({
+						url: '{{ path('yearincome', {'id':admin.hotel.id}) }}',
+						async: true,
+						success: function(response) {
+							yearIncome = response;
+						}
+					});
+				}
+				// REMEMBER --> There are Arrays withing this Array ! (Array of Arrays)
+				var monthIncomeLabels = [];
+				var monthIncomeData = [];
+				function getMonthIncome() {
+					return $.ajax({
+						url: '{{ path('monthRevenue', {'id':admin.hotel.id}) }}',
+						async: true,
+						success: function(response) {
+							//Nailed it ;) --> Easy.
+							for (var key in response) {
+								monthIncomeLabels.push(response[key]['dateReservation']);
+								monthIncomeData.push(parseInt(response[key]['Revenue']));
+							}
+						}
+					});
+				}
+				var bookingsLabels = [];
+				var bookingsData = [];
+				function getWeekBookings() {
+					return $.ajax({
+						url: '{{ path('weekbookings' , {'id':admin.hotel.id}) }}',
+						async: true,
+						success: function(response) {
+							for (var key in response) {
+								bookingsLabels.push(key);
+								bookingsData.push(response[key]);
+							}
+						}
+					});
+				}
+				var trendingRoomsLabels = [];
+				var trendingRoomsData = [];
+				function getTrendingRooms() {
+					return $.ajax({
+						url: '{{ path('trendingRooms' , {'id':admin.hotel.id}) }}',
+						async: true,
+						success: function(response) {
+							for (var key in response) {
+								trendingRoomsLabels.push(key);
+								trendingRoomsData.push(response[key]);
+							}
+						}
+					});
+				}
+			</script>
+			<script defer src="/assets/demo/demo.js"></script>
+			{% block js %}{% endblock %}
+		</body>
+
+	</html>
