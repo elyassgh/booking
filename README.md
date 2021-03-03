@@ -5,8 +5,13 @@ Booking Engine with Symfony Framework.
 
 ### First create the database
 	
-## symfony console doctrine:database:create
-## symfony console doctrine:migration:migrate
+``` bash
+ symfony console doctrine:database:create
+```
+
+``` bash
+symfony console doctrine:migration:migrate
+```
 
   * consider using the current migrations !
 
