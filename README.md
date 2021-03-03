@@ -16,7 +16,7 @@ symfony console doctrine:migrations:migrate
   * consider using the current migrations !
 
 
-### Seconde Create an admin for the booking engine	
+### Seconde create an admin for the booking engine	
 
 
 ``` bash
