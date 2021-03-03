@@ -1,4 +1,4 @@
-# Booking Engine
+## Booking Engine
 Booking Engine with Symfony Framework.
 
 # Server Set up :
@@ -6,11 +6,11 @@ Booking Engine with Symfony Framework.
 ### First create the database
 	
 ``` bash
- symfony console doctrine:database:create
+	 symfony console doctrine:database:create
 ```
 
 ``` bash
-symfony console doctrine:migration:migrate
+	symfony console doctrine:migration:migrate
 ```
 
   * consider using the current migrations !
