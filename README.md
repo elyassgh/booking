@@ -1,4 +1,4 @@
-# booking
+# Booking Engine
 Booking Engine with Symfony Framework.
 
 # Server Set up :
