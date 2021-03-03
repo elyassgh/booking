@@ -10,7 +10,7 @@ symfony console doctrine:database:create
 ```
 
 ``` bash
-symfony console doctrine:migration:migrate
+symfony console doctrine:migrations:migrate
 ```
 
   * consider using the current migrations !
