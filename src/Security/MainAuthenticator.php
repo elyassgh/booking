@@ -96,6 +96,10 @@ class MainAuthenticator extends AbstractFormLoginAuthenticator implements Passwo
             return new RedirectResponse($targetPath);
         }
 
+        //If it was a Back Office Administrator
+        if (in_array('ROLE_SUPER_ADMIN', $token->getUser()->getRoles(), true)) {
+            return new RedirectResponse("/backoffice");
+        }
         return new RedirectResponse($this->urlGenerator->generate('dashboard'));
 
      //   throw new \Exception('TODO: provide a valid redirect inside '.__FILE__);

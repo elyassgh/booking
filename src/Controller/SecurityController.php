@@ -20,7 +20,7 @@ class SecurityController extends AbstractController
 
             //If it was a Back Office Administrator
             if (in_array('ROLE_SUPER_ADMIN', $this->getUser()->getRoles(), true)) {
-                return $this->redirect('/backend');
+                return $this->redirect('/backoffice');
             }
             return $this->redirectToRoute('dashboard');
         }
