@@ -15,12 +15,12 @@ Booking Engine with Symfony Framework.
 
 
 ``` bash
-	symfony console doctrine:query:sql "INSERT INTO `admin`(`hotel_id`, `roles`, `password`, `email`, `tele`, `cin_or_passport`) VALUES (null,'[\"ROLE_SUPER_ADMIN\"]','$2y$13$WYwGwbb5sIKVcA8QEvP8yO5fb29QN1S.6h2FyVdQf0TOdMx1lpaoK','root2@alm.ma',2120000000,'XX0000')"
+	symfony console doctrine:query:sql "INSERT INTO `admin`(`hotel_id`, `roles`, `password`, `email`, `tele`, `cin_or_passport`) VALUES (null,'[\"ROLE_SUPER_ADMIN\"]','$2y$13$WYwGwbb5sIKVcA8QEvP8yO5fb29QN1S.6h2FyVdQf0TOdMx1lpaoK','root@alm.ma',2120000000,'XX0000')"
 ```
 
  ###	Admin credentials 
  
-  * email: root2@alm.ma
+  * email: root@alm.ma
   * password : root
 
   * please consider changing your credentials later !!
